@@ -1,0 +1,38 @@
+#icon_email
+{
+    grid-column: 2/3;
+    grid-row: 3;
+}
+#email{
+    grid-column: 2/3;
+    grid-row: 3;
+}
+#icon_password
+{
+    grid-column: 2/3;
+    grid-row: 5;
+}
+#password{
+    grid-column: 2/3;
+    grid-row: 5;
+}
+
+#icon_number
+{
+    grid-column: 2/3;
+    grid-row: 4;
+}
+#number{
+    grid-column: 2/3;
+    grid-row: 4;
+}
+
+#icon_comfirm_password
+{
+    grid-column: 2/3;
+    grid-row: 6;
+}
+#comfirm_password{
+    grid-column: 2/3;
+    grid-row: 6;
+}

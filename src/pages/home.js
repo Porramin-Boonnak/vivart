@@ -44,15 +44,6 @@ export default function Home(){
                     <span id='ship_text'>Ship</span>
                 </div>
             </div>
-            <div id='top_bar'>
-                <select name="Assets" id="Assets-select">
-                <option value="">Assets</option>
-                <option value="license">License</option>
-                <option value="filetype">File Type</option>
-                <option value="style">Style</option>
-                <option value="orientation">Orientation</option>
-                </select>
-            </div>
         </div>
     </>)
 }

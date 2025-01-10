@@ -8,7 +8,7 @@ export default function Login(){
     const navigate = useNavigate();
     const username = useRef(null);
     const password = useRef(null);
-    const url = "http://127.0.0.1:5001/login";
+    const url = "https://se-servise.azurewebsites.net/login";
     const hendelclick=()=>{
         const data = {
             username:username.current.value,

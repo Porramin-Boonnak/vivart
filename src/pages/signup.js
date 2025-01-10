@@ -14,7 +14,7 @@ export default function Signup(){
     const number = useRef(null);
     const password = useRef(null);
     const comfirm_password = useRef(null);
-    const url = "http://127.0.0.1:5001/signup";
+    const url = "https://se-servise.azurewebsites.net/signup";
     const hendelclick=()=>{
         const data = {
             username : username.current.value,

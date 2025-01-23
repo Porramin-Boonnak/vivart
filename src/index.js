@@ -1,16 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-<<<<<<< HEAD
-import './index.css';
-
-import Router from './pages/router';
-=======
 import './custom.scss';
 //import App from './App';
 //import Login from './pages/login'
 //import Signup from './pages/signup';
-import Home from './pages/home'
->>>>>>> honw-with-bootstarp
+import Router from '../src/pages/router';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

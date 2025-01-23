@@ -23,7 +23,7 @@ export default function Signup(){
             password : password.current.value,
             citizenID : "dfdfefed"
         };
-        if(password.current.value==comfirm_password.current.value)
+        if(password.current.value===comfirm_password.current.value)
         {
             axios.post(url, data).then(response => navigate('/')).catch(error=>{
                 alert("username ซ้ำ")

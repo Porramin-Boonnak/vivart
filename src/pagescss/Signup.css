@@ -1,38 +1,23 @@
-#icon_email
-{
-    grid-column: 2/3;
-    grid-row: 3;
+.cs-color{
+    background-color: #264143;
+    color: white;
 }
-#email{
-    grid-column: 2/3;
-    grid-row: 3;
+.cs-color:hover{
+    background-color: #264143d5;
+    color: white;
 }
-#icon_password
-{
-    grid-column: 2/3;
-    grid-row: 5;
-}
-#password{
-    grid-column: 2/3;
-    grid-row: 5;
+.bg-lightpink {
+    background-color: #fce7eb;
 }
 
-#icon_number
-{
-    grid-column: 2/3;
-    grid-row: 4;
-}
-#number{
-    grid-column: 2/3;
-    grid-row: 4;
+.border-pink {
+    border-color: #e573a4;
+    border-width: 2px;
 }
 
-#icon_comfirm_password
-{
-    grid-column: 2/3;
-    grid-row: 6;
+.text-pink {
+    color: #e573a4;
 }
-#comfirm_password{
-    grid-column: 2/3;
-    grid-row: 6;
+.signup-title {
+    margin-top: -50px; /* ขยับขึ้น */
 }

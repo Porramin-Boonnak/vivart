@@ -2,7 +2,7 @@
 export default function Signin() {
     return (
         <div className="container-fluid bg-secondary d-flex flex-column justify-content-start align-items-center vh-100 w-100 text-center">
-            <h1 className="my-5 fw-light">Sign up</h1>
+            <h1 className="my-5 fw-light">Sign in</h1>
 
             <div className="form-floating my-3 col-3">
                 <input type="email" className="form-control bg-secondary border border-dark" id="floatingInput" placeholder="name@example.com" />
@@ -18,7 +18,7 @@ export default function Signin() {
                 </label>
             </div>
 
-            <button className="btn col-5=3 bg-secondary border border-dark my-4 ">
+            <button className="btn col-3 bg-secondary border border-dark my-4 p-3">
                 <img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/google-color.png" alt="Google Logo" width="20" height="20" className="me-2" />
                 Continue with Google
             </button>

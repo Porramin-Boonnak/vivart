@@ -1,17 +1,47 @@
-.c-b1{
-    border-radius: 10px;
-    border-style: solid;
-    border-color: white;
-    background: white;
-    color: #DE5499;
-    margin: 2px;
-    padding: 8px;
-}
-.b1:hover{
-    background: #DE5499;
-    color: white;
-}
-.b1:active{
+.cs-color-btn:active {
     border-color: #DE5499;
     box-shadow: 4px 4px 10px #DE5499;
+}
+
+.cs-color-btn {
+    background-color: #F2EBE9;
+}
+
+.cs-color-btn-Search:active {
+    border-color: #DE5499;
+    box-shadow: 4px 4px 10px #DE5499;
+}
+
+.cs-color-btn-Search:hover {
+    background-color: #F2EBE9;
+}
+
+.cs-color-btn-Search {
+    background-color: #F2EBE9;
+}
+
+.cs-color-Search {
+    background-color: #F2EBE9;
+}
+
+.masonry-layout{
+    column-gap: 1em;
+}
+
+.masonry-item{
+    break-inside: avoid;
+    margin-bottom: 1em;
+    box-sizing: border-box;
+}
+
+@media (min-width:576px){
+    .masonry-layout{
+        column-count: 2;
+    }
+}
+
+@media (min-width:768px){
+    .masonry-layout{
+        column-count: 4;
+    }
 }

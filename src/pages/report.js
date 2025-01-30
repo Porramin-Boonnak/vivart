@@ -7,6 +7,7 @@ export default function Report() {
         setSelectedOption(option === selectedOption ? "" : option); 
     };
 
+    
     return (
         <div className="container-fluid w-100 min-vw-100 vh-100 d-flex justify-content-center align-items-center text-center bg-secondary">
             <div className="container bg-white p-4 rounded shadow-lg" style={{ maxWidth: 1000, height: 600 }}>

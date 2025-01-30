@@ -27,10 +27,10 @@ export default function Selectpicture() {
     const Allcomment = ({ items }) => {
         return (<>
             <div className="container">
-                <div className="overflow-auto" style={{ maxHeight: "500px" }}>
+                <div className="overflow-auto" style={{ maxHeight: "350px" }}>
                     {items.map((item) => (
                         <div>
-                            <div className="row m-2">
+                            <div className="row m-2 ">
                                 <div className="c-comment col-2">
                                     <img className="rounded-circle c-img-comment" src={item.img} />
                                 </div>

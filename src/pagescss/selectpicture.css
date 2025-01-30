@@ -7,3 +7,28 @@
     height: 100%;
     object-fit: contain;
 }
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+.c-comment {
+    height:45px;
+}
+
+.c-img-comment {
+    width:45px;
+    height:45px;
+    object-fit: contain;
+    background-color: #F2EBE9;
+}
+.cs-fs{
+    font-size: 12px;
+}
+.cs-bg-comment{
+    background-color: #F2EBE9;
+}
+.cs-bg-allcomment{
+    background-color: white;
+}
+

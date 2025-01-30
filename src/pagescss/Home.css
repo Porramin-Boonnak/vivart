@@ -45,3 +45,11 @@
         column-count: 4;
     }
 }
+
+.c-card-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #DE5499; 
+    font-size: 24px;
+}

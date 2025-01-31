@@ -1,19 +1,21 @@
 import axios from 'axios';
-
+import { useNavigate } from "react-router-dom";
 export default function Signin() {
+    const navigate = useNavigate();
+
     const signinclick = () => {
-        axios.post("http://127.0.0.1:5000/Signin", {
+        axios.post("http://127.0.0.1:8000/Signin", {
             id: "check1",
             password: "1234"
         }).then(v => {
             if (v.data.status === "ok") {
-                alert("Signin Success");
+                navigate("/");
             } else {
                 alert("Signin Failed");
             }
         }).catch(err => {
             console.error(err);
-            alert("Error connecting to server");
+            alert("Error");
         });
     };
 

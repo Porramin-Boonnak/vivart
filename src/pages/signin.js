@@ -1,33 +1,41 @@
+import axios from 'axios';
 
 export default function Signin() {
+    const signinclick = () => {
+        axios.post("http://127.0.0.1:5000/Signin", {
+            id: "check1",
+            password: "1234"
+        }).then(v => {
+            if (v.data.status === "ok") {
+                alert("Signin Success");
+            } else {
+                alert("Signin Failed");
+            }
+        }).catch(err => {
+            console.error(err);
+            alert("Error connecting to server");
+        });
+    };
+
     return (
         <div className="container-fluid bg-secondary d-flex flex-column justify-content-start align-items-center vh-100 w-100 text-center">
             <h1 className="my-5 fw-light">Sign in</h1>
 
             <div className="form-floating my-3 col-3">
-                <input type="email" className="form-control bg-secondary border border-dark" id="floatingInput" placeholder="name@example.com" />
-                <label htmlFor="floatingInput" className="ms-2 ">
-                <i class="bi bi-person"></i>Username
+                <input type="text" className="form-control bg-secondary border border-dark" id="username" placeholder="Username" />
+                <label htmlFor="username" className="ms-2">
+                    <i className="bi bi-person"></i> Username
                 </label>
             </div>
 
             <div className="form-floating my-3 col-3">
-                <input type="email" className="form-control bg-secondary border border-dark" id="floatingInput" placeholder="name@example.com" />
-                <label htmlFor="floatingInput" className="ms-2 ">
-                <i class="bi bi-lock-fill"></i>Password
+                <input type="password" className="form-control bg-secondary border border-dark" id="password" placeholder="Password" />
+                <label htmlFor="password" className="ms-2">
+                    <i className="bi bi-lock-fill"></i> Password
                 </label>
             </div>
 
-            <button className="btn col-3 bg-secondary border border-dark my-4 p-3">
-                <img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/google-color.png" alt="Google Logo" width="20" height="20" className="me-2" />
-                Continue with Google
-            </button>
-
-            <div className="d-grid gap-2 col-2 my-2 bg-secondary ">
-                <button className="btn cs-color rounded-pill"  type="button">Sign in</button>
-            </div>
-            <hr className="w-50 bg-primary" />
-            <p>Don’t have an account? <a href="#" className="text-pink fw-bold"><br className="my-2"></br>Sign up</a></p>
+            <button className="btn cs-color rounded-pill" type="button" onClick={signinclick}>Sign in</button>
         </div>
-    )
+    );
 }

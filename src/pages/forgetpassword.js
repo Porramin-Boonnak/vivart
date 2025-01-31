@@ -1,4 +1,28 @@
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 export default function ForgetPass() {
+    const navigate = useNavigate();
+    const signupclick = () => {
+        navigate("/signin");
+    }
+    const Forgotclick = () => {
+        axios.post("http://127.0.0.1:8000/Forgetpassword", {
+            email: "pattamachat.c@ku.th",
+            OTP : "1234",
+            password: "1234",
+            com_password : "1234"
+        }).then(v => {
+            if (v.data.status === "ok") {
+                navigate("/login");
+            } else {
+                alert("Failed");
+            }
+        }).catch(err => {
+            console.error(err);
+            alert("Error");
+        });
+    };
+
     return (
         <div className="container-fluid bg-secondary d-flex flex-column justify-content-start align-items-center vh-100 w-100 text-center">
             <h1 className="my-5 fw-light">Forgot password</h1>
@@ -58,15 +82,15 @@ export default function ForgetPass() {
             </div>
 
             <div className="d-grid col-3 my-2">
-                <button className="btn cs-color rounded-pill" type="button">
+                <button className="btn cs-color rounded-pill" type="button" onClick={Forgotclick}>
                     Submit
                 </button>
             </div>
 
             <hr className="w-50 bg-primary" />
             <p>
-                Already have an account?{" "}
-                <a href="#" className="text-pink fw-bold">
+                Don't have an account?{" "}
+                <a href="#" className="text-pink fw-bold" onClick={signupclick}>
                     <br className="my-2" />
                     Sign up
                 </a>

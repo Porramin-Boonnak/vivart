@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 export default function ForgetPass() {
     const navigate = useNavigate();
     const signupclick = () => {
-        navigate("/signin");
+        navigate("/signup");
     }
     const Forgotclick = () => {
         axios.post("http://127.0.0.1:8000/Forgetpassword", {
@@ -90,7 +90,7 @@ export default function ForgetPass() {
             <hr className="w-50 bg-primary" />
             <p>
                 Don't have an account?{" "}
-                <a href="#" className="text-pink fw-bold" onClick={signupclick}>
+                <a className="text-pink fw-bold" onClick={signupclick}>
                     <br className="my-2" />
                     Sign up
                 </a>

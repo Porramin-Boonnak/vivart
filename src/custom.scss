@@ -1,4 +1,8 @@
 $primary:#DE5499;
 $secondary: #EDDCD9;
+$primary-lighter: lighten($primary, 23%); 
+.bg-primary-lighter {
+    background-color: $primary-lighter !important;
+  }
 @import "~bootstrap/scss/bootstrap";
 @import '~bootstrap-icons/font/bootstrap-icons.css';

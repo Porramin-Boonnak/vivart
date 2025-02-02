@@ -25,13 +25,13 @@ export default function Home() {
                 {items.map((item) => (
                     <div className="masonry-item">
                         <div className="card">
+                        {item.like ? <i className="bi bi-heart fs-2 text-primary c-card-icon"></i> : <i className="bi bi-heart-fill fs-2 text-primary c-card-icon"></i>}
                             <img src={item.img} className="card-img-top" alt="..." />
                             <div className="card-body">
                                 <h2 className="card-title">{item.artist}</h2>
                                 <h5 className="d-inline">{item.name}</h5>
                                 <div className="d-flex align-items-center justify-content-between ">
                                     <h5 className="text-primary fw-bold"><FaBahtSign />{item.price}</h5>
-                                    {item.like ? <i className="bi bi-heart fs-2 text-primary"></i> : <i className="bi bi-heart-fill fs-2 text-primary"></i>}
                                 </div>
                             </div>
                         </div>

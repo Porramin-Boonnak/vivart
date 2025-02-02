@@ -1,0 +1,48 @@
+.c-item {
+    height: 400px;
+}
+
+.c-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+.c-comment {
+    height:45px;
+}
+
+.c-img-comment {
+    width:45px;
+    height:45px;
+    object-fit: contain;
+    background-color: #F2EBE9;
+}
+.cs-fs{
+    font-size: 12px;
+}
+.cs-bg-comment{
+    background-color: #F2EBE9;
+}
+.cs-bg-allcomment{
+    background-color: white;
+}
+
+#testtest{
+    z-index: 2;
+}
+
+.cs-z-index-icon{
+    z-index: 1;
+}
+
+.c-img-sent-comment {
+    width:39px;
+    height:40px;
+    object-fit: contain;
+    background-color: #F2EBE9;
+}

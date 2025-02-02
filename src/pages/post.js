@@ -1,7 +1,17 @@
 import "../pagescss/selectpicture.css";
 import { FaBahtSign } from "react-icons/fa6";
 import Searchbar from "../component/searchbar";
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import axios from "axios";
 export default function Post() {
+    const { userid } = useParams();
+    const [post, setpost] = useState([]);
+    useEffect(() => {
+        axios.get("https://se-servise.azurewebsites.net/post/"+userid)
+            .then(response => {setpost(response.data)})
+            .catch(error => console.error("There was an error!", error));
+    }, []);
     const examplecomment = [
         { name: "Naruto", comment: "So interesting.", img: "https://www.beartai.com/wp-content/uploads/2024/02/Naruto-1600x840.jpg" },
         { name: "Sasuke", comment: "Beautiful as hellll!", img: "https://pm1.aminoapps.com/6493/8e7caf892a720f98952caf5f589e2c265458a291_hq.jpg" },
@@ -23,7 +33,15 @@ export default function Post() {
 
 
     ];
-
+    const Img = ({ img }) => {
+        return (
+            <div className="carousel-inner">
+                <div className="carousel-item active c-item">
+                    <img src={img.img} alt="..." />
+                </div>
+            </div>
+        );
+    };
     const Allcomment = ({ items }) => {
         return (<>
             <div className="container">
@@ -51,7 +69,7 @@ export default function Post() {
     return (
         <>
             <div className="container-fluid p-0">
-                <Searchbar/>
+                <Searchbar />
                 <div className="row bg-secondary p-3 ">
                     <div className="row ">
                         <div className="col-12 col-sm-7 bg-secondary p-0 mx-auto">
@@ -60,22 +78,11 @@ export default function Post() {
                                     <span className="me-2 ">784185</span>
                                     <i className="bi bi-heart-fill fs-5 text-primary "></i>
                                 </div>
-                                <div class="carousel-indicators">
-                                    <button type="button" data-bs-target="#testtest" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                    <button type="button" data-bs-target="#testtest" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                    <button type="button" data-bs-target="#testtest" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                </div>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active c-item">
-                                        <img src="https://static0.colliderimages.com/wordpress/wp-content/uploads/sharedimages/2024/04/naruto-shippuden-tv-series-poster.jpg" class="d-block w-100 c-img" alt="..." />
-                                    </div>
-                                    <div class="carousel-item c-item">
-                                        <img src="https://f.ptcdn.info/063/031/000/1430885341-narutoandh-o.jpg" class="d-block w-100 c-img" alt="..." />
-                                    </div>
-                                    <div class="carousel-item c-item">
-                                        <img src="https://narutodiary.wordpress.com/wp-content/uploads/2015/09/1403797397-minato-o.jpg" class="d-block w-100 c-img" alt="..." />
-                                    </div>
-                                </div>
+
+                                <Img img={post}/>
+
+                                
+
                                 <button class="carousel-control-prev " type="button" data-bs-target="#testtest" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon " ></span>
                                     <span class="visually-hidden">Previous</span>
@@ -134,7 +141,7 @@ export default function Post() {
                             <div className="fw-light">
                                 150 x 45 cm
                             </div>
-                            <h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />50,000</h5>
+                            <h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                             <button type="button" class="btn btn-primary btn-lg rounded-pill w-100 text-white">Add to cart</button>
                             <div className="p-1 mt-4 text-center cs-bg-comment mb-0">
                                 Comment
@@ -143,7 +150,7 @@ export default function Post() {
                                 <Allcomment items={examplecomment} />
                                 <div className="d-flex justify-content-center align-items-center m-2">
                                     <div className="rounded-pill rounded-end-0 border-end-0 border border-dark p-2">
-                                    <img className="rounded-circle c-img-sent-comment " src="https://www.beartai.com/wp-content/uploads/2024/02/Naruto-1600x840.jpg" />
+                                        <img className="rounded-circle c-img-sent-comment " src="https://www.beartai.com/wp-content/uploads/2024/02/Naruto-1600x840.jpg" />
                                     </div>
                                     <input className="form-control rounded-pill rounded-end-0 rounded-start-0 w-75 d-inline-block border-end-0 border-start-0 border border-dark p-3" type="search" placeholder="Searching" aria-label="Search" />
                                     <button type="button" className="btn rounded-pill rounded-start-0 border-start-0 border border-dark p-3"><i class="bi bi-send-fill"></i></button>

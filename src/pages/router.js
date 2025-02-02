@@ -16,7 +16,7 @@ export default function Router(){
             <Route path="/information" element={<Information />}/>
             <Route path="/forgetpassword" element={<ForgetPassword />}/>
             <Route path="/report" element={<Report />}/>
-            <Route path="/post" element={<Post/>}/>
+            <Route path="/post/:userid" element={<Post/>}/>
           </Routes>
         </BrowserRouter>
       );

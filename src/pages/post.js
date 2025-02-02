@@ -8,8 +8,8 @@ export default function Post() {
     const { userid } = useParams();
     const [post, setpost] = useState([]);
     useEffect(() => {
-        axios.get("https://se-servise.azurewebsites.net/post/"+userid)
-            .then(response => {setpost(response.data)})
+        axios.get("https://se-servise.azurewebsites.net/post/" + userid)
+            .then(response => { setpost(response.data) })
             .catch(error => console.error("There was an error!", error));
     }, []);
     const examplecomment = [
@@ -33,15 +33,39 @@ export default function Post() {
 
 
     ];
-    const Img = ({ img }) => {
-        return (
-            <div className="carousel-inner">
+    const Img = ({ items }) => {
+        if (!Array.isArray(items.img)) {
+            return <div className="carousel-inner">
                 <div className="carousel-item active c-item">
-                    <img src={img.img} alt="..." />
+                    <img src={items.img} alt="Image 0" className="d-block w-100 c-img" />
                 </div>
+        </div>; 
+        }
+    
+        return (<>
+            <div className="carousel-indicators">
+                {items.img.map((image, i) => (
+                    <button
+                        key={i}
+                        type="button"
+                        data-bs-target="#testtest"
+                        data-bs-slide-to={i}
+                        className={i === 0 ? "active" : ""}
+                        aria-current={i === 0 ? "true" : "false"}
+                        aria-label={`Slide ${i + 1}`}
+                    ></button>
+                ))}
             </div>
-        );
+            <div className="carousel-inner">
+                {items.img.map((item, index) => (
+                    <div key={index} className={`carousel-item ${index === 0 ? "active c-item" : "c-item"}`}>
+                        <img src={item} alt={`Image ${index}`} className="d-block w-100 c-img" />
+                    </div>
+                ))}
+            </div>
+        </>);
     };
+    
     const Allcomment = ({ items }) => {
         return (<>
             <div className="container">
@@ -79,9 +103,9 @@ export default function Post() {
                                     <i className="bi bi-heart-fill fs-5 text-primary "></i>
                                 </div>
 
-                                <Img img={post}/>
+                                <Img items={post} />
 
-                                
+
 
                                 <button class="carousel-control-prev " type="button" data-bs-target="#testtest" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon " ></span>

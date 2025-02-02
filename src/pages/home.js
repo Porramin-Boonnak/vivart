@@ -4,6 +4,7 @@ import { FaBahtSign } from "react-icons/fa6";
 import { useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { flushSync } from "react-dom";
 export default function Home() {
     const navavigate = useNavigate();
     const [post,setpost] = useState([]);
@@ -22,7 +23,7 @@ export default function Home() {
                     <div className="masonry-item">
                         <div className="card" onClick={()=>handleclick(item._id)}>
                         {item.like ? <i className="bi bi-heart fs-2 text-primary c-card-icon"></i> : <i className="bi bi-heart-fill fs-2 text-primary c-card-icon"></i>}
-                            <img src={item.img} className="card-img-top" alt="..." />
+                        <img src={`${!Array.isArray(item.img) ? item.img : item.img[0]}`} className="card-img-top" alt="..." />
                             <div className="card-body">
                                 <h2 className="card-title">{item.artist}</h2>
                                 <h5 className="d-inline">{item.name}</h5>

@@ -1,7 +1,7 @@
 import { Dropdown } from "react-bootstrap";
 import "../pagescss/selectpicture.css";
 import { FaBahtSign } from "react-icons/fa6";
-export default function Selectpicture() {
+export default function Post() {
     const examplecomment = [
         { name: "Naruto", comment: "So interesting.", img: "https://www.beartai.com/wp-content/uploads/2024/02/Naruto-1600x840.jpg" },
         { name: "Sasuke", comment: "Beautiful as hellll!", img: "https://pm1.aminoapps.com/6493/8e7caf892a720f98952caf5f589e2c265458a291_hq.jpg" },
@@ -51,7 +51,7 @@ export default function Selectpicture() {
     return (
         <>
             <div className="container-fluid p-0">
-                <div className="row">
+                <div className="row bg-secondary">
                     <div className="col-3 bg-secondary p-2 text-center">
                         <Dropdown>
                             <Dropdown.Toggle className="btn cs-color-btn rounded-pill border border-dark w-25"><div className="d-none d-lg-inline-block">Assets</div></Dropdown.Toggle>
@@ -111,17 +111,12 @@ export default function Selectpicture() {
                             <button type="button" className="btn rounded-pill rounded-start-0 cs-color-btn-Search  border-start-0 border border-dark"><i class="bi bi-search"></i></button>
                         </div>
                     </div>
-                    <div className="col-3 bg-secondary p-2">
-                        <div className="d-flex justify-content-end align-items-center me-5">
-                            <button type="button" className="btn btn-secondary"><div className="d-none d-lg-inline-block">Log out</div><i class="bi bi-box-arrow-right ms-2"></i></button>
-                        </div>
-                    </div>
                 </div>
                 <div className="row bg-secondary p-3 ">
-                    <div className="row">
-                        <div className="col-7 bg-secondary ms-auto p-0 ">
+                    <div className="row ">
+                        <div className="col-12 col-sm-7 bg-secondary p-0 mx-auto">
                             <div id="testtest" class="carousel slide" data-bs-ride="carousel">
-                                <div className="c-card-icon">
+                                <div className="c-card-icon cs-z-index-icon">
                                     <span className="me-2 ">784185</span>
                                     <i className="bi bi-heart-fill fs-5 text-primary "></i>
                                 </div>
@@ -176,7 +171,7 @@ export default function Selectpicture() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-4 bg-secondary p-2 border border-dark me-auto ms-auto">
+                        <div className="col-12 col-sm-4 bg-secondary p-2 mx-auto">
                             <div className="d-flex align-items-center justify-content-between">
                                 <h1>Marc Quinn</h1>
                                 <div class="dropdown">
@@ -201,11 +196,18 @@ export default function Selectpicture() {
                             </div>
                             <h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />50,000</h5>
                             <button type="button" class="btn btn-primary btn-lg rounded-pill w-100 text-white">Add to cart</button>
-                            <div className="border border-dark p-1 mt-4 text-center cs-bg-comment mb-0">
+                            <div className="p-1 mt-4 text-center cs-bg-comment mb-0">
                                 Comment
                             </div>
                             <div className="cs-bg-allcomment w-100 ">
                                 <Allcomment items={examplecomment} />
+                                <div className="d-flex justify-content-center align-items-center m-2">
+                                    <div className="rounded-pill rounded-end-0 border-end-0 border border-dark p-2">
+                                    <img className="rounded-circle c-img-sent-comment " src="https://www.beartai.com/wp-content/uploads/2024/02/Naruto-1600x840.jpg" />
+                                    </div>
+                                    <input className="form-control rounded-pill rounded-end-0 rounded-start-0 w-75 d-inline-block border-end-0 border-start-0 border border-dark p-3" type="search" placeholder="Searching" aria-label="Search" />
+                                    <button type="button" className="btn rounded-pill rounded-start-0 border-start-0 border border-dark p-3"><i class="bi bi-send-fill"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -4,7 +4,7 @@ import Home from '../pages/home'
 import Signin from "./signin";
 import Information from "../pages/information";
 import ForgetPassword from "../pages/forgetpassword";
-import Selectpicture from "../pages/selectpicture";
+import Post from "../pages/post";
 export default function Router(){
     return (
         <BrowserRouter>
@@ -14,7 +14,7 @@ export default function Router(){
             <Route path="/signin" element={<Signin />}/>
             <Route path="/information" element={<Information />}/>
             <Route path="/forgetpassword" element={<ForgetPassword />}/>
-            <Route path="/selectpicture" element={<Selectpicture/>}/>
+            <Route path="/post" element={<Post/>}/>
           </Routes>
         </BrowserRouter>
       );

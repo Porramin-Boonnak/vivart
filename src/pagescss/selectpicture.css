@@ -32,3 +32,17 @@
     background-color: white;
 }
 
+#testtest{
+    z-index: 2;
+}
+
+.cs-z-index-icon{
+    z-index: 1;
+}
+
+.c-img-sent-comment {
+    width:39px;
+    height:40px;
+    object-fit: contain;
+    background-color: #F2EBE9;
+}

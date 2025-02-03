@@ -4,9 +4,8 @@ import { FaBahtSign } from "react-icons/fa6";
 import { useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { flushSync } from "react-dom";
 export default function Home() {
-    const navavigate = useNavigate();
+    const navigate = useNavigate();
     const [post,setpost] = useState([]);
     useEffect(() => {
         axios.get("https://se-servise.azurewebsites.net/post")
@@ -14,7 +13,7 @@ export default function Home() {
             .catch(error => console.error("There was an error!", error));
     }, []);
     const handleclick =(id)=>{
-        navavigate(`/post/${id}`);
+        navigate(`/post/${id}`);
     }
     const Allpictures = ({ items }) => {
         return (

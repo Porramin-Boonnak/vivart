@@ -6,6 +6,8 @@ import Signin from "./signin";
 import Information from "../pages/information";
 import ForgetPassword from "../pages/forgetpassword";
 import Report from "../pages/report";
+import Reportmanagement from "../pages/reportmanagement";
+import Reportdetail from "../pages/reportdetail";
 export default function Router(){
     return (
         <BrowserRouter>
@@ -17,6 +19,8 @@ export default function Router(){
             <Route path="/information" element={<Information />}/>
             <Route path="/forgetpassword" element={<ForgetPassword />}/>
             <Route path="/report" element={<Report />}/>
+            <Route path="/reportmanagement" element={<Reportmanagement />}/>
+            <Route path="/reportdetail" element={<Reportdetail />}/>
           </Routes>
         </BrowserRouter>
       );

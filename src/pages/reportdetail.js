@@ -27,7 +27,7 @@ export default function ReportDetail() {
                     <p className="text-dark my-0 fw-bold">Name</p>
                 </div>
 
-                <p className="fw-bold mt-2">Reasons</p>
+                <p className="fw-bold mt-2 d-flex">Reasons</p>
                 <textarea 
                     className="form-control bg-secondary text-white border-0 px-3 py-2"
                     style={{ height: '250px', fontSize: '16px', borderRadius: '10px', resize: 'none' }}

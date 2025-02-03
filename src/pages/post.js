@@ -39,9 +39,9 @@ export default function Post() {
                 <div className="carousel-item active c-item">
                     <img src={items.img} alt="Image 0" className="d-block w-100 c-img" />
                 </div>
-        </div>; 
+            </div>;
         }
-    
+
         return (<>
             <div className="carousel-indicators">
                 {items.img.map((image, i) => (
@@ -65,11 +65,11 @@ export default function Post() {
             </div>
         </>);
     };
-    
+
     const Allcomment = ({ items }) => {
         return (<>
             <div className="container">
-                <div className="overflow-auto" style={{ maxHeight: "350px" }}>
+                <div className="overflow-auto" style={{ maxHeight: "400px" }}>
                     {items.map((item) => (
                         <div>
                             <div className="row m-2 ">

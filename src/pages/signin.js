@@ -2,6 +2,7 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
+import Navbar from "../component/navbar"
 export default function Signin() {
     const API_URL = process.env.REACT_APP_API_URL;;
     const username = useRef();
@@ -10,30 +11,33 @@ export default function Signin() {
     const clientId = "1007059418552-8qgb0riokmg3t0t993ecjodnglvm0bj2.apps.googleusercontent.com";
     const handleLoginSuccess = async (response) => {
         console.log(response);
-          axios.post(API_URL+"/login",response).then(res =>{
+        axios.post(API_URL + "/login", response).then(res => {
             localStorage.setItem("token", res.data);
             navigate("/");
-          }).catch(error => {
+        }).catch(error => {
             console.log(error);
-          })
-          
-      };
-    
-      const handleLoginFailure = (error) => {
-        console.error("Google Login Failed:", error);
-      };
+        })
 
-      const handleclick = () => {
-        axios.post(API_URL+"/login",{ username: username.current.value,password:password.current.value }).then(res =>{
+    };
+
+    const handleLoginFailure = (error) => {
+        console.error("Google Login Failed:", error);
+    };
+
+    const handleclick = () => {
+        axios.post(API_URL + "/login", { username: username.current.value, password: password.current.value }).then(res => {
             localStorage.setItem("token", res.data);
             navigate("/");
-          }).catch(error => {
+        }).catch(error => {
             console.log(error);
             alert("Email or Password not match");
-          })
-      };
+        })
+    };
     return (
         <div className="container-fluid bg-secondary d-flex flex-column justify-content-start align-items-center vh-100 w-100 text-center">
+            <div className="row w-100">
+                <Navbar />
+            </div>
             <h1 className="my-5 fw-light">Sign in</h1>
 
             <div className="form-floating my-3 col-3">

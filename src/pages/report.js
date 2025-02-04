@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import Navbar from "../component/navbar"
 export default function Report() {
     const [selectedOption, setSelectedOption] = useState(""); 
 
@@ -9,6 +9,10 @@ export default function Report() {
 
     
     return (
+        <div className="container-fluid">
+            <div className="row">
+                            <Navbar/>
+                        </div>
         <div className="container-fluid w-100 min-vw-100 vh-100 d-flex justify-content-center align-items-center text-center bg-secondary">
             <div className="container bg-white p-4 rounded shadow-lg" style={{ maxWidth: 1000, height: 600 }}>
                 <div className="d-flex justify-content-between align-items-center pb-2">
@@ -73,6 +77,7 @@ export default function Report() {
                     </button>
                 </div>
             </div>
+        </div>
         </div>
     );
 }

@@ -1,6 +1,7 @@
-import {  useLocation, useNavigate } from "react-router-dom";
-import { useEffect,useState,useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import Navbar from "../component/navbar"
 export default function Information() {
     const API_URL = process.env.REACT_APP_API_URL;
     const location = useLocation();
@@ -8,9 +9,9 @@ export default function Information() {
     const username = useRef();
     const gender = useRef();
     const birthdate = useRef();
-    const contact  = useRef();
-    const password  = useRef();
-    const confirmpassword  = useRef();
+    const contact = useRef();
+    const password = useRef();
+    const confirmpassword = useRef();
     const [email, setEmail] = useState("");
 
     useEffect(() => {
@@ -22,40 +23,40 @@ export default function Information() {
             console.log(userEmail);
         }
     }, [location, navigate]);
-    const handleclick =()=>{
-        if((username.current.value &&
+    const handleclick = () => {
+        if ((username.current.value &&
             birthdate.current.value &&
             contact.current.value &&
-            password.current.value) && gender.current.value !== "Gender")
-        {
+            password.current.value) && gender.current.value !== "Gender") {
             const data = {
-                username : username.current.value,
-                gender : gender.current.value,
-                birthdate : birthdate.current.value,
-                contact : contact.current.value,
-                password : password.current.value,
-                email : email
+                username: username.current.value,
+                gender: gender.current.value,
+                birthdate: birthdate.current.value,
+                contact: contact.current.value,
+                password: password.current.value,
+                email: email
             };
 
-            if(password.current.value!==confirmpassword.current.value)
-            {
+            if (password.current.value !== confirmpassword.current.value) {
                 alert("password ไม่ตรงกัน");
             }
-            else
-            {
-                axios.post(API_URL+"/signup",data).then(res => {
+            else {
+                axios.post(API_URL + "/signup", data).then(res => {
                     localStorage.setItem("token", res.data);
                     navigate("/");
-                }).catch(error =>{
+                }).catch(error => {
                     console.log(error);
                 })
             }
         }
-        else{
+        else {
             alert("กรุณากรอกข้อมูลให้ครบ");
         }
     }
     return (<div className="container-fluid bg-secondary d-flex flex-column justify-content-start align-items-center vh-100 w-100 text-center">
+        <div className="row w-100">
+            <Navbar />
+        </div>
         <h1 className="my-5 fw-light">Information</h1>
 
         <div className="form-floating my-3 col-md-6 col-lg-4">
@@ -90,27 +91,27 @@ export default function Information() {
             </label>
         </div>
         <div className="form-floating my-3 col-md-6 col-lg-4">
-                <input ref={password}
-                    type="password"
-                    className="form-control bg-secondary border border-dark"
-                    id="floatingNewPassword"
-                    placeholder="New Password"
-                />
-                <label htmlFor="floatingNewPassword" className="ms-2">
-                    <i className="bi bi-lock-fill"></i>Password
-                </label>
-            </div>
-            <div className="form-floating my-3 col-md-6 col-lg-4">
-                <input ref={confirmpassword}
-                    type="password"
-                    className="form-control bg-secondary border border-dark"
-                    id="floatingNewPassword"
-                    placeholder="New Password"
-                />
-                <label htmlFor="floatingNewPassword" className="ms-2">
-                    <i className="bi bi-lock-fill"></i>Confirm Password
-                </label>
-            </div>
+            <input ref={password}
+                type="password"
+                className="form-control bg-secondary border border-dark"
+                id="floatingNewPassword"
+                placeholder="New Password"
+            />
+            <label htmlFor="floatingNewPassword" className="ms-2">
+                <i className="bi bi-lock-fill"></i>Password
+            </label>
+        </div>
+        <div className="form-floating my-3 col-md-6 col-lg-4">
+            <input ref={confirmpassword}
+                type="password"
+                className="form-control bg-secondary border border-dark"
+                id="floatingNewPassword"
+                placeholder="New Password"
+            />
+            <label htmlFor="floatingNewPassword" className="ms-2">
+                <i className="bi bi-lock-fill"></i>Confirm Password
+            </label>
+        </div>
         <div className="d-grid gap-2 col-2 my-4">
             <button className="btn cs-color rounded-pill" type="button" onClick={handleclick}>Confirm</button>
         </div>

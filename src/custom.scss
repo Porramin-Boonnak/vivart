@@ -4,5 +4,8 @@ $primary-lighter: lighten($primary, 23%);
 .bg-primary-lighter {
     background-color: $primary-lighter !important;
   }
+  .bg-white {
+    background-color: white !important;
+  }
 @import "~bootstrap/scss/bootstrap";
 @import '~bootstrap-icons/font/bootstrap-icons.css';

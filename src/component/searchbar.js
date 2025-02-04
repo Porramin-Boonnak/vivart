@@ -1,6 +1,6 @@
 import { Dropdown } from "react-bootstrap";
 export default function Searchbar(){
-    return(<div className="row bg-secondary">
+    return(<div className="row bg-secondary pt-3">
         <div className="col-3 bg-secondary p-2 text-center">
             <Dropdown>
                 <Dropdown.Toggle className="btn cs-color-btn rounded-pill border border-dark w-25"><div className="d-none d-lg-inline-block">Assets</div></Dropdown.Toggle>

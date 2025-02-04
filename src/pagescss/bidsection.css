@@ -1,0 +1,44 @@
+body {
+    font-family: 'Fredoka', sans-serif;
+  }
+  
+  .modal-title {
+    font-family: 'Fredoka', sans-serif;
+  }
+  
+  .text-pink {
+    font-family: 'Fredoka', sans-serif;
+  }
+  
+  button {
+    font-family: 'Fredoka', sans-serif;
+  }
+  
+.circle-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #264143;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+.circle-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.rank-circle {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #DE5499; 
+    margin-right: 10px;
+  }
+  
+  
+  

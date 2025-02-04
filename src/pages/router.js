@@ -8,6 +8,7 @@ import ForgetPassword from "../pages/forgetpassword";
 import Report from "../pages/report";
 import Reportmanagement from "../pages/reportmanagement";
 import Reportdetail from "../pages/reportdetail";
+import Share from "../pages/share";
 export default function Router(){
     return (
         <BrowserRouter>
@@ -21,6 +22,7 @@ export default function Router(){
             <Route path="/report" element={<Report />}/>
             <Route path="/reportmanagement" element={<Reportmanagement />}/>
             <Route path="/reportdetail" element={<Reportdetail />}/>
+            <Route path="/share" element={<Share />}/>
           </Routes>
         </BrowserRouter>
       );

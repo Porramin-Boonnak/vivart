@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-
+import "../pagescss/F2EBE9.css";
 export default function ReportDetail() {
     const navigate = useNavigate();
     const cancel = () => {
@@ -15,7 +15,7 @@ export default function ReportDetail() {
             <h1 className="my-3 fw-light text-primary">Report Management</h1>
             <h4 className="text-black">By admin</h4>
 
-            <div className="bg-white w-50 py-3 my-4 px-4" style={{ height: '500px', fontSize: '16px', borderRadius: '20px', boxShadow: '0px 4px 10px rgba(184, 15, 131, 0.1)' }}>
+            <div className="F2EBE9 w-50 py-3 my-4 px-4" style={{ height: '500px', fontSize: '16px', borderRadius: '20px', boxShadow: '0px 4px 10px rgba(184, 15, 131, 0.1)' }}>
                 
                 {/* Name */}
                 <div className="d-flex justify-content-between align-items-center">
@@ -29,7 +29,7 @@ export default function ReportDetail() {
 
                 <p className="fw-bold mt-2 d-flex">Reasons</p>
                 <textarea 
-                    className="form-control bg-secondary text-white border-0 px-3 py-2"
+                    className="form-control bg-light text-white border-0 px-3 py-2"
                     style={{ height: '250px', fontSize: '16px', borderRadius: '10px', resize: 'none' }}
                     placeholder="Enter reason here..."
                 ></textarea>

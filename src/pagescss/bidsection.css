@@ -1,19 +1,38 @@
 body {
     font-family: 'Fredoka', sans-serif;
-  }
-  
-  .modal-title {
+    color: #264143;
+}
+
+.modal-title {
     font-family: 'Fredoka', sans-serif;
-  }
-  
-  .text-pink {
+}
+
+.text-pink {
     font-family: 'Fredoka', sans-serif;
-  }
-  
-  button {
+}
+
+button {
     font-family: 'Fredoka', sans-serif;
-  }
-  
+}
+
+.modal-title {
+    color: #e89fc1;
+    font-weight: bold;
+    font-size: 35px;
+}
+
+.input-group-text {
+    color: #de5499;
+}
+
+.price {
+    color: #de5499;
+}
+
+.yourbid {
+    color: #f9f9f9;
+}
+
 .circle-button {
     width: 60px;
     height: 60px;
@@ -23,8 +42,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
+}
+
 .circle-button img {
     width: 100%;
     height: 100%;
@@ -36,9 +55,24 @@ body {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: #DE5499; 
+    background-color: #e89fc1;
     margin-right: 10px;
-  }
-  
-  
-  
+}
+
+.modal {
+    position: fixed;
+}
+
+.modal-header {
+    background-color: #f2beb9;
+}
+
+.yourbidbody {
+    background-color: #e89fc1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 0% 0% 2% 2%;
+}

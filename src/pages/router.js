@@ -6,8 +6,13 @@ import Information from "../pages/information";
 import ForgetPassword from "../pages/forgetpassword";
 import Report from "../pages/report";
 import Post from "../pages/post";
+<<<<<<< HEAD
 import Createpost from "../pages/createpost";
 import Postnotsale from "../pages/postnotsale";
+=======
+import Bidsection from "../component/bidsection";
+import Createpost from "../pages/createpost";
+>>>>>>> origin/bidsection
 export default function Router(){
     return (
         <BrowserRouter>
@@ -19,8 +24,13 @@ export default function Router(){
             <Route path="/forgetpassword" element={<ForgetPassword />}/>
             <Route path="/report" element={<Report />}/>
             <Route path="/post/:userid" element={<Post/>}/>
+<<<<<<< HEAD
             <Route path="/createpost" element={<Createpost/>}/>
             <Route path="/postnotsale" element={<Postnotsale/>}/>
+=======
+            <Route path="/bidsection" element={<Bidsection />}/>
+            <Route path="/createpost" element={<Createpost/>}/>
+>>>>>>> origin/bidsection
           </Routes>
         </BrowserRouter>
       );

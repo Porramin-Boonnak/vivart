@@ -15,7 +15,7 @@ export default function Navbar() {
 
                     {/* ปุ่ม Hamburger */}
                     <button
-                        className="navbar-toggler"
+                        className="navbar-toggler me-2"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#navbarNav"
@@ -49,15 +49,15 @@ export default function Navbar() {
                         </div>*/}
 
                         <div class="dropdown mt-3 mt-lg-0 col-12 col-lg-2 col-xl-3 ms-auto d-flex flex-column flex-lg-row gap-2 gap-xl-3">
-                            <button class="btn btn-outline-primary dropdown-toggle w-auto border-1 rounded-5 d-flex flex-row align-items-lg-center ms-lg-aus" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                Name
-                                <div className="ms-2 border border-primary rounded-circle d-flex align-items-center justify-content-center responsive-logo">
-                                <img className="w-100 h-100 rounded-circle object-fit-cover" src={logo} alt="logo" />
-                            </div>
+                            <button class="btn btn-outline-primary dropdown-toggle w-auto border-1 rounded-5 w-sm-25 d-flex flex-row align-items-center justify-item-center shadow " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div className="ms-2 text-center col-10 col-lg-auto">Apilak Namwong</div>
+                                <div className="border border-primary rounded-circle d-flex align-items-center justify-content-center ms-auto ms-lg-2 responsive-logo col-2 col-lg-auto" style={{ width: "50px", height: "50px" }}>
+                                    <img className="w-100 h-100 rounded-circle object-fit-cover" src={logo} alt="logo" />
+                                </div>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item d-flex align-items-center justify-content-between" >Profile<i class="bi bi-trash3-fill"></i></a></li>
-                                <li><a class="dropdown-item d-flex align-items-center justify-content-between" >Logout<i class="bi bi-pencil-square"></i></a></li>
+                            <ul class="dropdown-menu ms-4" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item d-flex align-items-center justify-content-between" >Profile<i class="bi bi-person-circle"></i></a></li>
+                                <li><a class="dropdown-item d-flex align-items-center justify-content-between" >Logout<i class="bi bi-box-arrow-right"></i></a></li>
                             </ul>
                         </div>
                     </div>

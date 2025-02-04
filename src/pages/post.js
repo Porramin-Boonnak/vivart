@@ -4,6 +4,7 @@ import Searchbar from "../component/searchbar";
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Navbar from "../component/navbar"
 export default function Post() {
     const { userid } = useParams();
     const [post, setpost] = useState([]);
@@ -93,6 +94,9 @@ export default function Post() {
     return (
         <>
             <div className="container-fluid p-0">
+                <div className="row">
+                    <Navbar />
+                </div>
                 <Searchbar />
                 <div className="row bg-secondary p-3 ">
                     <div className="row ">

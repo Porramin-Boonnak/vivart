@@ -4,6 +4,7 @@ import { FaBahtSign } from "react-icons/fa6";
 import { useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Navbar from "../component/navbar"
 export default function Home() {
     const navigate = useNavigate();
     const [post,setpost] = useState([]);
@@ -38,7 +39,12 @@ export default function Home() {
     };
     return (<>
         <div className="container-fluid p-0">
-            <Searchbar/>
+            <div className="row">
+                <Navbar/>
+            </div>
+            <div className="row">
+                <Searchbar/>
+            </div>
             <div className="row bg-secondary p-3">
                 <Allpictures items={post} />
             </div>

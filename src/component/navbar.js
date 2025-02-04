@@ -5,7 +5,7 @@ import logo from "../pictures/image.png";
 export default function Navbar() {
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light shadow">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
 
                     {/* โลโก้ */}

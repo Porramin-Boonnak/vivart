@@ -34,7 +34,7 @@ export default function Signin() {
         })
     };
     return (
-        <div className="container-fluid bg-secondary d-flex flex-column justify-content-start align-items-center vh-100 w-100 text-center">
+        <div className="container-fluid bg-secondary d-flex flex-column justify-content-start align-items-center vh-100 w-100 text-center p-0">
             <div className="row w-100">
                 <Navbar />
             </div>

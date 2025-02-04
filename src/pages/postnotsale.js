@@ -3,7 +3,7 @@ export default function Postnotsale(){
         <div className="container-fluid bg-secondary">
             <div className="row">
                 <div className="col-6">
-                    
+                    test
                 </div>
                 <div className="col-6">
 

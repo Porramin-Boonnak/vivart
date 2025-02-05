@@ -1,5 +1,6 @@
 $primary:#DE5499;
 $secondary: #EDDCD9;
+$Warning:#F2EBE9;
 $primary-lighter: lighten($primary, 23%); 
 .bg-primary-lighter {
     background-color: $primary-lighter !important;

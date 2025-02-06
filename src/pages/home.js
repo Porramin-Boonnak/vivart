@@ -22,13 +22,13 @@ export default function Home() {
                 {items.map((item) => (
                     <div className="masonry-item">
                         <div className="card" onClick={()=>handleclick(item._id)}>
-                        {item.like ? <i className="bi bi-heart fs-2 text-primary c-card-icon"></i> : <i className="bi bi-heart-fill fs-2 text-primary c-card-icon"></i>}
+                        {item.like ? <i className="bi bi-heart-fill fs-2 text-primary c-card-icon"></i> : <i className="bi bi-heart fs-2 text-primary c-card-icon"></i>}
                         <img src={`${!Array.isArray(item.img) ? item.img : item.img[0]}`} className="card-img-top" alt="..." />
                             <div className="card-body">
                                 <h2 className="card-title">{item.artist}</h2>
                                 <h5 className="d-inline">{item.name}</h5>
                                 <div className="d-flex align-items-center justify-content-between ">
-                                    <h5 className="text-primary fw-bold"><FaBahtSign />{item.price}</h5>
+                                    {item.typepost !== "normal" ? <h5 className="text-primary fw-bold"><FaBahtSign />{item.price}</h5> : <></>}
                                 </div>
                             </div>
                         </div>

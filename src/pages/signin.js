@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import Navbar from "../component/navbar"
 export default function Signin() {
-    const API_URL = process.env.REACT_APP_API_URL;;
+    const API_URL = process.env.REACT_APP_API_URL;
     const username = useRef();
     const password = useRef();
     const navigate = useNavigate();

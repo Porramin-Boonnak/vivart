@@ -1,0 +1,8 @@
+.cs-btn-postnotsale{
+    background-color: #E99F4C;
+    margin-left: 20%;
+}
+.cs-btn-postnotsale:hover{
+    background-color: #E99F4C;
+    color: white;
+}

@@ -43,9 +43,9 @@ export default function Postnotsale() {
         const data = {
             artist : user.username,
             name : Title.current.value,
-            like : true,
             tag : Tag.current.value,
             type : type,
+            typepost : "normal",
             description : Description.current.value,
             img:base64List
         }

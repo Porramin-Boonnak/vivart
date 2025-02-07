@@ -23,6 +23,9 @@ export default function Signup() {
   const handleLoginFailure = (error) => {
     console.error("Google Login Failed:", error);
   };
+  const signinclick = () => {
+    navigate("/signin");
+  }
 
   const handleclick = () => {
     axios.post(API_URL + "/signup/email/google", { email: email.current.value }).then(res => {
@@ -56,11 +59,12 @@ export default function Signup() {
         </GoogleOAuthProvider>
       </button>
 
-      <div className="d-grid gap-2 col-2 my-4">
+      <div className="d-grid gap-2 col-2 my-2">
         <button className="btn cs-color rounded-pill" type="button" onClick={handleclick}>Sign up</button>
       </div>
       <hr className="w-50 border-primary" />
-      <p>Don’t have an account? <a href="#" className="text-pink fw-bold"><br className="my-2"></br>Sign up</a></p>
+      <p >Already have an account? </p>
+      <a className="text-pink fw-bold" onClick={signinclick}>Sign in</a>
     </div>
   )
 }

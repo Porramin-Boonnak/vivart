@@ -23,6 +23,9 @@ export default function Signin() {
     const handleLoginFailure = (error) => {
         console.error("Google Login Failed:", error);
     };
+    const signupclick= () =>{
+        navigate("/signup");
+    };
 
     const handleclick = () => {
         axios.post(API_URL + "/login", { username: username.current.value, password: password.current.value }).then(res => {
@@ -66,7 +69,8 @@ export default function Signin() {
                 <button onClick={handleclick} className="btn cs-color rounded-pill" type="button">Sign in</button>
             </div>
             <hr className="w-50 bg-primary" />
-            <p>Don’t have an account? <a href="#" className="text-pink fw-bold"><br className="my-2"></br>Sign up</a></p>
+            <p>Don’t have an account? </p>
+            <a className="text-pink fw-bold" onClick={signupclick}>Sign up</a>
         </div>
     );
 }

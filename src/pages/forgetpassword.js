@@ -85,17 +85,18 @@ export default function ForgetPass() {
                 </label>
             </div>
 
-            <div className="d-grid col-3 my-2">
+            <div className="d-grid col-3 ">
                 <button className="btn cs-color rounded-pill" type="button" onClick={Forgotclick}>
                     Submit
                 </button>
             </div>
 
-            <hr className="w-50 bg-primary" />
-            <p>
-                Don't have an account?{" "}
+            <hr className="w-50 border-primary m-0 mt-2" />
+
+            <p className = "bg-secondary vh-100 vw-100">
+                Don't have an account?
                 <a className="text-pink fw-bold" onClick={signupclick}>
-                    <br className="my-2" />
+                    <br className="" />
                     Sign up
                 </a>
             </p>

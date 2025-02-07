@@ -57,7 +57,7 @@ export default function Navbar() {
                             </button>
                             <ul class="dropdown-menu ms-4" aria-labelledby="dropdownMenuButton1">
                                 <li><a class="dropdown-item d-flex align-items-center justify-content-between" >Profile<i class="bi bi-person-circle"></i></a></li>
-                                <li><a class="dropdown-item d-flex align-items-center justify-content-between" >Logout<i class="bi bi-box-arrow-right"></i></a></li>
+                                <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={()=> localStorage.removeItem("token")}>Logout<i class="bi bi-box-arrow-right"></i></a></li>
                             </ul>
                         </div>
                     </div>

@@ -18,8 +18,6 @@ export default function Home() {
             console.log(response.data)
             setuser(response.data);
         }).catch(error => {
-            alert("please login ");
-            navigate('/signin');
 
         });
     }, []);
@@ -67,7 +65,7 @@ export default function Home() {
                 {items.map((item) => {
                     const isLiked =
                         likedItems[item._id] ??
-                        (Array.isArray(item.like) && item.like.some((element) => element.username === username));
+                        (Array.isArray(item.like) && item.like.some((element) => element.username === username) && username);
     
                     const icon = isLiked ? (
                         <i
@@ -121,7 +119,7 @@ export default function Home() {
                 <Searchbar />
             </div>
             <div className="row bg-secondary p-3">
-                {post&&user ? <Allpictures items={post} username={user.username} />:<>Loading....</>}
+                {post&&user ? <Allpictures items={post} username={user.username} />:post ? <Allpictures items={post} />:<div>Loading...</div>}
             </div>
         </div>
     </>)

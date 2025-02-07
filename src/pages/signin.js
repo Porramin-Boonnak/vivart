@@ -68,5 +68,5 @@ export default function Signin() {
             <hr className="w-50 bg-primary" />
             <p>Don’t have an account? <a href="#" className="text-pink fw-bold"><br className="my-2"></br>Sign up</a></p>
         </div>
-    )
+    );
 }

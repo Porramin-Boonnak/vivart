@@ -9,6 +9,10 @@ import Post from "../pages/post";
 import Createpost from "../pages/createpost";
 import Postnotsale from "../pages/postnotsale";
 import Bidsection from "../component/bidsection";
+import Reportmanagement from "../pages/reportmanagement";
+import Reportdetail from "../pages/reportdetail";
+import Share from "../pages/share";
+import Shipping from "../pages/shipping";
 export default function Router(){
     return (
         <BrowserRouter>
@@ -23,6 +27,10 @@ export default function Router(){
             <Route path="/createpost" element={<Createpost/>}/>
             <Route path="/postnotsale" element={<Postnotsale/>}/>
             <Route path="/bidsection" element={<Bidsection />}/>
+            <Route path="/reportmanagement" element={<Reportmanagement />}/>
+            <Route path="/reportdetail" element={<Reportdetail />}/>
+            <Route path="/share" element={<Share />}/>
+            <Route path="/shipping" element={<Shipping />}/>
           </Routes>
         </BrowserRouter>
       );

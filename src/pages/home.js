@@ -1,52 +1,127 @@
 import "../pagescss/Home.css"
 import Searchbar from "../component/searchbar";
 import { FaBahtSign } from "react-icons/fa6";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../component/navbar"
 export default function Home() {
     const navigate = useNavigate();
-    const [post,setpost] = useState([]);
+    const [post, setpost] = useState([]);
+    const [user, setuser] = useState();
+    const API_URL = process.env.REACT_APP_API_URL;
     useEffect(() => {
-        axios.get("https://se-servise.azurewebsites.net/post")
-            .then(response => setpost(response.data))
+        axios.get(API_URL + "/post")
+            .then(response => { setpost(response.data); console.log(response.data) })
             .catch(error => console.error("There was an error!", error));
+        axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
+            console.log(response.data)
+            setuser(response.data);
+        }).catch(error => {
+            alert("please login ");
+            navigate('/signin');
+
+        });
     }, []);
-    const handleclick =(id)=>{
+    const handleclick = (id) => {
         navigate(`/post/${id}`);
     }
-    const Allpictures = ({ items }) => {
+    const like = (id) => {
+        console.log("like")
+        axios.put(API_URL + "/update/like/" + id, user)
+            .then(response => {console.log(response.data) 
+               
+            })
+            .catch(error => console.error("There was an error!", error));
+    }
+    const unlike = (id) => {
+        console.log("unlike");
+    axios.request({
+        method: 'DELETE',
+        url: `${API_URL}/delete/like/${id}`,
+        data: user,  // ส่ง user เป็น JSON body
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => console.log(response.data))
+    .catch(error => console.error(error));
+    }
+    const Allpictures = ({ items, username }) => {
+        const [likedItems, setLikedItems] = useState({});
+    
+        const toggleLike = (id, isLiked) => {
+            setLikedItems((prev) => ({
+                ...prev,
+                [id]: !isLiked,
+            }));
+            if (isLiked) {
+                unlike(id);
+            } else {
+                like(id);
+            }
+        };
+    
         return (
             <div className="masonry-layout">
-                {items.map((item) => (
-                    <div className="masonry-item">
-                        <div className="card" onClick={()=>handleclick(item._id)}>
-                        {item.like ? <i className="bi bi-heart-fill fs-2 text-primary c-card-icon"></i> : <i className="bi bi-heart fs-2 text-primary c-card-icon"></i>}
-                        <img src={`${!Array.isArray(item.img) ? item.img : item.img[0]}`} className="card-img-top" alt="..." />
-                            <div className="card-body">
-                                <h2 className="card-title">{item.artist}</h2>
-                                <h5 className="d-inline">{item.name}</h5>
-                                <div className="d-flex align-items-center justify-content-between ">
-                                    {item.typepost !== "normal" ? <h5 className="text-primary fw-bold"><FaBahtSign />{item.price}</h5> : <></>}
+                {items.map((item) => {
+                    const isLiked =
+                        likedItems[item._id] ??
+                        (Array.isArray(item.like) && item.like.some((element) => element.username === username));
+    
+                    const icon = isLiked ? (
+                        <i
+                            className="bi bi-heart-fill fs-2 text-primary c-card-icon"
+                            onDoubleClick={() => toggleLike(item._id, isLiked)}
+                        ></i>
+                    ) : (
+                        <i
+                            className="bi bi-heart fs-2 text-primary c-card-icon"
+                            onDoubleClick={() => toggleLike(item._id, isLiked)}
+                        ></i>
+                    );
+    
+                    return (
+                        <div className="masonry-item" key={item._id}>
+                            <div className="card">
+                                <div>{icon}</div>
+                                <img
+                                    onClick={() => handleclick(item._id)}
+                                    src={`${!Array.isArray(item.img) ? item.img : item.img[0]}`}
+                                    className="card-img-top"
+                                    alt={item.name || "Image"}
+                                />
+                                <div className="card-body" onClick={() => handleclick(item._id)}>
+                                    <h2 className="card-title">{item.artist}</h2>
+                                    <h5 className="d-inline">{item.name}</h5>
+                                    <div className="d-flex align-items-center justify-content-between">
+                                        {item.typepost !== "normal" && (
+                                            <h5 className="text-primary fw-bold">
+                                                <FaBahtSign />
+                                                {item.price}
+                                            </h5>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         );
     };
+    
+    
     return (<>
         <div className="container-fluid p-0">
             <div className="row">
-                <Navbar/>
+                <Navbar />
             </div>
             <div className="row">
-                <Searchbar/>
+                <Searchbar />
             </div>
             <div className="row bg-secondary p-3">
-                <Allpictures items={post} />
+                {post&&user ? <Allpictures items={post} username={user.username} />:<>Loading....</>}
             </div>
         </div>
     </>)

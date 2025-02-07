@@ -2,25 +2,31 @@ import "../pagescss/selectpicture.css";
 import { FaBahtSign } from "react-icons/fa6";
 import Searchbar from "../component/searchbar";
 import { useParams } from 'react-router-dom';
-import { useEffect, useState,useRef} from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Navbar from "../component/navbar"
 import Showimg from "../component/showimg"
 export default function Post() {
-    const { userid } = useParams();
+    const { postid } = useParams();
     const [post, setpost] = useState(null);
-    const hasFetched = useRef(false);  
+    const [user, setuser] = useState();
+    const hasFetched = useRef(false);
     const API_URL = process.env.REACT_APP_API_URL;
-  useEffect(() => {
-    if (!hasFetched.current) {  
-      hasFetched.current = true;  
-      axios.get(`${API_URL}/post/${userid}`)
-        .then(response => {
-          setpost(response.data);
-        })
-        .catch(error => console.error("Error fetching data:", error));
-    }
-  }, [userid]);
+    useEffect(() => {
+        if (!hasFetched.current) {
+            hasFetched.current = true;
+            axios.get(`${API_URL}/post/${postid}`)
+                .then(response => {
+                    setpost(response.data);
+                })
+                .catch(error => console.error("Error fetching data:", error));
+        }
+        axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
+            setuser(response.data);
+        }).catch(error => {
+            console.log(error);
+        });
+    }, [postid]);
     const examplecomment = [
         { name: "Naruto", comment: "So interesting.", img: "https://www.beartai.com/wp-content/uploads/2024/02/Naruto-1600x840.jpg" },
         { name: "Sasuke", comment: "Beautiful as hellll!", img: "https://pm1.aminoapps.com/6493/8e7caf892a720f98952caf5f589e2c265458a291_hq.jpg" },
@@ -66,9 +72,67 @@ export default function Post() {
             </div>
         </>);
     };
+    const like = (id) => {
+        console.log("like")
+        axios.put(API_URL + "/update/like/" + id, user)
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(error => console.error("There was an error!", error));
+    }
+    const unlike = (id) => {
+        console.log("unlike");
+        axios.request({
+            method: 'DELETE',
+            url: `${API_URL}/delete/like/${id}`,
+            data: user,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => console.log(response.data))
+            .catch(error => console.error(error));
+    }
+
+    const Showicon = ({post }) => {
+        const [likedItems, setLikedItems] = useState(null);
+
+        useEffect(() => {
+            if (post && Array.isArray(post.like) && user) {
+                const isLiked = post.like.some(item => item.username === user.username);
+                setLikedItems(isLiked);
+            }
+        }, [post.like, user]);
+
+        const toggle = () => {
+            if (likedItems) {
+                unlike(post._id);  
+            } else {
+                like(post._id);
+            }
+            setLikedItems(!likedItems);
+        };
+
+        return (
+            <>
+                {likedItems ? (
+                    <i className="bi bi-heart-fill me-2" onDoubleClick={toggle}></i>
+                ) : (
+                    <i className="bi bi-heart me-2" onDoubleClick={toggle}></i>
+                )}
+            </>
+        );
+    };
+    const handleCopy = async () => {
+        try {
+          await navigator.clipboard.writeText(`http://localhost:3000/post/${postid}`);
+        } catch (err) {
+          console.error("Failed to copy: ", err);
+        }
+      };
     return (
-        <>
-            <div className="container-fluid p-0">
+        <>{post ?
+            <div className="container-fluid p-0 bg-secondary vh-100">
                 <div className="row">
                     <Navbar />
                 </div>
@@ -79,10 +143,10 @@ export default function Post() {
                             {post && post.img && post.img.length ? (<Showimg items={post.img} />) : <div>Loading...</div>}
                             <div className="bg-primary-lighter p-2">
                                 <div className="d-flex align-items-center justify-content-center">
-                                    <i className="bi bi-heart me-2" />
+                                    {post && user&&(user.username) ? <Showicon post={post} /> : <i className="bi bi-heart me-2"></i>}
                                     <div className="fw-bold">LIKE</div>
                                     <i className="bi bi-share ms-3 me-2"></i>
-                                    <div className="fw-bold">SHARE</div>
+                                    <button className="fw-bold bg-primary-lighter border-0" onClick={()=>handleCopy()}>SHARE</button>
                                 </div>
                             </div>
 
@@ -99,35 +163,42 @@ export default function Post() {
                                     Rarity {"           -"}
                                 </div>
                                 <div className="m-2">
-                                    Type {"         Hand draw"}
+                                    Type <div className="d-inline ms-3">{post.type}</div>
                                 </div>
                             </div>
                         </div>
                         <div className="col-12 col-sm-4 bg-secondary p-2 mx-auto">
                             <div className="d-flex align-items-center justify-content-between">
-                                <h1>Marc Quinn</h1>
+                                <h1>{post.name}</h1>
                                 <div className="dropdown">
                                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i className="bi bi-three-dots fs-2 me-2"></i>
                                     </button>
                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a className="dropdown-item d-flex align-items-center justify-content-between" >Delete<i className="bi bi-trash3-fill"></i></a></li>
-                                        <li><a className="dropdown-item d-flex align-items-center justify-content-between" >Edit<i className="bi bi-pencil-square"></i></a></li>
                                         <li><a className="dropdown-item d-flex align-items-center justify-content-between" >Report<i className="bi bi-flag-fill"></i></a></li>
+
+                                        {user && (user.username === post.artist) ?
+                                            <div>
+                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between" >Edit<i className="bi bi-pencil-square"></i></a></li>
+                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between" >Delete<i className="bi bi-trash3-fill"></i></a></li>
+                                            </div>
+                                            :
+                                            <div className="d-none"></div>
+                                        }
                                     </ul>
                                 </div>
                             </div>
-                            <div className="fw-light">
-                                Floating dragon, 2025 #Dragon
+                            <div className="fw-light fs-4">
+                                {post.description}
                             </div>
-                            <div className="mt-5 fw-light">
-                                Imagination dragon on canvas.
+                            <div className="fw-light mt-2">
+                                #{post.tag}
                             </div>
-                            <div className="fw-light">
-                                150 x 45 cm
-                            </div>
-                            <h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign /></h5>
-                            <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white">Add to cart</button>
+                            {post.typepost !== "normal" ?
+                                <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign /></h5>
+                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white">Add to cart</button></>
+                                : <></>
+                            }
                             <div className="p-1 mt-4 text-center cs-bg-comment mb-0">
                                 Comment
                             </div>
@@ -135,9 +206,9 @@ export default function Post() {
                                 <Allcomment items={examplecomment} />
                                 <div className="d-flex justify-content-center align-items-center m-2">
                                     <div className="rounded-pill rounded-end-0 border-end-0 border border-dark p-2">
-                                        <img className="rounded-circle c-img-sent-comment " src="https://www.beartai.com/wp-content/uploads/2024/02/Naruto-1600x840.jpg" />
+                                        <img className="rounded-circle c-img-sent-comment " src={user&&user.img ? user.img : <i class="bi bi-person-circle"></i>} />
                                     </div>
-                                    <input className="form-control rounded-pill rounded-end-0 rounded-start-0 w-75 d-inline-block border-end-0 border-start-0 border border-dark p-3" type="search" placeholder="Searching" aria-label="Search" />
+                                    <input className="form-control rounded-pill rounded-end-0 rounded-start-0 w-75 d-inline-block border-end-0 border-start-0 border border-dark p-3" type="search" placeholder="comment" aria-label="Search" />
                                     <button type="button" className="btn rounded-pill rounded-start-0 border-start-0 border border-dark p-3"><i className="bi bi-send-fill"></i></button>
                                 </div>
                             </div>
@@ -145,7 +216,7 @@ export default function Post() {
                     </div>
 
                 </div>
-            </div>
+            </div> : <div>Loading...</div>}
         </>
     )
 }

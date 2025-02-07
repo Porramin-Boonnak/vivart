@@ -23,7 +23,7 @@ export default function Router(){
             <Route path="/information" element={<Information />}/>
             <Route path="/forgetpassword" element={<ForgetPassword />}/>
             <Route path="/report" element={<Report />}/>
-            <Route path="/post/:userid" element={<Post/>}/>
+            <Route path="/post/:postid" element={<Post/>}/>
             <Route path="/createpost" element={<Createpost/>}/>
             <Route path="/postnotsale" element={<Postnotsale/>}/>
             <Route path="/bidsection" element={<Bidsection />}/>

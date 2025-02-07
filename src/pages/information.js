@@ -13,7 +13,7 @@ export default function Information() {
     const password = useRef();
     const confirmpassword = useRef();
     const [email, setEmail] = useState("");
-
+    const [base64List, setBase64List] = useState([]);
     useEffect(() => {
         if (!location.state) {
             navigate("/signup");
@@ -27,14 +27,16 @@ export default function Information() {
         if ((username.current.value &&
             birthdate.current.value &&
             contact.current.value &&
-            password.current.value) && gender.current.value !== "Gender") {
+            password.current.value
+            && base64List) && gender.current.value !== "Gender") {
             const data = {
                 username: username.current.value,
                 gender: gender.current.value,
                 birthdate: birthdate.current.value,
                 contact: contact.current.value,
                 password: password.current.value,
-                email: email
+                email: email,
+                img:base64List
             };
 
             if (password.current.value !== confirmpassword.current.value) {
@@ -53,7 +55,22 @@ export default function Information() {
             alert("กรุณากรอกข้อมูลให้ครบ");
         }
     }
-    return (<div className="container-fluid bg-secondary d-flex flex-column justify-content-start align-items-center vh-100 w-100 text-center">
+    const handleFileChange = (e) => {
+        const files = Array.from(e.target.files); // แปลงเป็น array
+        const promises = files.map((file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        });
+
+        Promise.all(promises).then((results) => {
+            setBase64List(results);
+        });
+    };
+    return (<div className="container-fluid bg-secondary d-flex flex-column justify-content-start align-items-center vw-100 text-center">
         <div className="row w-100">
             <Navbar />
         </div>
@@ -112,7 +129,12 @@ export default function Information() {
                 <i className="bi bi-lock-fill"></i>Confirm Password
             </label>
         </div>
-        <div className="d-grid gap-2 col-2 my-4">
+        <div className='row'>
+                        <div className='d-flex justify-content-center align-items-center mt-5 p-0'>
+                            <input type="file" multiple onChange={handleFileChange} />
+                        </div>
+                    </div>
+        <div className="d-grid gap-2 col-2 mt-2">
             <button className="btn cs-color rounded-pill" type="button" onClick={handleclick}>Confirm</button>
         </div>
     </div>);

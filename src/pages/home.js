@@ -15,10 +15,9 @@ export default function Home() {
             .then(response => { setpost(response.data); console.log(response.data) })
             .catch(error => console.error("There was an error!", error));
         axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
-            console.log(response.data)
             setuser(response.data);
         }).catch(error => {
-
+            console.log(error)
         });
     }, []);
     const handleclick = (id) => {

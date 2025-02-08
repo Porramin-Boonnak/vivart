@@ -7,6 +7,8 @@ import axios from "axios";
 export default function Owner_Pic() {
     return (
         <>
+
+       
         </>
     );
 }

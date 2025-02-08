@@ -13,6 +13,7 @@ import Reportmanagement from "../pages/reportmanagement";
 import Reportdetail from "../pages/reportdetail";
 import Share from "../pages/share";
 import Shipping from "../pages/shipping";
+import Profile from "../pages/Profile/Profile";
 export default function Router(){
     return (
         <BrowserRouter>
@@ -31,6 +32,7 @@ export default function Router(){
             <Route path="/reportdetail" element={<Reportdetail />}/>
             <Route path="/share" element={<Share />}/>
             <Route path="/shipping" element={<Shipping />}/>
+            <Route path="/profile/:username" element={<Profile />}/>
           </Routes>
         </BrowserRouter>
       );

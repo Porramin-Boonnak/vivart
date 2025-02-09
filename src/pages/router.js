@@ -14,8 +14,6 @@ import Reportdetail from "../pages/reportdetail";
 import Share from "../pages/share";
 import Shipping from "../pages/shipping";
 import Profile from "../pages/Profile/Profile";
-
-
 export default function Router(){
     return (
         <BrowserRouter>

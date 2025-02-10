@@ -62,7 +62,7 @@ export default function Postnotsale() {
             <div className='row'>
                 <Navbar />
             </div>
-            <div className="row">
+            <div className="row mt-6">
                 <div className="col-12 col-md-6">
                     <div className='row'>
                         <div className='d-flex justify-content-center align-items-center mt-5'>
@@ -95,7 +95,7 @@ export default function Postnotsale() {
                         </div>
                         <div className='mt-4 text-center text-md-start'>
                             <label for="Description" className='text-primary me-2 fs-5'>Description :</label><br />
-                            <textarea ref={Description} type="text" id="Description" name="Description" className='cs-color-Search border-0 mt-1' rows="5" cols="33" />
+                            <textarea ref={Description} type="text" id="Description" name="Description" className='cs-color-Search border-0 mt-1' rows="5"  />
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <label for="tag" className='text-primary me-2 fs-5'>#tag :</label>
@@ -115,6 +115,7 @@ export default function Postnotsale() {
                                     <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Photography")}>Photography<i class="bi bi-image-fill"></i></a></li>
                                 </ul>
                             </div>
+                            
                         </div>
                     </div>
                     <div className='row ms-2'>

@@ -1,0 +1,15 @@
+.cs-btn-Postsaleordinary{
+    background-color: #F2EBE9;
+    margin-left: 20%;
+    color: rgb(184, 130, 130);
+}
+.cs-btn-Postsaleordinary:hover{
+    background-color: #E99F4C;
+    color: white;
+}
+
+@media (max-width: 1920px) {
+    #Description {
+      width: 100%;
+    }
+}

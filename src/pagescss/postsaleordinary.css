@@ -7,6 +7,16 @@
     background-color: #E99F4C;
     color: white;
 }
+.cs-btn-Postsaleordinary2{
+    background-color: #E99F4C;
+    margin-left: 20%;
+    color: rgb(255, 255, 255);
+}
+.cs-btn-Postsaleordinary2:hover{
+    background-color: #c29f78;
+    color: white;
+}
+
 
 @media (max-width: 1920px) {
     #Description {

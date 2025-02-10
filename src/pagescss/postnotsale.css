@@ -1,8 +1,25 @@
-.cs-btn-postnotsale{
-    background-color: #E99F4C;
+.cs-btn-Postnotsale{
+    background-color: #F2EBE9;
     margin-left: 20%;
+    color: rgb(184, 130, 130);
 }
-.cs-btn-postnotsale:hover{
+.cs-btn-Postnotsale:hover{
     background-color: #E99F4C;
     color: white;
+}
+.cs-btn-Postnotsale2{
+    background-color: #E99F4C;
+    margin-left: 20%;
+    color: rgb(255, 255, 255);
+}
+.cs-btn-Postnotsale2:hover{
+    background-color: #c29f78;
+    color: white;
+}
+
+
+@media (max-width: 1920px) {
+    #Description {
+      width: 100%;
+    }
 }

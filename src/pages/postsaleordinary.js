@@ -8,8 +8,11 @@ export default function Postsaleordinary() {
     const [base64List, setBase64List] = useState([]);
     const [user, setuser] = useState();
     const [type, settype] = useState();
+    const [size, setsize] = useState();
     const Title = useRef();
     const Tag = useRef();
+    const Price = useRef();
+    const Amount = useRef();
     const Description = useRef();
     const navigate = useNavigate();
     const API_URL = process.env.REACT_APP_API_URL;
@@ -46,8 +49,11 @@ export default function Postsaleordinary() {
             tag : Tag.current.value,
             type : type,
             typepost : "normal",
+            size : size,
             description : Description.current.value,
-            img:base64List
+            img:base64List,
+            price : Price.current.value,
+            amount : Amount.current.value
         }
 
         axios.post(API_URL + '/post', data).then(response => {
@@ -98,12 +104,12 @@ export default function Postsaleordinary() {
                             <textarea ref={Description} type="text" id="Description" name="Description" className='cs-color-Search border-0 mt-1' rows="5" />
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
-                            <label for="tag" className='text-primary me-2 fs-5'>Price:</label>
-                            <input ref={Tag} type="text" id="tag" name="tag" className='cs-color-Search w-100 border-0' />
+                            <label for="price" className='text-primary me-2 fs-5'>Price:</label>
+                            <input ref={Price} type="number" id="Price" name="Price" className='cs-color-Search w-100 border-0' />
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <label for="tag" className='text-primary me-2 fs-5'>#tag:</label>
-                            <input ref={Tag} type="text" id="tag" name="tag" className='cs-color-Search w-100 border-0' />
+                            <input ref={Tag} type="text" id="tag" name="Tag" className='cs-color-Search w-100 border-0' />
                         </div>
                         <div className='d-flex flex-row justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <div class= "d-flex flex-row">
@@ -122,28 +128,36 @@ export default function Postsaleordinary() {
                                 </div>
                             </div>
                             <div class= "ms-5 d-flex flex-row">
-                                <label for="Arttype" className='text-primary me-2 fs-5'>Size</label>
-                                <div class="dropdown" id='Arttype'>
+                                <label for="Sizetype" className='text-primary me-2 fs-5'>Size</label>
+                                <div class="dropdown" id='Sizetype'>
                                     <button class="btn cs-btn-Postsaleordinary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {type ? <div>{type}</div> : <div>Select Type</div>}
+                                        {size ? <div>{size}</div> : <div>Select Type</div>}
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Digital")}>Digital<i class="bi bi-film"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Hand draw")}>Hand draw<i class="bi bi-palette-fill"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Sculpture")}>Sculpture<i class="bi bi-piggy-bank-fill"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Painting")}>Painting<i class="bi bi-brush-fill"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Photography")}>Photography<i class="bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("14.8 x 21")}>A5 - 14.8 x 21 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("21 x 29.7")}>A4 - 21 x 29.7 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("29.7 x 42")}>A3 - 29.7 x 42 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("42 x 59.4")}>A2 - 42 x 59.4 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("59.4 x 84.1")}>A1 - 59.4 x 84.1 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("59.4 x 84.1")}>A0 - 59.4 x 84.1 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Custom size(w x h )"
+                                            value={size}
+                                            onClick={(e) => e.stopPropagation()}
+                                            onChange={(e) => setsize(e.target.value)}/>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
-                            <label for="tag" className='text-primary me-2 fs-5'>Amount(s):</label>
-                            <input ref={Tag} type="text" id="tag" name="tag" className='cs-color-Search w-100 border-0' />
+                            <label for="amount" className='text-primary me-2 fs-5'>Amount(s):</label>
+                            <input ref={Amount} type="number" id="Amount" name="Amount" className='cs-color-Search w-100 border-0' />
                         </div>
                     </div>
                     <div className='d-flex justify-content-center align-items-start row me-5'>
-                        <button onClick={handleclick} className="btn cs-btn-postnotsale rounded-pill w-25 mt-5" type="button">Post</button>
+                        <button onClick={handleclick} className="btn cs-btn-Postsaleordinary2 rounded-pill w-25 mt-5" type="button">Post</button>
                     </div>
                 </div>
                 <div className="col-12 col-md-1"></div>

@@ -62,7 +62,7 @@ export default function Postnotsale() {
             <div className='row'>
                 <Navbar />
             </div>
-            <div className="row mt-6">
+            <div className="row mt-5">
                 <div className="col-12 col-md-6">
                     <div className='row'>
                         <div className='d-flex justify-content-center align-items-center mt-5'>
@@ -77,7 +77,7 @@ export default function Postnotsale() {
                         </div>
                     </div>
                 </div>
-                <div className="col-12 col-md-6">
+                <div className="col-12 col-md-3">
                     <div className='row ms-2'>
                         {user ? (
                             <div className='d-flex mt-5 justify-content-center align-items-start justify-content-md-start align-items-md-start'>
@@ -90,38 +90,40 @@ export default function Postnotsale() {
                     </div>
                     <div className='row ms-2'>
                         <div className='d-flex mt-4 justify-content-center align-items-start justify-content-md-start align-items-md-start'>
-                            <label for="Title" className='text-primary me-2 fs-5'>Title :</label>
-                            <input ref={Title} type="text" id="Title" name="Title" className='cs-color-Search w-50 border-0' />
+                            <label for="Title" className='text-primary me-2 fs-5'>Title:</label>
+                            <input ref={Title} type="text" id="Title" name="Title" className='cs-color-Search w-100 border-0' />
                         </div>
                         <div className='mt-4 text-center text-md-start'>
                             <label for="Description" className='text-primary me-2 fs-5'>Description :</label><br />
-                            <textarea ref={Description} type="text" id="Description" name="Description" className='cs-color-Search border-0 mt-1' rows="5"  />
+                            <textarea ref={Description} type="text" id="Description" name="Description" className='cs-color-Search border-0 mt-1' rows="5" />
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
-                            <label for="tag" className='text-primary me-2 fs-5'>#tag :</label>
-                            <input ref={Tag} type="text" id="tag" name="tag" className='cs-color-Search w-50 border-0' />
+                            <label for="tag" className='text-primary me-2 fs-5'>#tag:</label>
+                            <input ref={Tag} type="text" id="tag" name="tag" className='cs-color-Search w-100 border-0' />
                         </div>
-                        <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
-                            <label for="Arttype" className='text-primary me-2 fs-5'>Art type</label>
-                            <div class="dropdown" id='Arttype'>
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {type ? <div>{type}</div> : <div>Select Type</div>}
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Digital")}>Digital<i class="bi bi-film"></i></a></li>
-                                    <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Hand draw")}>Hand draw<i class="bi bi-palette-fill"></i></a></li>
-                                    <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Sculpture")}>Sculpture<i class="bi bi-piggy-bank-fill"></i></a></li>
-                                    <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Painting")}>Painting<i class="bi bi-brush-fill"></i></a></li>
-                                    <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Photography")}>Photography<i class="bi bi-image-fill"></i></a></li>
-                                </ul>
+                        <div className='d-flex flex-row justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
+                            <div class= "d-flex flex-row">
+                                <label for="Arttype" className='text-primary me-2 fs-5'>Art type</label>
+                                <div class="dropdown" id='Arttype'>
+                                    <button class="btn cs-btn-Postnotsale dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {type ? <div>{type}</div> : <div>Select Type</div>}
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Digital")}>Digital<i class="bi bi-film"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Hand draw")}>Hand draw<i class="bi bi-palette-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Sculpture")}>Sculpture<i class="bi bi-piggy-bank-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Painting")}>Painting<i class="bi bi-brush-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => settype("Photography")}>Photography<i class="bi bi-image-fill"></i></a></li>
+                                    </ul>
+                                </div>
                             </div>
-                            
                         </div>
                     </div>
-                    <div className='row ms-2'>
-                        <button onClick={handleclick} className="btn cs-btn-postnotsale rounded-pill w-25 mt-5" type="button">Post</button>
+                    <div className='d-flex justify-content-center align-items-start row me-5'>
+                        <button onClick={handleclick} className="btn cs-btn-Postnotsale2 rounded-pill w-25 mt-5" type="button">Post</button>
                     </div>
                 </div>
+                <div className="col-12 col-md-1"></div>
             </div>
         </div>
     </>)

@@ -14,6 +14,7 @@ import Reportdetail from "../pages/reportdetail";
 import Share from "../pages/share";
 import Shipping from "../pages/shipping";
 import Profile from "../pages/Profile/Profile";
+import EditProfile from "../pages/Profile/Edit_Pro";
 export default function Router(){
     return (
         <BrowserRouter>
@@ -32,7 +33,8 @@ export default function Router(){
             <Route path="/reportdetail" element={<Reportdetail />}/>
             <Route path="/share" element={<Share />}/>
             <Route path="/shipping" element={<Shipping />}/>
-            <Route path="/profile/:username" element={<Profile />}/>
+            <Route path="/profile/:this_username" element={<Profile />}/>
+            <Route path="/editprofile" element={<EditProfile />}/>
           </Routes>
         </BrowserRouter>
       );

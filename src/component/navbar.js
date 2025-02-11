@@ -41,13 +41,13 @@ export default function Navbar() {
                     {/* เมนูใน Navbar */}
                     <div className="collapse navbar-collapse col-2 col-lg-8 align-" id="navbarNav">
                         <div className="navbar-nav ms-4 w-auto w-lg-75 gap-1 gap-xl-2 col-12 col-lg-7 col-xl-9">
-                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto ">Message</button>
-                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto">Notification</button>
+                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto " onClick={() => navigate("/")}>Message</button>
+                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/")}>Notification</button>
                             <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/createpost")}>Create</button>
-                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto">Profile</button>
-                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto">Cart</button>
-                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto">Ship</button>
-                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto">Sell</button>
+                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/Profile/1")}>Profile</button>
+                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/")}>Cart</button>
+                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/shipping")}>Ship</button>
+                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/")}>Sell</button>
                         </div>
 
                         {/* ปุ่ม Sign in / Sign up */}

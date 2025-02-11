@@ -7,6 +7,7 @@ import ForgetPassword from "../pages/forgetpassword";
 import Report from "../pages/report";
 import Post from "../pages/post";
 import Createpost from "../pages/createpost";
+
 export default function Router(){
     return (
         <BrowserRouter>

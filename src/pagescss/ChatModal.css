@@ -1,0 +1,16 @@
+.modal-header-custom {
+    background-color: #FFFBFB !important; /* สีพื้นหลังของ Header */
+  }
+  
+  .modal-title-custom {
+    color: #DE5499; /* สีตัวอักษร New Chat */
+  }
+  
+  .to-section {
+    background-color: #EFAEC5; /* สีชมพู */
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    font-weight:lighter;
+  }
+

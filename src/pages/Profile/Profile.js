@@ -1,33 +1,43 @@
 import { FaBahtSign } from "react-icons/fa6";
 import Searchbar from "../../component/searchbar";
-import { useParams } from "react-router-dom";
+import Navbar from "../../component/navbar"
+import { useParams ,useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import User_Impormation from "./Component/User_Imformation";
-import "../../pagescss/Home.css"
-import Navbar from "../../component/navbar"
+import User_Imformation from "./Component/User_Imformation";
+
 export default function Profile() {
-    const { this_user_id } = useParams();
+    const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState("All Post"); //Use this Var for SORTING POST IN PROFILE
+    const { this_username } = useParams();
+    
+
+    //user_id ที่กำลัง login อยู่
+    const username = 1;
     return (
         <>
             <Navbar/>
             <Searchbar/>
-            <User_Impormation/>
+            <User_Imformation this_username={this_username} username={username} />;
+            <div>{username}</div>
+            <div>{this_username}</div>
              {/* SORTING PART */}
              <ul className="nav nav-tabs justify-content-center">
-                    <li className="nav-item">
-                        <a className="nav-link active" href="#">All Post</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">My Post</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">My Purchase Art(s)</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">My Selled Art(s)</a>
-                    </li>
-            </ul>
+                {["All Post", "My Post", "My Purchase Art(s)", "My Selled Art(s)"] .map((tab) => (
+                <li className="nav-item" key={tab}>
+                    <a 
+                        className={`nav-link ${activeTab === tab ? "active" : ""}`} 
+                        href="#" 
+                        onClick={(e) => {
+                            e.preventDefault(); // Prevent page reload
+                            setActiveTab(tab);
+                        }}
+                    >
+                        {tab}
+                    </a>
+                </li>
+            ))}
+        </ul>
 
             <div className="container mt-4">
                 <div className="row">

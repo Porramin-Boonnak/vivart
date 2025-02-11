@@ -17,6 +17,7 @@ import Share from "../pages/share";
 import Shipping from "../pages/shipping";
 import Profile from "../pages/Profile/Profile";
 import EditProfile from "../pages/Profile/Edit_Pro";
+import Filltracking from "../pages/filltracking";
 export default function Router(){
     return (
         <BrowserRouter>
@@ -39,6 +40,7 @@ export default function Router(){
             <Route path="/shipping" element={<Shipping />}/>
             <Route path="/profile/:this_username" element={<Profile />}/>
             <Route path="/editprofile" element={<EditProfile />}/>
+            <Route path="/filltracking" element={<Filltracking />}/>
           </Routes>
         </BrowserRouter>
       );

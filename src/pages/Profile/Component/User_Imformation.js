@@ -31,7 +31,7 @@ export default function User_Impormation({this_username , username }) {
                     {/* BIO */}
                     <p>I am an artist of Thailand. 
                         
-
+                    
                         {/* BUTTON EDIT */}
                         {this_username == username ? (
                         <Button  variant="outline-dark" onClick={() => navigate("/editprofile")} style={{ cursor: "pointer", color: "light" }}>

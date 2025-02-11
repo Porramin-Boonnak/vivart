@@ -38,9 +38,8 @@ export default function Createpost() {
                         <div className="fs-2 mb-5">Sell Post</div>
                     </div>
                     <div className="col-12 col-md d-flex flex-wrap justify-content-center justify-content-md-center gap-2">
-                        <button className="btn bg-white col-8 col-md-3 me-sm-3 p-5">Digital Art<div className="text-primary">unique</div></button>
-                        <button className="btn bg-white col-8 col-md-3 me-sm-3 p-5" >Physical Art<div className="text-primary">unique</div></button>
-                        <button className="btn bg-white col-8 col-md-3 me-sm-3 p-5">Physical Art<div className="cs-color-create">ordinary</div></button>
+                        <button className="btn bg-white col-8 col-md-3 me-sm-3 p-5" onClick={()=>navigate("/postsaleuniq") }>Unique</button>
+                        <button className="btn bg-white col-8 col-md-3 me-sm-3 p-5" onClick={()=>navigate("/postsaleordinary") }>Ordinary</button>
                     </div>
                 </div>
             </div>

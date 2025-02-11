@@ -18,12 +18,9 @@ import Share from "../pages/share";
 import Shipping from "../pages/shipping";
 import Profile from "../pages/Profile/Profile";
 import EditProfile from "../pages/Profile/Edit_Pro";
-<<<<<<< HEAD
 import Chat from "../pages/chat";
 import ChatWorld from "../pages/chatworld";
-=======
 import Cart from "../pages/cart";
->>>>>>> 7b1edc4a336e1e176891be87b9440919a65b3157
 export default function Router(){
     return (
         <BrowserRouter>
@@ -47,12 +44,9 @@ export default function Router(){
             <Route path="/shipping" element={<Shipping />}/>
             <Route path="/profile/:this_username" element={<Profile />}/>
             <Route path="/editprofile" element={<EditProfile />}/>
-<<<<<<< HEAD
             <Route path="/chat" element={<Chat />}/>
             <Route path="/chatworld" element={<ChatWorld />}/>
-=======
             <Route path="/cart" element={<Cart/>}/>
->>>>>>> 7b1edc4a336e1e176891be87b9440919a65b3157
           </Routes>
         </BrowserRouter>
       );

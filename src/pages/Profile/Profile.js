@@ -4,8 +4,9 @@ import Navbar from "../../component/navbar"
 import { useParams ,useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import User_Imformation from "./Component/User_Imformation";
-
+import User_Impormation from "../Profile/Component/User_Imformation";
+import "../../pagescss/Home.css"
+import Piccard from "./Component/Pic_Card";
 export default function Profile() {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("All Post"); //Use this Var for SORTING POST IN PROFILE
@@ -18,41 +19,27 @@ export default function Profile() {
         <>
             <Navbar/>
             <Searchbar/>
-            <User_Imformation this_username={this_username} username={username} />;
+            <User_Impormation this_username={this_username} username={username} />;
             <div>{username}</div>
             <div>{this_username}</div>
              {/* SORTING PART */}
              <ul className="nav nav-tabs justify-content-center">
-                {["All Post", "My Post", "My Purchase Art(s)", "My Selled Art(s)"] .map((tab) => (
-                <li className="nav-item" key={tab}>
-                    <a 
-                        className={`nav-link ${activeTab === tab ? "active" : ""}`} 
-                        href="#" 
-                        onClick={(e) => {
-                            e.preventDefault(); // Prevent page reload
-                            setActiveTab(tab);
-                        }}
-                    >
-                        {tab}
-                    </a>
-                </li>
-            ))}
-        </ul>
-
-            <div className="container mt-4">
-                <div className="row">
-                    <div className="col-md-4">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK5CqiQQDLVEVd_mEtfKpqF8MTZj0SqiEEWg&s" className="post-img" alt="Art 1" />
-                    </div>
-                    <div className="col-md-4 position-relative">
-                        <img src="fabric.jpg" className="post-img" alt="Art 2" />
-                        <span className="badge bg-dark position-absolute top-0 start-50 translate-middle">SOLD</span>
-                    </div>
-                    <div className="col-md-4">
-                        <img src="abstract.jpg" className="post-img" alt="Art 3" />
-                    </div>
-                </div>
-            </div>
+                    <li className="nav-item">
+                        <a className="nav-link active" href="#">All Post</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">My Post</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">My Purchase Art(s)</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">My Selled Art(s)</a>
+                    </li>
+            </ul>
+            <Piccard/>
+            
+            
         </>
     );
 }

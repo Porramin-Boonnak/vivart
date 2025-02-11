@@ -25,6 +25,7 @@ export default function Shipping() {
         navigate('/');
     };
     
+    
     return (
         <>
             <Navbar />

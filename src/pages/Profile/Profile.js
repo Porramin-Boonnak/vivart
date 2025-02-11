@@ -1,18 +1,36 @@
 import { FaBahtSign } from "react-icons/fa6";
 import Searchbar from "../../component/searchbar";
-import { useParams } from "react-router-dom";
+import Navbar from "../../component/navbar"
+import ChatModal from  "../../component/ChatModal";
+import { useParams ,useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import User_Impormation from "./Component/User_Imformation";
+import User_Impormation from "../Profile/Component/User_Imformation";
 import "../../pagescss/Home.css"
-import Navbar from "../../component/navbar"
+import Piccard from "./Component/Pic_Card";
+
+import { Button, Container } from "react-bootstrap";
+
 export default function Profile() {
-    const { this_user_id } = useParams();
+    const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState("All Post"); //Use this Var for SORTING POST IN PROFILE
+    const { this_username } = useParams();
+    const [modalOpen, setModalOpen] = useState(false);
+
+    //user_id ที่กำลัง login อยู่
+    const username = 1;
     return (
         <>
             <Navbar/>
             <Searchbar/>
-            <User_Impormation/>
+            <User_Impormation this_username={this_username} username={username} />;
+            <Button variant="primary" onClick={() => setModalOpen(true)}>
+        Open Chat
+      </Button>
+
+      <ChatModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+            <div>{username}</div>
+            <div>{this_username}</div>
              {/* SORTING PART */}
              <ul className="nav nav-tabs justify-content-center">
                     <li className="nav-item">
@@ -28,21 +46,9 @@ export default function Profile() {
                         <a className="nav-link" href="#">My Selled Art(s)</a>
                     </li>
             </ul>
-
-            <div className="container mt-4">
-                <div className="row">
-                    <div className="col-md-4">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK5CqiQQDLVEVd_mEtfKpqF8MTZj0SqiEEWg&s" className="post-img" alt="Art 1" />
-                    </div>
-                    <div className="col-md-4 position-relative">
-                        <img src="fabric.jpg" className="post-img" alt="Art 2" />
-                        <span className="badge bg-dark position-absolute top-0 start-50 translate-middle">SOLD</span>
-                    </div>
-                    <div className="col-md-4">
-                        <img src="abstract.jpg" className="post-img" alt="Art 3" />
-                    </div>
-                </div>
-            </div>
+            <Piccard/>
+            
+            
         </>
     );
 }

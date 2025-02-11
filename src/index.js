@@ -5,6 +5,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 //import App from './App';
 //import Login from './pages/login'
 //import Signup from './pages/signup';
+// import Cart from './pages/cart';
 
 import Router from '../src/pages/router';
 import reportWebVitals from './reportWebVitals';
@@ -12,7 +13,7 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Router />
+   <Router />
   </React.StrictMode>
 );
 

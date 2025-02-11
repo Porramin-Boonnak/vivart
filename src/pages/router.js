@@ -11,11 +11,19 @@ import Postnotsale from "../pages/postnotsale";
 import Postsaleordinary from "../pages/postsaleordinary";
 import Postsaleuniq from "../pages/postsaleuniq";
 import Bidsection from "../component/bidsection";
+import Bidblind from "../component/bidblind";
 import Reportmanagement from "../pages/reportmanagement";
 import Reportdetail from "../pages/reportdetail";
 import Share from "../pages/share";
 import Shipping from "../pages/shipping";
 import Profile from "../pages/Profile/Profile";
+import EditProfile from "../pages/Profile/Edit_Pro";
+<<<<<<< HEAD
+import Chat from "../pages/chat";
+import ChatWorld from "../pages/chatworld";
+=======
+import Cart from "../pages/cart";
+>>>>>>> 7b1edc4a336e1e176891be87b9440919a65b3157
 export default function Router(){
     return (
         <BrowserRouter>
@@ -32,11 +40,19 @@ export default function Router(){
             <Route path="/postsaleordinary" element={<Postsaleordinary/>}/>
             <Route path="/postsaleuniq" element={<Postsaleuniq/>}/>
             <Route path="/bidsection" element={<Bidsection />}/>
+            <Route path="/bidblind" element={<Bidblind />}/>
             <Route path="/reportmanagement" element={<Reportmanagement />}/>
             <Route path="/reportdetail" element={<Reportdetail />}/>
             <Route path="/share" element={<Share />}/>
             <Route path="/shipping" element={<Shipping />}/>
-            <Route path="/profile/:username" element={<Profile />}/>
+            <Route path="/profile/:this_username" element={<Profile />}/>
+            <Route path="/editprofile" element={<EditProfile />}/>
+<<<<<<< HEAD
+            <Route path="/chat" element={<Chat />}/>
+            <Route path="/chatworld" element={<ChatWorld />}/>
+=======
+            <Route path="/cart" element={<Cart/>}/>
+>>>>>>> 7b1edc4a336e1e176891be87b9440919a65b3157
           </Routes>
         </BrowserRouter>
       );

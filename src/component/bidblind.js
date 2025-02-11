@@ -5,6 +5,7 @@ import { FaBahtSign } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import '@fontsource/fredoka';
+import eyesOff from "../pictures/weui_eyes-off-filled.png";
 
 export default function BidSection() {
   const [currentTime, setCurrentTime] = useState("");
@@ -36,19 +37,15 @@ export default function BidSection() {
           </div>
           <div className="modal-body text-center">
             <p className="text-muted">Until {currentTime}</p>
-
-            <div className="list-group">
-              {[{ rank: 1, price: 9999 }, { rank: 2, price: 999 }, { rank: 3, price: 99 }].map((item, index) => (
-                <div key={index} className="list-group-item d-flex justify-content-between">
-                  <div className="rank-circle"></div>
-                  <span>Rank #{item.rank}</span>
-                  <span className="price fw-bold col-3 d-flex justify-content-between">{item.price} ฿</span>
-                </div>
-              ))}
-            </div>
           </div>
-
           <div className="yourbidbody bid-form-container text-center">
+          <div className="blind">
+            <img src={eyesOff} alt="Eyes Off Icon" width="50" />
+            <br></br>
+              <text className="blind">Another bid price was blinded</text>
+              <br></br>
+              <text>by the Artist.</text>
+            </div>
             <h6 className="yourbid mt-4 fw-bold">Your bid price</h6>
             <div className="input-group mb-3">
               <input type="number" className="form-control text-end" placeholder="Enter amount" />

@@ -17,6 +17,8 @@ import Share from "../pages/share";
 import Shipping from "../pages/shipping";
 import Profile from "../pages/Profile/Profile";
 import EditProfile from "../pages/Profile/Edit_Pro";
+import Chat from "../pages/chat";
+import ChatWorld from "../pages/chatworld";
 export default function Router(){
     return (
         <BrowserRouter>
@@ -39,6 +41,8 @@ export default function Router(){
             <Route path="/shipping" element={<Shipping />}/>
             <Route path="/profile/:this_username" element={<Profile />}/>
             <Route path="/editprofile" element={<EditProfile />}/>
+            <Route path="/chat" element={<Chat />}/>
+            <Route path="/chatworld" element={<ChatWorld />}/>
           </Routes>
         </BrowserRouter>
       );

@@ -45,7 +45,7 @@ export default function Createpost() {
 
             <div className="row">
                 <div className="d-flex justify-content-center align-items-center mb-5">
-                    <button className="fs-1 text-primary btn"> <IoReturnUpBackOutline className="fs-1 text-primary" />Back</button>
+                    <button className="fs-1 text-primary btn" onClick={()=>navigate("/") }> <IoReturnUpBackOutline className="fs-1 text-primary"  />Back</button>
                 </div>
             </div>
         </div>

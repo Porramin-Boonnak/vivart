@@ -7,7 +7,11 @@ import bird from "../pictures/bird.jpg";
 
 const initialCart = [
   { id: 1, name: "Light star", price: 7000, quantity: 1, image: bird },
-  { id: 2, name: "Reach star", price: 10000, quantity: 1, image: bird },
+  { id: 2, name: "Reach star", price: 10000, quantity: 1, image: bird},
+  {id: 3, name: "Reach star", price: 10000, quantity: 1, image: bird},
+  {id: 4, name: "Reach star", price: 10000, quantity: 1, image: bird},
+  {id: 5, name: "Reach star", price: 10000, quantity: 1, image: bird},
+  {id: 6, name: "Reach star", price: 10000, quantity: 1, image: bird}
 ];
 
 const Cart = () => {
@@ -30,24 +34,25 @@ const Cart = () => {
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <div className="container">
-      <div className="row">
+    <>
+
         <Navbar />
-      </div>
-      <div className="row">
         <Searchbar />
-      </div>
+
       <div className="cart-layout">
-        {/* Cart Section */}
+        {/* Cart Section */}   <h2>Your Cart</h2>      <h2 style={{}}>Order Summary</h2>
         <div className="cart-section-wrapper">
+
           <div className="cart-section">
+ 
             <div className="cart-header-wrapper">
-              <h2>Your Cart</h2>
+
               <div className="cart-header">
                 <div className="header-cell">Product(s)</div>
                 <div className="header-cell">Price</div>
                 <div className="header-cell">Quantity</div>
                 <div className="header-cell">Subtotal</div>
+
               </div>
             </div>
             {cart.map((item) => (
@@ -67,8 +72,11 @@ const Cart = () => {
                   </div>
                 </div>
                 <div className="cart-cell subtotal-remove-cell">
-                  <span className="subtotal">{(item.price * item.quantity).toLocaleString()} THB</span>
-                  <button onClick={() => removeItem(item.id)} className="remove-btn">X</button>
+                      <span className="subtotal">{(item.price * item.quantity).toLocaleString()} THB</span>
+                   
+                </div>
+                <div className="cart-cell subtotal-remove-cell">
+                    <button onClick={() => removeItem(item.id)} className="remove-btn" >X</button>
                 </div>
               </div>
             ))}
@@ -78,7 +86,7 @@ const Cart = () => {
         {/* Order Summary Section */}
         <div className="order-summary-wrapper">
           <div className="order-summary">
-            <h3>Order Summary</h3>
+
             {cart.map((item) => (
               <p key={item.id} className="summary-item">
                 {item.name} <span>{(item.price * item.quantity).toLocaleString()} THB</span>
@@ -87,11 +95,12 @@ const Cart = () => {
             <div className="total">
               <strong>Total:</strong> <span>{totalPrice.toLocaleString()} THB</span>
             </div>
-            <button className="checkout-btn">Check Out</button>
+        
           </div>
+          <button className="checkout-btn mt-3">Check Out</button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

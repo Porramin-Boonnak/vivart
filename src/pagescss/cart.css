@@ -1,9 +1,17 @@
 /* จัดกรอบพื้นขาวให้กับ Cart Section และ Order Summary */
-.cart-section-wrapper, .order-summary-wrapper {
+.cart-section-wrapper {
   background-color: #F9F9F9;
   border-radius: 12px;
   padding: 16px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary-wrapper
+{
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 }
 
 /* การจัดเลย์เอาต์ของ cart และ order summary */
@@ -11,7 +19,9 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 24px;
-  margin-top: 32px;
+  width: 80%;
+  margin: 32px auto 0; 
+  
 }
 
 /* ส่วนหัวของตารางใน Your Cart */
@@ -19,12 +29,12 @@
   background-color: #f5f5f5;
   border-radius: 8px;
   padding: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 16px
 }
 
 .cart-header {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
   font-weight: bold;
   color: #333;
 }
@@ -71,8 +81,9 @@
 /* Order Summary */
 .order-summary {
   padding: 16px;
-  background-color: #f5f5f5;
+  background-color: #f9f9f9;
   border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .total {

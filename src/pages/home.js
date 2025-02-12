@@ -114,7 +114,7 @@ export default function Home() {
             <div className="row">
                 <Navbar />
             </div>
-            <div className="row">
+            <div className="row bg-secondary">
                 <Searchbar />
             </div>
             <div className="row bg-secondary p-3">

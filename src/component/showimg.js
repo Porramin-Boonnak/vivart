@@ -1,7 +1,7 @@
 export default function Showimg({ items,like }) {
     return (<>
         <div id="testtest" class="carousel slide" data-bs-ride="carousel">
-            {like ? <i className="bi bi-heart-fill fs-2 text-primary c-card-icon"></i> : <></>}
+            {like&&like.length>0 ? <><div className="c-card-number">{like.length}</div><i className="bi bi-heart-fill fs-2 text-primary c-card-icon"></i></> : <></>}
             <div className="carousel-indicators">
                 {items[1] ? items.map((image, i) => (
                     <button

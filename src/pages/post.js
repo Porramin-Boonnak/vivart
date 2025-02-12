@@ -140,7 +140,7 @@ export default function Post() {
                 <div className="row bg-secondary p-3 ">
                     <div className="row ">
                         <div className="col-12 col-sm-7 bg-secondary p-0 mx-auto">
-                            {post && post.img && post.img.length ? (<Showimg items={post.img} />) : <div>Loading...</div>}
+                            {post && post.img && post.img.length ? (<Showimg items={post.img} like={post.like} />) : <div>Loading...</div>}
                             <div className="bg-primary-lighter p-2">
                                 <div className="d-flex align-items-center justify-content-center">
                                     {post && user&&(user.username) ? <Showicon post={post} /> : <i className="bi bi-heart me-2"></i>}
@@ -195,7 +195,7 @@ export default function Post() {
                                 #{post.tag}
                             </div>
                             {post.typepost !== "normal" ?
-                                <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign /></h5>
+                                <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                     <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white">Add to cart</button></>
                                 : <></>
                             }

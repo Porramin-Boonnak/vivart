@@ -21,6 +21,7 @@ import EditProfile from "../pages/Profile/Edit_Pro";
 import Chat from "../pages/chat";
 import ChatWorld from "../pages/chatworld";
 import Cart from "../pages/cart";
+import Filltracking from "../pages/filltracking";
 export default function Router(){
     return (
         <BrowserRouter>
@@ -47,6 +48,7 @@ export default function Router(){
             <Route path="/chat" element={<Chat />}/>
             <Route path="/chatworld" element={<ChatWorld />}/>
             <Route path="/cart" element={<Cart/>}/>
+            <Route path="/filltracking" element={<Filltracking />}/>
           </Routes>
         </BrowserRouter>
       );

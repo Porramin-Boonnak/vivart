@@ -74,7 +74,7 @@ export default function Post() {
     };
     const like = (id) => {
         console.log("like")
-        axios.put(API_URL + "/update/like/" + id, user)
+        axios.put(API_URL + "/update/like/" + id, {username:user.username})
             .then(response => {
                 console.log(response.data)
             })
@@ -85,7 +85,7 @@ export default function Post() {
         axios.request({
             method: 'DELETE',
             url: `${API_URL}/delete/like/${id}`,
-            data: user,
+            data: {username:user.username},
             headers: {
                 "Content-Type": "application/json"
             }
@@ -157,7 +157,7 @@ export default function Post() {
                             <div className="p-4 border border-dark">
 
                                 <div className="m-2">
-                                    Size {"         150 x 45 cm"}
+                                    Size <div className="d-inline ms-3">{post.size}</div>
                                 </div>
                                 <div className="m-2">
                                     Rarity {"           -"}

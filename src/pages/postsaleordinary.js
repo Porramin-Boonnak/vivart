@@ -48,7 +48,7 @@ export default function Postsaleordinary() {
             name : Title.current.value,
             tag : Tag.current.value,
             type : type,
-            typepost : "normal",
+            typepost : "ordinary",
             size : size,
             description : Description.current.value,
             img:base64List,

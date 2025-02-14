@@ -25,7 +25,7 @@ export default function Home() {
     }
     const like = (id) => {
         console.log("like")
-        axios.put(API_URL + "/update/like/" + id, user)
+        axios.put(API_URL + "/update/like/" + id, {username:user.username})
             .then(response => {console.log(response.data) 
                
             })
@@ -36,7 +36,7 @@ export default function Home() {
     axios.request({
         method: 'DELETE',
         url: `${API_URL}/delete/like/${id}`,
-        data: user,  // ส่ง user เป็น JSON body
+        data: {username:user.username},  // ส่ง user เป็น JSON body
         headers: {
             "Content-Type": "application/json"
         }

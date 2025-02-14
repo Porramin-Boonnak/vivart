@@ -23,6 +23,8 @@ import ChatWorld from "../pages/chatworld";
 import Cart from "../pages/cart";
 import Filltracking from "../pages/filltracking";
 import Notification from "../pages/notification";
+import Draw from "../component/draw";
+import Blindart from "../pages/blindart";
 export default function Router(){
     return (
         <BrowserRouter>
@@ -51,6 +53,8 @@ export default function Router(){
             <Route path="/cart" element={<Cart/>}/>
             <Route path="/filltracking" element={<Filltracking />}/>
             <Route path="/notification" element={<Notification/>}/>
+            <Route path="/draw" element={<Draw/>}/>
+            <Route path="/blindart" element={<Blindart/>}/>
           </Routes>
         </BrowserRouter>
       );

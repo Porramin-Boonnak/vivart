@@ -56,7 +56,8 @@ export default function Postsaleuniq() {
             name : Title.current.value,
             tag : Tag.current.value,
             type : type,
-            typepost : selltype,
+            typepost : "uniq",
+            selltype : selltype,
             size : size,
             BlindP : isCheckedBlindP,
             BlindA : isCheckedBlindA,
@@ -64,13 +65,18 @@ export default function Postsaleuniq() {
             img:base64List,
             price : Price.current.value
         }
-        console.log(data)
+        if(!isCheckedBlindA){
         axios.post(API_URL + '/post', data).then(response => {
             console.log(response.data)
             navigate('/');
         }).catch(error => {
             alert("false ");
         });
+        }
+        else
+        {
+            navigate("/blindart", { state: { Data: data } });
+        }
     }
     return (<>
         <div className="container-fluid bg-secondary vh-100 wh-100">

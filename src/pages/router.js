@@ -25,6 +25,10 @@ import Filltracking from "../pages/filltracking";
 import Notification from "../pages/notification";
 import Draw from "../component/draw";
 import Blindart from "../pages/blindart";
+import Product from "./product";
+import Selling from "./selling";
+import Choose from "./choose";
+import Salehistory from "./salehistory";
 export default function Router(){
     return (
         <BrowserRouter>
@@ -55,6 +59,10 @@ export default function Router(){
             <Route path="/notification" element={<Notification/>}/>
             <Route path="/draw" element={<Draw/>}/>
             <Route path="/blindart" element={<Blindart/>}/>
+            <Route path="/product" element={<Product/>}/>
+            <Route path="/selling" element={<Selling/>}/>
+            <Route path="/choose" element={<Choose/>}/>
+            <Route path="/salehistory" element={<Salehistory/>}/>
           </Routes>
         </BrowserRouter>
       );

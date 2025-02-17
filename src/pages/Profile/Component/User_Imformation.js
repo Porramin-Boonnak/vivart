@@ -26,24 +26,36 @@ export default function User_Impormation({this_username , username }) {
                 <div className="col-md-9">
 
                     {/* USER NAME */}
-                    <h2>Khunpan J.</h2>
+                    <h2>{this_username.username}</h2>
                     
                     {/* BIO */}
-                    <p>I am an artist of Thailand. 
+                    <p>{this_username.user_bio} 
                         
                     
                         {/* BUTTON EDIT */}
-                        {this_username == username ? (
-                        <Button  variant="outline-dark" onClick={() => navigate("/editprofile")} style={{ cursor: "pointer", color: "light" }}>
-                        Edit
-                        </Button>
-                    ) :(<></>)}
-                                    
+                    
                     
                     </p>
 
                     {/* POST | FOLLOW */}
                     <p>9 posts | 999 followers | 99 following</p>
+                    {this_username.username === username ? (
+                 
+                    <Button  variant="outline-dark" onClick={() => navigate("/editprofile")} style={{ cursor: "pointer", color: "light" }}>
+                        Edit
+                    </Button>
+                  
+                       
+                    ) :(
+                        <div style={{ flexDirection: "row", justifyContent: "start", display: "flex", gap: "5px" }}>
+                     <Button variant="primary" onClick={() => navigate("/editprofile")} style={{ cursor: "pointer", color: "white" }}>
+                         Follow
+                     </Button>
+                     <Button variant="secondary" onClick={() => navigate("/editprofile")} style={{ cursor: "pointer", color: "light" }}>
+                         Message
+                     </Button>
+                 </div>
+                   )}
                 </div>
             </div>
         </div>

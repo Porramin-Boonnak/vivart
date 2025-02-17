@@ -44,7 +44,7 @@ export default function Navbar() {
                             <button className="btn btn-outline-primary border-0 w-100 w-lg-auto " onClick={() => navigate("/")}>Message</button>
                             <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/notification")}>Notification</button>
                             <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/createpost")}>Create</button>
-                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/Profile/1")}>Profile</button>
+                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/Profile/"+user)}>Profile</button>
                             <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/cart")}>Cart</button>
                             <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/shipping")}>Ship</button>
                             <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/")}>Sell</button>

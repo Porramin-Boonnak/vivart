@@ -8,13 +8,14 @@ const EditProfile = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
+  const API_URL = "http://127.0.0.1:5000"
 
   const handleUpdate = async () => {
     try {
       setUsername("test1"); // Update username in state
       console.log("Updated username:", "test1"); // Log the value you're setting directly
       
-      const response = await axios.put("http://127.0.0.1:5000/editprofile", {
+      const response = await axios.put(API_URL+"/editprofile", {
         username: "test1",
         user_bio: bio,
         profile_pic: profileImage,

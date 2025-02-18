@@ -6,12 +6,14 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Navbar from "../component/navbar"
 import Showimg from "../component/showimg"
+import { useNavigate } from 'react-router-dom';
 export default function Post() {
     const { postid } = useParams();
     const [post, setpost] = useState(null);
     const [user, setuser] = useState();
     const hasFetched = useRef(false);
     const API_URL = process.env.REACT_APP_API_URL;
+    const navigate = useNavigate();
     useEffect(() => {
         if (!hasFetched.current) {
             hasFetched.current = true;
@@ -27,6 +29,32 @@ export default function Post() {
             console.log(error);
         });
     }, [postid]);
+
+    const addToCart = () => {
+        if(user){
+        
+        axios.post(`${API_URL}/cart`, {
+            _id_post: post._id,
+            _id_customer: user._id,
+            name: post.name,
+            price: post.price,
+            quantity: 1,
+            img: post.img
+        })
+        .then(response => {
+            console.log(response.data);
+            navigate('/cart');
+        })
+        .catch(error => {
+            console.error("Error fetching cart data:", error)
+            }
+            );
+        }else{
+            alert("Please login");
+            navigate('/signin');
+        }
+        };
+        
     const examplecomment = [
         { name: "Naruto", comment: "So interesting.", img: "https://www.beartai.com/wp-content/uploads/2024/02/Naruto-1600x840.jpg" },
         { name: "Sasuke", comment: "Beautiful as hellll!", img: "https://pm1.aminoapps.com/6493/8e7caf892a720f98952caf5f589e2c265458a291_hq.jpg" },
@@ -94,7 +122,7 @@ export default function Post() {
             .catch(error => console.error(error));
     }
 
-    const Showicon = ({post }) => {
+    const Showicon = ({ post }) => {
         const [likedItems, setLikedItems] = useState(null);
 
         useEffect(() => {
@@ -106,7 +134,7 @@ export default function Post() {
 
         const toggle = () => {
             if (likedItems) {
-                unlike(post._id);  
+                unlike(post._id);
             } else {
                 like(post._id);
             }
@@ -125,7 +153,7 @@ export default function Post() {
     };
     const handleCopy = async () => {
         try {
-          await navigator.clipboard.writeText(`http://localhost:3000/post/${postid}`);
+          await navigator.clipboard.writeText(`${API_URL}/post/${postid}`);
         } catch (err) {
           console.error("Failed to copy: ", err);
         }
@@ -196,7 +224,7 @@ export default function Post() {
                             </div>
                             {post.typepost !== "normal" ?
                                 <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
-                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white">Add to cart</button></>
+                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
                                 : <></>
                             }
                             <div className="p-1 mt-4 text-center cs-bg-comment mb-0">

@@ -1,36 +1,73 @@
-import React, { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Searchbar from "../component/searchbar";
 import Navbar from "../component/navbar";
 import "../pagescss/cart.css";
 import "@fontsource/fredoka";
 import bird from "../pictures/bird.jpg";
-
-const initialCart = [
-  { id: 1, name: "Light star", price: 7000, quantity: 1, image: bird },
-  { id: 2, name: "Reach star", price: 10000, quantity: 1, image: bird},
-  {id: 3, name: "Reach star", price: 10000, quantity: 1, image: bird},
-  {id: 4, name: "Reach star", price: 10000, quantity: 1, image: bird},
-  {id: 5, name: "Reach star", price: 10000, quantity: 1, image: bird},
-  {id: 6, name: "Reach star", price: 10000, quantity: 1, image: bird}
-];
+import axios from "axios";
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-  const [cart, setCart] = useState(initialCart);
+  const API_URL = process.env.REACT_APP_API_URL;
+  const [user, setUser] = useState(null);
+  const [cart, setCart] = useState([]); // เริ่มต้นเป็น [] แล้วค่อยอัปเดต
+  const hasFetched = useRef(false);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    axios.post(API_URL + '/status', { token: localStorage.getItem('token') })
+      .then(response => {
+        console.log(response.data);
+        setUser(response.data);
+      })
+      .catch(error => {
+        alert("Please login");
+        navigate('/signin');
+      });
+  }, [API_URL, navigate]);
+  
+  useEffect(() => {
+    if (user && user._id && !hasFetched.current) {
+      hasFetched.current = true;
+      axios.get(`${API_URL}/cart/${user._id}`)
+        .then(response => {
+          const newCart = response.data.map(item => ({
+            id: item._id_post,
+            name: item.name,
+            price: Number(item.price),
+            quantity: item.quantity,
+            image: item.img?.[0] || bird // Ensure 'bird' is defined and imported
+          }));
+          setCart(newCart);
+        })
+        .catch(error => {
+          console.error("Error fetching cart data:", error);
+          // Optionally, you can set an error state here to display a message to the user
+        });
+    }
+  }, [user]);
   const updateQuantity = (id, change) => {
+    const newQuantity = Math.max(1, cart.find(item => item.id === id).quantity + change);
     setCart((prevCart) =>
       prevCart.map((item) =>
         item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
+          ? { ...item, quantity: newQuantity }
           : item
       )
     );
+    axios.put(`${API_URL}/cart/${user._id}/${id}`, { quantity: newQuantity })
+      .catch(error => console.error("Error updating quantity:", error));
   };
 
   const removeItem = (id) => {
     setCart(cart.filter((item) => item.id !== id));
-  };
-
+    axios.delete(`${API_URL}/cart/${user._id}/${id}`)
+      .then(response => {
+          console.log(response.data);
+      })
+      .catch(error => console.error("Error removing item:", error));
+};
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (

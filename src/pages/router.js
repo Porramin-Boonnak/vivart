@@ -29,7 +29,7 @@ import Product from "./product";
 import Selling from "./selling";
 import Choose from "./choose";
 import Salehistory from "./salehistory";
-import ForSeller from "./Forseller";
+import ForSeller from "../pages/Forseller";
 
 export default function Router(){
     return (

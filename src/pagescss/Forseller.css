@@ -1,0 +1,181 @@
+.body {
+    background-color: #EDDCD9;
+    width: 100%;
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    color: #060606;
+}
+
+h3 {
+    color: #060606;
+    font-weight: bold;
+}
+
+p{
+    color: #060606;
+}
+
+.container {
+    width: 100%; 
+    padding: 20px;
+    text-align: left;
+}
+
+.title {
+    font-size: 25px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.highlight {
+    color: #ff4081;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+.highlight2 {
+    color: #ff4081;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.buttons button {
+    background-color: #264143;
+    color: #F9F9F9;
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    background: #F9F9F9;
+    padding: 15px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.pie-gender-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.chart-container, .customer-info, .customer-age {
+    margin-top: 30px;
+}
+
+.pie-chart, .bar-chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.pie-chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    height: 300px; /* เพิ่มความสูงให้แน่นอน */
+    width: 100%;
+}
+
+
+.age {
+    font-size: 2rem;
+    color: #ff4081;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px; 
+}
+
+.average-age {
+    font-size: 25px;
+    text-align: center;
+}
+
+.pieHighlight1 {
+    color: #264143;
+}
+
+.pieHighlight2 {
+    color: #DE5499;
+}
+
+.pieHighlight3 {
+    color: #E99F4C;
+}
+
+.product-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ff4081; /* สีชมพู */
+    text-align: left;
+}
+
+.y-axis-label {
+    font-size: 18px;
+    color: #264143;
+    text-align: left;
+    margin-top: -10px;
+}
+
+.x-axis-label {
+    font-size: 18px;
+    color: #264143;
+    text-align: right;
+    display: flex;
+    flex-direction: column; 
+    margin-right: 10px;
+}
+
+.year {
+    font-size: 20px;
+    display: block; 
+    text-align: right; 
+    color: #264143;
+    margin-top: -20px;
+    margin-right: 10px;
+}
+
+
+
+.product-sales{
+    background-color: #F9F9F9;
+    margin-top: 20px;
+    padding: 10px;
+}

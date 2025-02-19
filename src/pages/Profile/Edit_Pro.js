@@ -6,23 +6,44 @@ import axios from "axios";
 const EditProfile = () => {
   const [bio, setBio] = useState("");
   const [profileImage, setProfileImage] = useState(null);
-  const [username, setUsername] = useState("");
+  const [loginUser, setLoginUser] = useState(() => {
+    const storedUser = localStorage.getItem('user_login');
+    return storedUser ? JSON.parse(storedUser) : {}; // Parse if exists, else set empty object
+  });
+
+  const [user_info , setUserInfo] = useState({})
+  
   const [message, setMessage] = useState("");
-  const API_URL = "http://127.0.0.1:5000"
+  const API_URL = process.env.REACT_APP_API_URL;
+
+
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/profile/info/${loginUser}`);
+      setUserInfo(response.data);
+      setProfileImage(response.data.img);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
+  useEffect(() => {
+    
+    if (loginUser) {
+      fetchUserInfo();
+    }
+  }, [loginUser]); // Only run when `loginUser` changes
+  
 
   const handleUpdate = async () => {
     try {
-      setUsername("test1"); // Update username in state
-      console.log("Updated username:", "test1"); // Log the value you're setting directly
-      
       const response = await axios.put(API_URL+"/editprofile", {
-        username: "test1",
+        username: loginUser,
         user_bio: bio,
         profile_pic: profileImage,
       });
   
       if (response.status === 200) {
-        setMessage("Profile updated successfully!");
+        window.location.reload(true);
       } else {
         setMessage(response.data.error || "Failed to update profile.");
       }
@@ -61,7 +82,7 @@ const EditProfile = () => {
       <Card className="p-4 mt-3 text-center " style={{ width: "80%" }}>
         <label htmlFor="profile-upload" style={{ cursor: "pointer" }}>
           <img
-            src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK5CqiQQDLVEVd_mEtfKpqF8MTZj0SqiEEWg&s"}
+            src={profileImage}
             alt="Profile"
             className="rounded-circle"
             width={100}
@@ -83,7 +104,7 @@ const EditProfile = () => {
         <Form.Control
           as="textarea"
           rows={3}
-          placeholder="Add text..."
+          placeholder= {user_info.user_bio}
           value={bio}
           onChange={handleBioChange}
         />

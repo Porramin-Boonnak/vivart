@@ -16,6 +16,7 @@ export default function Home() {
             .catch(error => console.error("There was an error!", error));
         axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
             setuser(response.data);
+            localStorage.setItem('user_login', JSON.stringify(response.data.username));
         }).catch(error => {
             console.log(error)
         });

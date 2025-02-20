@@ -15,7 +15,7 @@ export default function User_Impormation({this_username , username }) {
         {/* Image Column */}
                 <div className="col-md-3 text-center">
                     <img 
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK5CqiQQDLVEVd_mEtfKpqF8MTZj0SqiEEWg&s" 
+                        src={this_username.img}
                         alt="Profile" 
                         className="profile-img rounded-circle img-fluid" 
                         style={{ width: "150px", height: "150px", objectFit: "cover" }}

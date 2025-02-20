@@ -5,9 +5,13 @@ import { useEffect, useState } from "react";
 import  {Button}from "react-bootstrap";
 import axios from "axios";
 
-export default function User_Impormation({this_username , username }) {
+export default function User_Impormation({this_username }) {
     const navigate = useNavigate();
-    
+    var storedUser;
+    const [loginUser, setLoginUser] = useState(() => {
+        storedUser = localStorage.getItem('user_login');
+        return storedUser ? JSON.parse(storedUser) : ""; // Return empty string if no data
+    });    
     return(
         <>
          <div className="container mt-5">
@@ -39,7 +43,7 @@ export default function User_Impormation({this_username , username }) {
 
                     {/* POST | FOLLOW */}
                     <p>9 posts | 999 followers | 99 following</p>
-                    {this_username.username === username ? (
+                    {this_username.username === loginUser ? (
                  
                     <Button  variant="outline-dark" onClick={() => navigate("/editprofile")} style={{ cursor: "pointer", color: "light" }}>
                         Edit

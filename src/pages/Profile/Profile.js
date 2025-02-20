@@ -66,7 +66,7 @@ export default function Profile() {
         fetchUserInfo();
         fetchUserPost();
         fetchUserFollow();
-    }, [this_username , userInfo]);
+    }, [this_username,rawUserPost]);
 
     return (
         <>
@@ -74,14 +74,14 @@ export default function Profile() {
             <Searchbar />
 
             {/* User Information Section */}
-            <User_Impormation this_username={userInfo} username={loginUser} />
+            <User_Impormation this_username={userInfo} />
 
             {/* Chat Modal Button */}
             <Button variant="primary" onClick={() => setModalOpen(true)}>Open Chat</Button>
             <ChatModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
 
             {/* Debugging Display */}
-            <div>Login user == {loginUser}</div>
+            {/* <div>Login user == {loginUser}</div> */}
             <div>This profile user == {this_username}</div>
             <div>{JSON.stringify(userInfo, null, 2)}</div>
 

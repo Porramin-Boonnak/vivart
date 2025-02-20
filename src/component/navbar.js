@@ -62,7 +62,7 @@ export default function Navbar() {
                                 </button>
                                 <ul class="dropdown-menu ms-4" aria-labelledby="dropdownMenuButton1">
                                     <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => navigate("/Profile/"+user.username)}>Profile<i class="bi bi-person-circle"></i></a></li>
-                                    <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => {localStorage.clear()}}>Logout<i class="bi bi-box-arrow-right"></i></a></li>
+                                    <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => {localStorage.clear(); window.location.reload(true);}}>Logout<i class="bi bi-box-arrow-right"></i></a></li>
                                 </ul>
                             </div>
                             :

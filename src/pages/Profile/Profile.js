@@ -5,8 +5,12 @@ import ChatModal from "../../component/ChatModal";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+
+import { resizeBase64Img } from "../../component/resize_img";
 import User_Impormation from "../Profile/Component/User_Imformation";
 import Piccard from "./Component/Pic_Card";
+
+
 import { Button, Container } from "react-bootstrap";
 
 export default function Profile() {
@@ -17,16 +21,11 @@ export default function Profile() {
     const [activeTab, setActiveTab] = useState("All Post");
     const [modalOpen, setModalOpen] = useState(false);
     const [follow, setFollow] = useState([]);
+    const [loginFollow, setLoginFollow] = useState([]);
     const [userInfo, setUserInfo] = useState({});
     const [rawUserPost, setUserPost] = useState([]);
     const [showData, setShowData] = useState([]);
-    const [loginUser, setLoginUser] = useState(() => {
-        const storedUser = localStorage.getItem('user_login');
-        return storedUser ? JSON.parse(storedUser) : {}; // Parse if exists, else set empty object
-      });
       
-
- 
     const tabs = [
         { name: "All Post", action: () => setShowData(rawUserPost) },
         { name: "My Art(s)", action: () => setShowData(rawUserPost.filter(post => post.artist === this_username)) },
@@ -34,39 +33,35 @@ export default function Profile() {
     ];
 
     useEffect(() => {
-        const fetchUserInfo = async () => {
+        const controller = new AbortController(); // Create an abort controller
+        const { signal } = controller; // Extract signal
+    
+        const fetchUserData = async () => {
             try {
-                const response = await axios.get(`${API_URL}/profile/info/${this_username}`);
-                setUserInfo(response.data);
+                const [userInfoRes, userPostRes, userFollowRes] = await Promise.all([
+                    axios.get(`${API_URL}/profile/info/${this_username}`, { signal }),
+                    axios.get(`${API_URL}/profile/posts/${this_username}`, { signal }),
+                    axios.get(`${API_URL}/profile/follow/${this_username}`, { signal }),
+                ]);
+                setUserInfo(userInfoRes.data);
+                setUserPost(userPostRes.data);
+                setShowData(userPostRes.data);
+                setFollow(userFollowRes.data);
             } catch (error) {
-                console.error("Error fetching user info:", error);
+                if (axios.isCancel(error)) {
+                    console.log("Request canceled:", error.message);
+                } else {
+                    console.error("Error fetching user data:", error);
+                }
             }
         };
-
-        const fetchUserPost = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/profile/posts/${this_username}`);
-                setUserPost(response.data);
-                setShowData(response.data);
-            } catch (error) {
-                console.error("Error fetching user posts:", error);
-            }
+    
+        fetchUserData();
+    
+        return () => {
+            controller.abort(); // Cleanup: cancel any pending requests on unmount
         };
-
-        const fetchUserFollow = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/profile/follow/${this_username}`);
-                setFollow(response.data);
-            } catch (error) {
-                console.error("Error fetching user followers:", error);
-            }
-        };
-
-      
-        fetchUserInfo();
-        fetchUserPost();
-        fetchUserFollow();
-    }, [this_username , userInfo]);
+    }, [this_username]);
 
     return (
         <>
@@ -74,17 +69,17 @@ export default function Profile() {
             <Searchbar />
 
             {/* User Information Section */}
-            <User_Impormation this_username={userInfo} username={loginUser} />
+            <User_Impormation this_username={userInfo} follow = {follow} post_qty={rawUserPost?.length ?? 0}/>
 
             {/* Chat Modal Button */}
             <Button variant="primary" onClick={() => setModalOpen(true)}>Open Chat</Button>
             <ChatModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
 
             {/* Debugging Display */}
-            <div>Login user == {loginUser}</div>
+            {/* <div>Login user == {loginUser}</div> */}
             <div>This profile user == {this_username}</div>
-            <div>{JSON.stringify(userInfo, null, 2)}</div>
-
+            {/* <div>{JSON.stringify(userInfo, null, 2)}</div> */}
+            <div>{JSON.stringify(follow, null, 2)}</div>
             {/* Sorting Tabs */}
         
             <ul className="nav nav-tabs justify-content-center">

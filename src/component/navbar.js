@@ -41,14 +41,14 @@ export default function Navbar() {
                     {/* เมนูใน Navbar */}
                     <div className="collapse navbar-collapse col-2 col-lg-8 align-" id="navbarNav">
                         <div className="navbar-nav ms-4 w-auto w-lg-75 gap-1 gap-xl-2 col-12 col-lg-7 col-xl-9">
-                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto " onClick={() => navigate("/")}>Message</button>
+                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto " onClick={() => navigate("/chat")}>Message</button>
                             <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => {if (!user || !user.username) {alert("Please Login") ; navigate("/signin"); } else {navigate("/notification")}}}>Notification</button>
                             <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => {if (!user || !user.username) {alert("Please Login") ; navigate("/signin"); } else {navigate("/createpost")}}}>Create</button>
                             <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => { if (!user || !user.username) {alert("Please Login") ; navigate("/signin"); } else {navigate("/profile/" + user.username); }}}>Profile</button>
 
                             <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/cart")}>Cart</button>
                             <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/shipping")}>Ship</button>
-                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/")}>Sell</button>
+                            <button className="btn btn-outline-primary border-0 w-100 w-lg-auto" onClick={() => navigate("/forseller")}>Sell</button>
                         </div>
 
                         {/* ปุ่ม Sign in / Sign up */}

@@ -24,50 +24,110 @@ export default function Filltracking() {
             console.log(error)
         });
     }, []);
+    
     const Saleitem = () => {
-        const [isEdit, setIsEdit] = useState(false);
-
-        const btnClick = () => {
-            setIsEdit(!isEdit);
+        const [isEdit, setIsEdit] = useState(null);
+        const [trackingNumbers, setTrackingNumbers] = useState({});
+        const [submittedTracking, setSubmittedTracking] = useState({});
+    
+        const API_URL = process.env.REACT_APP_API_URL;
+    
+        // Retrieve tracking numbers from localStorage on component mount
+        useEffect(() => {
+            const storedTrackingNumbers = JSON.parse(localStorage.getItem('trackingNumbers')) || {};
+            setSubmittedTracking(storedTrackingNumbers);
+        }, []);
+    
+        const handleInputChange = (event, itemId) => {
+            setTrackingNumbers(prevState => ({
+                ...prevState,
+                [itemId]: event.target.value
+            }));
         };
-
-
-        return (<>{post && user && user.username ? post.filter(item => (item.artist === user.username)).map(item => (
-            <div className="d-flex justify-content-between mb-5">
-                <div className="d-flex justify-content-between">
-                    <div className="ms-5 ">
-                        <img src={item.img} style={{ maxWidth: "200px", maxHeight: "200px" }} alt="item image" />
-                    </div>
-                    <div>
-                        <div className="ms-3 fw-bold fs-5">{item.name}</div>
-                        <div className="ms-3">address</div>
-                    </div>
-                </div>
-                <div className="me-5">
-                    <div className="">
-                        {isEdit ?
-                        <>
-                        <div className="d-flex justify-content-end">
-                            <input type="text" />
-                            <div><button className="btn ms-2 cs-btn-Postnotsale2">Confirm edit</button></div>
+    
+        const handleSubmit = async (itemId) => {
+            if (!trackingNumbers[itemId]) return alert("กรุณากรอกหมายเลขติดตาม");
+    
+            console.log("🔍 Sending Data:", {
+                username: user?.username,
+                tracking_number: trackingNumbers[itemId]
+            });
+    
+            try {
+                const response = await axios.post(`http://127.0.0.1:5000/submit`, {
+                    username: user?.username,
+                    tracking_number: trackingNumbers[itemId]
+                });
+                console.log("✅ Response:", response.data);
+                alert("บันทึกสำเร็จ: " + response.data.message);
+                setIsEdit(null);
+    
+                // Update submitted tracking numbers and save them to localStorage
+                const updatedTrackingNumbers = {
+                    ...submittedTracking,
+                    [itemId]: trackingNumbers[itemId]
+                };
+                setSubmittedTracking(updatedTrackingNumbers);
+                localStorage.setItem('trackingNumbers', JSON.stringify(updatedTrackingNumbers));  // Store in localStorage
+            } catch (error) {
+                console.error("🚨 API Error:", error.response?.data || error.message);
+                alert("ไม่สามารถบันทึกหมายเลขติดตามได้");
+            }
+        };
+    
+        return (
+            <>
+                {post && user && user.username ? (
+                    post.filter(item => item.artist === user.username).map(item => (
+                        <div className="d-flex justify-content-between mb-5" key={item._id}>
+                            <div className="d-flex justify-content-between">
+                                <div className="ms-5 ">
+                                    <img src={item.img} style={{ maxWidth: "200px", maxHeight: "200px" }} alt="item image" />
+                                </div>
+                                <div>
+                                    <div className="ms-3 fw-bold fs-5">{item.name}</div>
+                                    <div className="ms-3">address</div>
+                                </div>
+                            </div>
+                            <div className="me-5">
+                                <div>
+                                    <div className="d-flex justify-content-end">
+                                        {isEdit === item._id ? (  // Show input field when in "edit" mode
+                                            <>
+                                                <input
+                                                    type="text"
+                                                    value={trackingNumbers[item._id] || (submittedTracking[item._id] || "")}
+                                                    onChange={(e) => handleInputChange(e, item._id)}
+                                                />
+                                                <button className="btn btn-primary ms-2" onClick={() => handleSubmit(item._id)}>
+                                                    Submit
+                                                </button>
+                                            </>
+                                        ) : (
+                                            submittedTracking[item._id] ? (  // Show label if tracking number is already submitted
+                                                <label className="fs-6">{submittedTracking[item._id]}</label>
+                                            ) : (
+                                                <label className="fs-6">No tracking number</label>  // Fallback message if not submitted
+                                            )
+                                        )}
+                                    </div>
+                                    <div className="d-flex justify-content-end">
+                                        <button className="btn ms-2 cs-color mt-3" onClick={() => setIsEdit(isEdit === item._id ? null : item._id)}>
+                                            {isEdit === item._id ? 'Cancel' : 'Edit'}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        </>
-                        :
-                        <>
-                        <div className="d-flex justify-content-end">
-                            <input type="text" />
-                            <div><button className="btn btn-primary ms-2">Submit</button></div>
-                        </div>
-                        <div className="d-flex justify-content-end">
-                            <div><button className="btn ms-2 cs-color mt-3" onClick={btnClick}>Edit</button></div>
-
-                        </div>
-                        </>
-                        }
-                    </div>
-                </div>
-            </div>)) : <>Loading...</>}</>)
-    }
+                    ))
+                ) : (
+                    <>Loading...</>
+                )}
+            </>
+        );
+    };
+        
+    
     return (
         <div className="container-fluid p-0 bg-secondary vh-100 w-100">
             <div className="row">

@@ -25,10 +25,9 @@ export default function ForgetPass() {
     };
 
     return (
+        <>
+        <Navbar />
         <div className="container-fluid bg-secondary d-flex flex-column justify-content-start align-items-center vh-100 w-100 text-center">
-            <div className="row w-100">
-                    <Navbar />
-                  </div>
             <h1 className="my-5 fw-light">Forgot password</h1>
 
             <div className="form-floating my-4 col-md-6 col-lg-4">
@@ -101,5 +100,6 @@ export default function ForgetPass() {
                 </a>
             </p>
         </div>
+        </>
     );
 }

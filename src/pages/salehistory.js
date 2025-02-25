@@ -1,8 +1,15 @@
 import Navbar from "../component/navbar";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import TuuImage from "../pictures/Tuu.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function Salehistory() {
+    const navigate = useNavigate();
+
+    const forsellerclick= () =>{
+        navigate("/forseller");
+    };
+
     const products = [
         { id: 1, name: "Light star", image: TuuImage, stock: 50, price: 7000, buyer: "Jamal" },
         { id: 2, name: "Reach star", image: TuuImage, stock: 35, price: 10000, buyer: "Winter" },
@@ -66,7 +73,7 @@ export default function Salehistory() {
 
             <div className="row bg-secondary py-4">
                 <div className="d-flex justify-content-center">
-                    <button className="fs-1 text-primary btn">
+                    <button className="fs-1 text-primary btn" onClick={forsellerclick}>
                         <IoReturnUpBackOutline className="fs-1 text-primary" /> Back
                     </button>
                 </div>

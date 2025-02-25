@@ -4,7 +4,26 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../component/navbar";
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
 
+
 export default function ForSeller() {
+    const navigate = useNavigate();
+
+    const filltrackclick= () =>{
+        navigate("/filltracking");
+    };
+
+    const productclick= () =>{
+        navigate("/product");
+    };
+
+    const sellingclick= () =>{
+        navigate("/selling");
+    };
+
+    const salehistoryclick= () =>{
+        navigate("/salehistory");
+    };
+
     // ข้อมูล Pie Chart
     const pieData = [
         { name: "Man", value: 270, color: "#264143" },
@@ -36,6 +55,7 @@ export default function ForSeller() {
     ];
 
     return (
+        
         <div className="body">
             <Navbar />
             <div className="container">
@@ -43,10 +63,10 @@ export default function ForSeller() {
                 <div className="header">
                     <h1 className="title"><span className="highlight">Seller</span> Information</h1>
                     <div className="buttons">
-                        <button>Product</button>
-                        <button>Selling</button>
-                        <button>Sales history</button>
-                        <button>Fill Tracking Number</button>
+                        <button onClick={productclick}>Product</button>
+                        <button onClick={sellingclick}>Selling</button>
+                        <button onClick={salehistoryclick}>Sales history</button>
+                        <button onClick={filltrackclick}>Fill Tracking Number</button>
                     </div>
                 </div>
 

@@ -1,8 +1,16 @@
 import Navbar from "../component/navbar";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import TuuImage from "../pictures/Tuu.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function Product() {
+
+    const navigate = useNavigate();
+
+    const forsellerclick= () =>{
+        navigate("/forseller");
+    };
+
     const products = [
         { id: 1, name: "Light star", image: TuuImage, stock: 50, price: 7000 },
         { id: 2, name: "Reach star", image: TuuImage, stock: 35, price: 10000 },
@@ -16,7 +24,7 @@ export default function Product() {
             </div>
             <div className="row bg-secondary">
                 <div className="d-flex justify-content-center  justify-content-md-between">
-                    <div className="fs-1 mt-5 ms-5 d-none d-md-block">Fill tracking number</div>
+                    <div className="fs-1 mt-5 ms-5 d-none d-md-block">Product</div>
                     <div className="d-flex justify-content-center align-items-center mt-5 me-5">
                         <input className="form-control rounded-pill rounded-end-0 w-75 d-inline-block cs-color-Search border-end-0 border border-dark" type="search" placeholder="Searching" aria-label="Search" />
                         <button type="button" className="btn rounded-pill rounded-start-0 cs-color-btn-Search  border-start-0 border border-dark"><i class="bi bi-search"></i></button>
@@ -41,7 +49,7 @@ export default function Product() {
             </div>
             <div className="row bg-secondary py-4">
                 <div className="d-flex justify-content-center">
-                    <button className="fs-1 text-primary btn"> 
+                    <button className="fs-1 text-primary btn" onClick={forsellerclick}> 
                         <IoReturnUpBackOutline className="fs-1 text-primary" /> Back
                     </button>
                 </div>

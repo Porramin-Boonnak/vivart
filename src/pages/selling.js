@@ -1,8 +1,20 @@
 import Navbar from "../component/navbar";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import TuuImage from "../pictures/Tuu.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function Selling() {
+
+    const navigate = useNavigate();
+
+    const forsellerclick= () =>{
+        navigate("/forseller");
+    };
+
+    const selectclick= () =>{
+        navigate("/choose");
+    };
+
     const products = [
         { id: 1, name: "Light star", image: TuuImage, stock: 50, price: 7000 },
         { id: 2, name: "Reach star", image: TuuImage, stock: 35, price: 10000 },
@@ -39,7 +51,7 @@ export default function Selling() {
                     
                         
                         <div className="d-flex flex-column align-items-end gap-2">
-                        <div className="text-dark">Sell to user<span className="text-primary"> <button className="btn btn-dark text-white" style={{ width: 150 }}>Select</button></span></div>
+                        <div className="text-dark">Sell to user<span className="text-primary"> <button className="btn btn-dark text-white" style={{ width: 150 }} onClick={selectclick}>Select</button></span></div>
                             <button className="btn btn-primary text-white" style={{ width: 150 }}>Sell now</button>
                         </div>
                     </div>
@@ -49,7 +61,7 @@ export default function Selling() {
             </div>
             <div className="row bg-secondary py-4">
                 <div className="d-flex justify-content-center">
-                    <button className="fs-1 text-primary btn"> 
+                    <button className="fs-1 text-primary btn" onClick={forsellerclick}> 
                         <IoReturnUpBackOutline className="fs-1 text-primary" /> Back
                     </button>
                 </div>

@@ -2,7 +2,15 @@ import Navbar from "../component/navbar"
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 export default function Filltracking() {
+    const navigate = useNavigate();
+
+    const forsellerclick= () =>{
+        navigate("/forseller");
+    };
+
     const [post, setpost] = useState([]);
     const [user, setuser] = useState();
     const API_URL = process.env.REACT_APP_API_URL;
@@ -80,7 +88,7 @@ export default function Filltracking() {
             <div className="row bg-secondary">
                 <div>
                     <div className="d-flex justify-content-center align-items-center">
-                        <button className="fs-1 text-primary btn"> <IoReturnUpBackOutline className="fs-1 text-primary" />Back</button>
+                        <button className="fs-1 text-primary btn" onClick={forsellerclick}> <IoReturnUpBackOutline className="fs-1 text-primary" />Back</button>
                     </div>
                 </div>
             </div>

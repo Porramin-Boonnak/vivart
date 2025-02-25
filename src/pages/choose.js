@@ -1,8 +1,15 @@
 import Navbar from "../component/navbar";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import TuuImage from "../pictures/Tuu.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function Choose() {
+    const navigate = useNavigate();
+
+    const backclick= () =>{
+        navigate("/selling");
+    };
+
     const products = [
         { id: 1, name: "Tuu1", image: TuuImage, price: 7000 },
         { id: 2, name: "Tuu2", image: TuuImage, price: 10000 },
@@ -51,7 +58,7 @@ export default function Choose() {
 
             <div className="row bg-secondary py-4">
                 <div className="d-flex justify-content-center">
-                    <button className="fs-1 text-primary btn">
+                    <button className="fs-1 text-primary btn" onClick={backclick}>
                         <IoReturnUpBackOutline className="fs-1 text-primary" /> Back
                     </button>
                 </div>

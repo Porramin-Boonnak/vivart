@@ -1,7 +1,6 @@
 import { FaBahtSign } from "react-icons/fa6";
 import Searchbar from "../../component/searchbar";
 import Navbar from "../../component/navbar";
-import ChatModal from "../../component/ChatModal";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -70,10 +69,6 @@ export default function Profile() {
 
             {/* User Information Section */}
             <User_Impormation this_username={userInfo} follow = {follow} post_qty={rawUserPost?.length ?? 0}/>
-
-            {/* Chat Modal Button */}
-            <Button variant="primary" onClick={() => setModalOpen(true)}>Open Chat</Button>
-            <ChatModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
 
             {/* Debugging Display */}
             {/* <div>Login user == {loginUser}</div> */}

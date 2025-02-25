@@ -1,5 +1,6 @@
 import "../pagescss/chat.css";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Navbar from "../component/navbar";
 import newchat from "../pictures/bxs_message-square-edit.png";
@@ -11,6 +12,7 @@ import johnny from "../pictures/johnny.jpg";
 import kyu from "../pictures/kyu.jpg";
 import mark from "../pictures/mark.jpg";
 import max from "../pictures/max.jpg";
+import ChatModal from "../component/ChatModal";
 
 
 
@@ -40,6 +42,7 @@ const Chat = () => {
     const navigate = useNavigate();
     const [selectedUser, setSelectedUser] = useState(users[0]);
     const [messages, setMessages] = useState(messagesData[selectedUser.name]);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const handleSendMessage = (text) => {
         const newMessage = {
@@ -61,7 +64,14 @@ const Chat = () => {
                     <div className="chat-header">
                         <h2>Chat</h2>
                         <div className="chat-actions">
-                            <img src={newchat} alt="newchat" />
+                            {/* Chat Modal Button */}
+                            <img
+                                src={newchat}
+                                alt="newchat"
+                                onClick={() => setModalOpen(true)}
+                                style={{ cursor: 'pointer', width: '50px', height: '50px' }} 
+                            />
+                            <ChatModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
                             <img src={chatworld} alt="chatworld" onClick={() => navigate("/chatworld")}/>
                         </div>
                     </div>

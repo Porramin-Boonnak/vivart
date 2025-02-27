@@ -8,6 +8,7 @@ import Report from "../pages/report";
 import Post from "../pages/post";
 import Createpost from "../pages/createpost";
 import Postnotsale from "../pages/postnotsale";
+import Editpostnotsale from "../pages/editpostnotsale";
 import Postsaleordinary from "../pages/postsaleordinary";
 import Postsaleuniq from "../pages/postsaleuniq";
 import Bidsection from "../component/bidsection";
@@ -43,6 +44,7 @@ export default function Router(){
             <Route path="/report" element={<Report />}/>
             <Route path="/post/:postid" element={<Post/>}/>
             <Route path="/createpost" element={<Createpost/>}/>
+            <Route path="/editpostnotsale/:postid" element={<Editpostnotsale/>}/>
             <Route path="/postnotsale" element={<Postnotsale/>}/>
             <Route path="/postsaleordinary" element={<Postsaleordinary/>}/>
             <Route path="/postsaleuniq" element={<Postsaleuniq/>}/>

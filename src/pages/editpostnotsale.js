@@ -101,7 +101,6 @@ export default function Editpostnotsale() {
             alert("Update failed: " + (error.response?.data?.error || error.message));
         });
     };
-e
     return (
         <div className="container-fluid bg-secondary vh-100 wh-100">
             <div className='row'>

@@ -39,7 +39,9 @@ export default function Post() {
             name: post.name,
             price: post.price,
             quantity: 1,
-            img: post.img
+            img: post.img,
+            typepost : post.typepost,
+            type : post.type
         })
         .then(response => {
             console.log(response.data);
@@ -222,9 +224,12 @@ export default function Post() {
                             <div className="fw-light mt-2">
                                 #{post.tag}
                             </div>
-                            {post.typepost !== "normal" ?
+                            {user && post.typepost !== "normal" ? post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open" && post.artist !== user.username?
                                 <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                     <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
+                                : post.typepost === "ordinary" && post.artist !== user.username ? <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
+                                <h6 className="text-primary fw-bold fs-2 mt-4">amount : {post.amount}</h6>
+                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>: <></>
                                 : <></>
                             }
                             <div className="p-1 mt-4 text-center cs-bg-comment mb-0">

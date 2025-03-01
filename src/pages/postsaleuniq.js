@@ -54,6 +54,7 @@ export default function Postsaleuniq() {
         const data = {
             artist : user.username,
             name : Title.current.value,
+            own : user.username,
             tag : Tag.current.value,
             type : type,
             typepost : "uniq",
@@ -63,7 +64,8 @@ export default function Postsaleuniq() {
             BlindA : isCheckedBlindA,
             description : Description.current.value,
             img:base64List,
-            price : Price.current.value
+            price : Price.current.value,
+            status : "open"
         }
         if(!isCheckedBlindA){
         axios.post(API_URL + '/post', data).then(response => {

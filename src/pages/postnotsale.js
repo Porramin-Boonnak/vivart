@@ -43,6 +43,7 @@ export default function Postnotsale() {
         const data = {
             artist : user.username,
             name : Title.current.value,
+            own : user.username,
             tag : Tag.current.value,
             type : type,
             typepost : "normal",

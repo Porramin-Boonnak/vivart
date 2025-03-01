@@ -19,6 +19,7 @@ export default function Blindart(){
         const data = {
             artist : location.state.Data.artist,
             name : location.state.Data.name,
+            own : location.state.Data.artist,
             tag : location.state.Data.tag,
             type : location.state.Data.type,
             typepost : "uniq",
@@ -29,7 +30,8 @@ export default function Blindart(){
             description : location.state.Data.description,
             img:[newbase64],
             originalimg:location.state.Data.img,
-            price : location.state.Data.price
+            price : location.state.Data.price,
+            status : "open"
         }
         axios.post(API_URL + '/post',data).then(response => {
             console.log(response.data)

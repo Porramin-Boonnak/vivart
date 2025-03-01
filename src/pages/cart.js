@@ -37,7 +37,9 @@ const Cart = () => {
             name: item.name,
             price: Number(item.price),
             quantity: item.quantity,
-            image: item.img?.[0] || bird // Ensure 'bird' is defined and imported
+            image: item.img?.[0] || bird,
+            typepost : item.typepost,
+            type : item.type // Ensure 'bird' is defined and imported
           }));
           setCart(newCart);
         })
@@ -102,11 +104,11 @@ const Cart = () => {
                   <span className="item-price">{item.price.toLocaleString()} THB</span>
                 </div>
                 <div className="cart-cell quantity-cell">
-                  <div className="quantity-controls">
+                  {item.typepost === "uniq" ? <></>:<div className="quantity-controls">
                     <button onClick={() => updateQuantity(item.id, -1)}>-</button>
                     <span>{item.quantity}</span>
                     <button onClick={() => updateQuantity(item.id, 1)}>+</button>
-                  </div>
+                  </div>}
                 </div>
                 <div className="cart-cell subtotal-remove-cell">
                       <span className="subtotal">{(item.price * item.quantity).toLocaleString()} THB</span>
@@ -134,7 +136,7 @@ const Cart = () => {
             </div>
         
           </div>
-          <button className="checkout-btn mt-3">Check Out</button>
+          <button className="checkout-btn mt-3" onClick={()=>navigate("/shipping")}>Check Out</button>
         </div>
       </div>
     </>

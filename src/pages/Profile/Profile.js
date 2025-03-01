@@ -5,7 +5,7 @@ import ChatModal from "../../component/ChatModal";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import "../../pagescss/Profile.css";
 import { resizeBase64Img } from "../../component/resize_img";
 import User_Impormation from "../Profile/Component/User_Imformation";
 import Piccard from "./Component/Pic_Card";
@@ -17,7 +17,11 @@ export default function Profile() {
     // const navigate = useNavigate();
     const { this_username } = useParams();
     const API_URL = process.env.REACT_APP_API_URL;
-
+    const tabs = [
+        { name: "All Post", action: () => setShowData(rawUserPost) },
+        { name: "My Art(s)", action: () => setShowData(rawUserPost.filter(post => post.artist === this_username)) },
+        { name: "My Purchase Art(s)", action: () => setShowData(rawUserPost.filter(post => post.artist !== this_username)) },
+    ];
     const [activeTab, setActiveTab] = useState("All Post");
     const [modalOpen, setModalOpen] = useState(false);
     const [follow, setFollow] = useState([]);
@@ -26,15 +30,9 @@ export default function Profile() {
     const [rawUserPost, setUserPost] = useState([]);
     const [showData, setShowData] = useState([]);
       
-    const tabs = [
-        { name: "All Post", action: () => setShowData(rawUserPost) },
-        { name: "My Art(s)", action: () => setShowData(rawUserPost.filter(post => post.artist === this_username)) },
-        { name: "My Purchase Art(s)", action: () => setShowData(rawUserPost.filter(post => post.artist !== this_username)) },
-    ];
-
     useEffect(() => {
-        const controller = new AbortController(); // Create an abort controller
-        const { signal } = controller; // Extract signal
+        const controller = new AbortController();
+        const { signal } = controller;
     
         const fetchUserData = async () => {
             try {
@@ -43,9 +41,10 @@ export default function Profile() {
                     axios.get(`${API_URL}/profile/posts/${this_username}`, { signal }),
                     axios.get(`${API_URL}/profile/follow/${this_username}`, { signal }),
                 ]);
+    
                 setUserInfo(userInfoRes.data);
-                setUserPost(userPostRes.data);
-                setShowData(userPostRes.data);
+                setUserPost(userPostRes.data ?? []);
+                setShowData(userPostRes.data ?? []);                
                 setFollow(userFollowRes.data);
             } catch (error) {
                 if (axios.isCancel(error)) {
@@ -59,9 +58,10 @@ export default function Profile() {
         fetchUserData();
     
         return () => {
-            controller.abort(); // Cleanup: cancel any pending requests on unmount
+            controller.abort();
         };
     }, [this_username]);
+    
 
     return (
         <>
@@ -101,6 +101,7 @@ export default function Profile() {
             </ul>
 
             {/* Render Posts */}
+            
             <Piccard posts={Array.isArray(showData) ? showData : []} />
         </>
     );

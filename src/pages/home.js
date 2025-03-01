@@ -92,6 +92,7 @@ export default function Home() {
                                 <div className="card-body" onClick={() => handleclick(item._id)}>
                                     <h2 className="card-title">{item.artist}</h2>
                                     <h5 className="d-inline">{item.name}</h5>
+                                    {item.views ? <div className="c-card-like">{item.views} views</div>:<></>}
                                     <div className="d-flex align-items-center justify-content-between">
                                         {item.typepost !== "normal" && (
                                             <h5 className="text-primary fw-bold">

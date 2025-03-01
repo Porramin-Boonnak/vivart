@@ -23,10 +23,13 @@ export default function Shipping() {
     const [cart, setCart] = useState([]);
     const [user, setUser] = useState(null);
     const [ship, setship] = useState(false);
-    const [bill,setbill] = useState();
+    const [bill, setbill] = useState(null);
+    const [countdown, setCountdown] = useState(null);
+    const [ip, setip] = useState(null);
     const hasFetched = useRef(false);
     const navigate = useNavigate();
     const API_URL = process.env.REACT_APP_API_URL;
+    const accode = "tmpwoktXABBQMDi[pl]FTaDTwuvkLUJ2czfvioLzqjybewpMLYgtis[sa]HHaFkJjhD2x8GUOET6w6NlNCs5zm9vsExf9ZyyTg[tr][tr]";
     useEffect(() => {
         axios.post(API_URL + '/status', { token: localStorage.getItem('token') })
             .then(response => {
@@ -35,6 +38,13 @@ export default function Shipping() {
             .catch(error => {
                 alert("Please login");
                 navigate('/signin');
+            });
+        axios.get('https://api64.ipify.org?format=json')
+            .then(response => {
+                setip(response.data.ip);
+            })
+            .catch(error => {
+                console.error("Error fetching IP:", error);
             });
         axios.post("http://localhost:5000/get_address", { token: localStorage.getItem('token') }).then(response => { setalladdress(response.data); console.log(response.data) })
     }, [API_URL, navigate]);
@@ -62,14 +72,14 @@ export default function Shipping() {
         const handleBeforeUnload = (e) => {
             e.preventDefault();
             if (isPayment) {
+                setIsPayment(false)
                 cart.map(item => {
                     const data = {
                         _id: item._id_post,
                         typepost: item.typepost,
                         quantity: item.quantity
                     };
-                    setIsPayment(false)
-                    axios.put("http://localhost:5000/amount", data)   
+                    axios.put("http://localhost:5000/amount", data)
                 });
             }
         };
@@ -80,38 +90,120 @@ export default function Shipping() {
         };
     }, [isPayment]);
 
+    useEffect(() => {
+        if (countdown === null || bill === null) return;
+
+        const interval = setInterval(async () => {
+            setCountdown(prev => {
+                if (prev > 0) {
+                    axios.post(`http://localhost:5000/proxy`, {
+                        url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&con_id=106728&method=confirm&id_pay=${bill.id_pay}&accode=${accode}&account_no=0431494574&ip=${ip}`
+                    })
+                        .then(response => {
+                            console.log(response.data)
+                            if (response.data.status === 1) {
+                                axios.post("http://localhost:5000/history", cart);
+                                const cartRequests = cart.map(async (item) => {
+                                    const data = {
+                                        _id: item._id_post,
+                                        typepost: item.typepost,
+                                        quantity: item.quantity,
+                                        payment: "success",
+                                        username: user.username
+                                    };
+
+                                    await axios.post("http://localhost:5000/success", data);
+                                    await axios.delete(`${API_URL}/cart/${user._id}/${item._id_post}`);
+                                });
+                                Promise.all(cartRequests)
+                                    .then(() => {
+                                        handlePurchase();
+                                        clearInterval(interval);
+                                        return 0;
+                                    })
+                                    .catch(error => console.error("Error processing cart:", error));
+                            }
+                        })
+                        .catch(error => console.error("Error confirming payment:", error));
+
+                    return prev - 1;
+                } else {
+                   
+                    axios.post(`http://localhost:5000/proxy`, {
+                        url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&con_id=106728&id_pay=${bill.id_pay}&method=cancel`
+                    })
+                        .then(response => console.log("Canceled:", response.data))
+                        .catch(error => console.error("Error canceling:", error));
+
+                    
+                    cart.map(async (item) => {
+                        const data = {
+                            _id: item._id_post,
+                            typepost: item.typepost,
+                            quantity: item.quantity
+                        };
+
+                        await axios.put("http://localhost:5000/amount", data);
+                    });
+                    return 0;
+                }
+            });
+        }, 1000);
+
+        return () => clearInterval(interval); 
+
+    }, [countdown]);
+
+
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${minutes}:${secs.toString().padStart(2, "0")}`;
+    };
+
     const handleNext = async () => {
         let check = false;
-        let hasError = false; 
-    
+        let hasError = false;
+
         const requests = cart.map(item => {
             const data = {
                 _id: item._id_post,
                 typepost: item.typepost,
                 quantity: item.quantity,
-                payment : "waiting"
+                payment: "waiting"
             };
             return axios.post("http://localhost:5000/amount", data)
                 .then(response => {
-                    check = true; 
+                    check = true;
                 })
                 .catch(e => {
                     alert("จำนวนผิดพลาด");
-                    hasError = true; 
+                    hasError = true;
                 });
-            
+
         });
-    
-        await Promise.allSettled(requests); 
-        if (!hasError && check) { 
+
+        await Promise.allSettled(requests);
+        if (!hasError && check) {
             setProgress(prev => Math.min(prev + 37.5, 100));
-            axios.get(`https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&amount=${totalPrice}&ref1=${user.username}&con_id=106728&method=create_pay`)
-            .then(response => response.data.status===1 )
-            
+            axios.post(`http://localhost:5000/proxy`, { url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&amount=${totalPrice}&ref1=${user.username}&con_id=106728&method=create_pay` })
+                .then(response => {
+                    console.log(response.data)
+                    if (response.data.status === 1) {
+                        axios.post(`http://localhost:5000/proxy`, { url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&con_id=106728&id_pay=${response.data.id_pay}&type=01&promptpay_id=0933658682&method=detail_pay` })
+                            .then(response => {
+                                console.log(response.data);
+                                if (response.data.status === 1) {
+                                    setbill(response.data); setIsPayment(true); setCountdown(response.data.time_out)
+                                }
+                            })
+                    }
+                })
+
         }
     };
-    
-    
+
+
 
     const handleaddress = () => {
         const data = {
@@ -197,10 +289,15 @@ export default function Shipping() {
                             <div className="p-3 bg-white shadow-sm rounded">
                                 {isPayment ? (
                                     <div className="text-center">
-                                        <img src={TuuImage} alt="TrueMoney Wallet" className="img-fluid" style={{ maxWidth: "50px" }} />
-                                        <p className="text-primary fw-bold">Send a TrueMoney Wallet angpao link to pay.</p>
-                                        <input type="text" className="form-control" placeholder="https://gift.truemoney.com/campaign/?v=...." />
-                                        <button className="btn btn-dark mt-3 w-100" onClick={handlePurchase}>Purchase</button>
+                                        {bill ?
+                                            <>
+                                                <img src={`data:image/png;base64,${bill.qr_image_base64}`} alt="qr_image_base64" className="img-fluid" />
+                                                <div>
+                                                    เวลาที่เหลือ: {countdown !== null ? formatTime(countdown) : "กำลังโหลด..."}
+                                                </div>
+                                            </>
+                                            : <>Loading...</>
+                                        }
                                     </div>
                                 ) : ship ? (
                                     <>
@@ -291,11 +388,11 @@ export default function Shipping() {
                                             <button className="btn btn-dark w-100 mt-4" onClick={handleaddress}>Save and Continue</button>
                                         </form> :
                                             <><div className="text-danger mt-2" style={{ cursor: "pointer" }} onClick={() => setaddaddress(true)}>+ Add a new address</div>
-                                                <button className="btn btn-dark w-100 mt-4" onClick={()=>handleNext()}>Save and Continue</button></>}
+                                                <button className="btn btn-dark w-100 mt-4" onClick={() => handleNext()}>Save and Continue</button></>}
                                     </>
                                 ) : <>
                                     <div>No Shipping</div>
-                                    <button className="btn btn-dark w-100 mt-4" onClick={()=>handleNext()}>Continue</button>
+                                    <button className="btn btn-dark w-100 mt-4" onClick={() => handleNext()}>Continue</button>
                                 </>}
                             </div>
                         </div>

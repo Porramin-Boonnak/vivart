@@ -224,10 +224,10 @@ export default function Post() {
                             <div className="fw-light mt-2">
                                 #{post.tag}
                             </div>
-                            {post.typepost !== "normal" ? post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open"?
+                            {user && post.typepost !== "normal" ? post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open" && post.artist !== user.username?
                                 <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                     <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
-                                : post.typepost === "ordinary" ? <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
+                                : post.typepost === "ordinary" && post.artist !== user.username ? <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                 <h6 className="text-primary fw-bold fs-2 mt-4">amount : {post.amount}</h6>
                                     <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>: <></>
                                 : <></>

@@ -19,8 +19,8 @@ import Share from "../pages/share";
 import Shipping from "../pages/shipping";
 import Profile from "../pages/Profile/Profile";
 import EditProfile from "../pages/Profile/Edit_Pro";
-import Chat from "../pages/Chat/chat";
-import ChatWorld from "../pages/Chat/chatworld";
+// import Chat from "../pages/Chat/chat";
+// import ChatWorld from "../pages/Chat/chatworld";
 import Cart from "../pages/cart";
 import Filltracking from "../pages/filltracking";
 import Notification from "../pages/notification";
@@ -55,9 +55,9 @@ export default function Router(){
             <Route path="/shipping" element={<Shipping />}/>
             <Route path="/profile/:this_username" element={<Profile />}/>
             <Route path="/editprofile" element={<EditProfile />}/>
-            <Route path="/chat" element={<Chat />}/>
-            <Route path="/chat/:this_username" element={<Chat />}/>
-            <Route path="/chatworld" element={<ChatWorld />}/>
+            {/* <Route path="/chat" element={<Chat />}/> */}
+            {/* <Route path="/chat/:this_username" element={<Chat />}/> */}
+            {/* <Route path="/chatworld" element={<ChatWorld />}/> */}
             <Route path="/cart" element={<Cart/>}/>
             <Route path="/filltracking" element={<Filltracking />}/>
             <Route path="/notification" element={<Notification/>}/>

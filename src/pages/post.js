@@ -6,12 +6,14 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Navbar from "../component/navbar"
 import Showimg from "../component/showimg"
+import { useNavigate } from 'react-router-dom';
 export default function Post() {
     const { postid } = useParams();
     const [post, setpost] = useState(null);
     const [user, setuser] = useState();
     const hasFetched = useRef(false);
     const API_URL = process.env.REACT_APP_API_URL;
+    const navigate = useNavigate();
     useEffect(() => {
         if (!hasFetched.current) {
             hasFetched.current = true;
@@ -27,6 +29,34 @@ export default function Post() {
             console.log(error);
         });
     }, [postid]);
+
+    const addToCart = () => {
+        if(user){
+        
+        axios.post(`${API_URL}/cart`, {
+            _id_post: post._id,
+            _id_customer: user._id,
+            name: post.name,
+            price: post.price,
+            quantity: 1,
+            img: post.img,
+            typepost : post.typepost,
+            type : post.type
+        })
+        .then(response => {
+            console.log(response.data);
+            navigate('/cart');
+        })
+        .catch(error => {
+            console.error("Error fetching cart data:", error)
+            }
+            );
+        }else{
+            alert("Please login");
+            navigate('/signin');
+        }
+        };
+        
     const examplecomment = [
         { name: "Naruto", comment: "So interesting.", img: "https://www.beartai.com/wp-content/uploads/2024/02/Naruto-1600x840.jpg" },
         { name: "Sasuke", comment: "Beautiful as hellll!", img: "https://pm1.aminoapps.com/6493/8e7caf892a720f98952caf5f589e2c265458a291_hq.jpg" },
@@ -74,7 +104,7 @@ export default function Post() {
     };
     const like = (id) => {
         console.log("like")
-        axios.put(API_URL + "/update/like/" + id, user)
+        axios.put(API_URL + "/update/like/" + id, {username:user.username})
             .then(response => {
                 console.log(response.data)
             })
@@ -85,7 +115,7 @@ export default function Post() {
         axios.request({
             method: 'DELETE',
             url: `${API_URL}/delete/like/${id}`,
-            data: user,
+            data: {username:user.username},
             headers: {
                 "Content-Type": "application/json"
             }
@@ -94,7 +124,7 @@ export default function Post() {
             .catch(error => console.error(error));
     }
 
-    const Showicon = ({post }) => {
+    const Showicon = ({ post }) => {
         const [likedItems, setLikedItems] = useState(null);
 
         useEffect(() => {
@@ -106,7 +136,7 @@ export default function Post() {
 
         const toggle = () => {
             if (likedItems) {
-                unlike(post._id);  
+                unlike(post._id);
             } else {
                 like(post._id);
             }
@@ -125,7 +155,7 @@ export default function Post() {
     };
     const handleCopy = async () => {
         try {
-          await navigator.clipboard.writeText(`http://localhost:3000/post/${postid}`);
+          await navigator.clipboard.writeText(`${API_URL}/post/${postid}`);
         } catch (err) {
           console.error("Failed to copy: ", err);
         }
@@ -140,7 +170,7 @@ export default function Post() {
                 <div className="row bg-secondary p-3 ">
                     <div className="row ">
                         <div className="col-12 col-sm-7 bg-secondary p-0 mx-auto">
-                            {post && post.img && post.img.length ? (<Showimg items={post.img} />) : <div>Loading...</div>}
+                            {post && post.img && post.img.length ? (<Showimg items={post.img} like={post.like} />) : <div>Loading...</div>}
                             <div className="bg-primary-lighter p-2">
                                 <div className="d-flex align-items-center justify-content-center">
                                     {post && user&&(user.username) ? <Showicon post={post} /> : <i className="bi bi-heart me-2"></i>}
@@ -157,7 +187,7 @@ export default function Post() {
                             <div className="p-4 border border-dark">
 
                                 <div className="m-2">
-                                    Size {"         150 x 45 cm"}
+                                    Size <div className="d-inline ms-3">{post.size}</div>
                                 </div>
                                 <div className="m-2">
                                     Rarity {"           -"}
@@ -179,7 +209,7 @@ export default function Post() {
 
                                         {user && (user.username === post.artist) ?
                                             <div>
-                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between" >Edit<i className="bi bi-pencil-square"></i></a></li>
+                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between" onClick={() => navigate(`/editpostnotsale/${postid}`)} >Edit<i className="bi bi-pencil-square"></i></a></li>
                                                 <li><a className="dropdown-item d-flex align-items-center justify-content-between" >Delete<i className="bi bi-trash3-fill"></i></a></li>
                                             </div>
                                             :
@@ -194,9 +224,12 @@ export default function Post() {
                             <div className="fw-light mt-2">
                                 #{post.tag}
                             </div>
-                            {post.typepost !== "normal" ?
-                                <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign /></h5>
-                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white">Add to cart</button></>
+                            {user && post.typepost !== "normal" ? post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open" && post.artist !== user.username?
+                                <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
+                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
+                                : post.typepost === "ordinary" && post.artist !== user.username ? <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
+                                <h6 className="text-primary fw-bold fs-2 mt-4">amount : {post.amount}</h6>
+                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>: <></>
                                 : <></>
                             }
                             <div className="p-1 mt-4 text-center cs-bg-comment mb-0">

@@ -1,53 +1,126 @@
-import "../../../pagescss/Profile.css";
-import { FaBahtSign } from "react-icons/fa6";
-import { useParams ,useNavigate} from 'react-router-dom';
-import { useEffect, useState } from "react";
-import  {Button}from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Button } from "react-bootstrap";
 import axios from "axios";
 
-export default function User_Impormation({this_username , username }) {
+export default function User_Impormation({ this_username, follow, post_qty }) {
     const navigate = useNavigate();
     
-    return(
-        <>
-         <div className="container mt-5">
+    // Local states for followers and followings
+    const [followers, setFollower] = useState([]);
+    const [followings, setFollowing] = useState([]);
+
+    // Get logged-in user from localStorage
+    const storedUser = localStorage.getItem("user_login");
+    const [loginUser, setLoginUser] = useState(storedUser ? JSON.parse(storedUser) : null);
+
+    // Track whether the user is following
+    const [isFollowing, setIsFollowing] = useState(false);
+    const API_URL = process.env.REACT_APP_API_URL;
+    // **1. Ensure followers and followings update when `follow` changes (e.g., after API fetch)**
+    useEffect(() => {
+        if (follow && follow.followers && follow.followings) {
+            setFollower(follow.followers);
+            setFollowing(follow.followings);
+        }
+    }, [follow]); // 🔥 Runs whenever `follow` updates
+
+    // **2. Check if logged-in user is following**
+    useEffect(() => {
+        if (followers.length > 0 && loginUser) {
+            const found = followers.some(user => user.username === loginUser);
+            setIsFollowing(found);
+        } else {
+            setIsFollowing(false);
+        }
+    }, [followers, loginUser]); // 🔥 Runs when `followers` updates
+
+    // **3. Handle Follow/Unfollow Button Click**
+    const handleFollowToggle = async () => {
+        try {
+            if (isFollowing) {
+                // Unfollow: Remove from followers
+                const response = await axios.put(`${API_URL}/unfollow`, {
+                    this_user: this_username.username,
+                    user_login: loginUser,
+                    img: "ABC",
+                });
+    
+                console.log(response.data);
+                setFollower(prevFollowers => prevFollowers.filter(follower => follower.username !== loginUser));
+                setIsFollowing(false);
+            } else {
+                // Follow: Add to followers
+                const response = await axios.post(`${API_URL}/follow`, {
+                    this_user: this_username.username,
+                    user_login: loginUser,
+                    img: "ABC",
+                });
+    
+                console.log(response.data);
+                setFollower(prevFollowers => [
+                    ...prevFollowers,
+                    { img: "https://example.com/user_login.jpg", username: loginUser }
+                ]);
+                setIsFollowing(true);
+            }
+        } catch (error) {
+            console.error("Error in follow/unfollow operation:", error);
+        }
+    };
+    
+
+    return (
+        <div className="container mt-5">
             <div className="row align-items-center">
-        {/* Image Column */}
+                {/* Image Column */}
                 <div className="col-md-3 text-center">
                     <img 
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK5CqiQQDLVEVd_mEtfKpqF8MTZj0SqiEEWg&s" 
+                        src={this_username.img} 
                         alt="Profile" 
-                        className="profile-img rounded-circle img-fluid" 
-                        style={{ width: "150px", height: "150px", objectFit: "cover" }}
+                        className="profile-img rounded-circle img-fluid"
+                        style={{ width: "150px", height: "150px", objectFit: "cover" }} 
                     />
                 </div>
-        
-        {/* Text Column */}
+
+                {/* Text Column */}
                 <div className="col-md-9">
+                    <h2>{this_username.username}</h2>
+                    <p>{this_username.user_bio}</p>
+                    
+                    <p>{JSON.stringify(followers, null, 2)}</p> 
+                    <p>{isFollowing ? "Following" : "Not Following"}</p>
 
-                    {/* USER NAME */}
-                    <h2>Khunpan J.</h2>
-                    
-                    {/* BIO */}
-                    <p>I am an artist of Thailand. 
-                        
-                    
-                        {/* BUTTON EDIT */}
-                        {this_username == username ? (
-                        <Button  variant="outline-dark" onClick={() => navigate("/editprofile")} style={{ cursor: "pointer", color: "light" }}>
-                        Edit
+                    <p>{post_qty} posts | {followers.length} followers | {followings.length} following</p>
+
+                    {this_username.username === loginUser ? (
+                        <Button 
+                            variant="outline-dark" 
+                            onClick={() => navigate("/editprofile")} 
+                            style={{ cursor: "pointer", color: "light" }}
+                        >
+                            Edit
                         </Button>
-                    ) :(<></>)}
-                                    
-                    
-                    </p>
-
-                    {/* POST | FOLLOW */}
-                    <p>9 posts | 999 followers | 99 following</p>
+                    ) : (
+                        <div style={{ flexDirection: "row", justifyContent: "start", display: "flex", gap: "5px" }}>
+                            <Button 
+                                variant="primary" 
+                                onClick={handleFollowToggle} 
+                                style={{ cursor: "pointer", color: "white" }}
+                            >
+                                {isFollowing ? "Unfollow" : "Follow"}
+                            </Button>
+                            <Button 
+                                variant="secondary" 
+                                onClick={() => navigate("/chat")} 
+                                style={{ cursor: "pointer", color: "light" }}
+                            >
+                                Message
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
-        {/* <EditProfile show={showModal} onClose={() => setShowModal(false)} /> */}
-        </>
     );
 }

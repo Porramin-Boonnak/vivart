@@ -3,19 +3,24 @@ import Navbar from '../component/navbar';
 import Showimg from '../component/showimg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import "../pagescss/postsaleordinary.css"
-export default function Postsaleordinary() {
+import "../pagescss/postsaleuniq.css"
+export default function Postsaleuniq() {
     const [base64List, setBase64List] = useState([]);
     const [user, setuser] = useState();
     const [type, settype] = useState();
     const [size, setsize] = useState();
+    const [selltype, setsell] = useState();
     const Title = useRef();
     const Tag = useRef();
     const Price = useRef();
-    const Amount = useRef();
     const Description = useRef();
     const navigate = useNavigate();
     const API_URL = process.env.REACT_APP_API_URL;
+    const [isCheckedBlindP, setCheckedBlindP] = useState(false);
+    const [isCheckedBlindA, setCheckedBlindA] = useState(false);
+
+
+   
     useEffect(() => {
 
         axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
@@ -42,26 +47,38 @@ export default function Postsaleordinary() {
             setBase64List(results);
         });
     };
+    const handleCheckboxChange = (setter) => (e) => {
+        setter(e.target.checked);
+    };
     const handleclick =()=>{
         const data = {
             artist : user.username,
             name : Title.current.value,
+            own : user.username,
             tag : Tag.current.value,
             type : type,
-            typepost : "ordinary",
+            typepost : "uniq",
+            selltype : selltype,
             size : size,
+            BlindP : isCheckedBlindP,
+            BlindA : isCheckedBlindA,
             description : Description.current.value,
             img:base64List,
             price : Price.current.value,
-            amount : Amount.current.value
+            status : "open"
         }
-
+        if(!isCheckedBlindA){
         axios.post(API_URL + '/post', data).then(response => {
             console.log(response.data)
             navigate('/');
         }).catch(error => {
             alert("false ");
         });
+        }
+        else
+        {
+            navigate("/blindart", { state: { Data: data } });
+        }
     }
     return (<>
         <div className="container-fluid bg-secondary vh-100 wh-100">
@@ -113,9 +130,9 @@ export default function Postsaleordinary() {
                         </div>
                         <div className='d-flex flex-row justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <div class= "d-flex flex-row">
-                                <label for="Arttype" className='text-primary me-2 fs-5'>Art type</label>
+                                <label for="Arttype" className='text-primary me-2 fs-5'>Art type:</label>
                                 <div class="dropdown" id='Arttype'>
-                                    <button class="btn cs-btn-Postsaleordinary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn cs-btn-Postsaleuniq dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         {type ? <div>{type}</div> : <div>Select Type</div>}
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -128,9 +145,9 @@ export default function Postsaleordinary() {
                                 </div>
                             </div>
                             <div class= "ms-5 d-flex flex-row">
-                                <label for="Sizetype" className='text-primary me-2 fs-5'>Size</label>
+                                <label for="Sizetype" className='text-primary me-2 fs-5'>Size:</label>
                                 <div class="dropdown" id='Sizetype'>
-                                    <button class="btn cs-btn-Postsaleordinary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn cs-btn-Postsaleuniq dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         {size ? <div>{size}</div> : <div>Select Type</div>}
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -151,13 +168,49 @@ export default function Postsaleordinary() {
                                 </div>
                             </div>
                         </div>
-                        <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
-                            <label for="amount" className='text-primary me-2 fs-5'>Amount(s):</label>
-                            <input ref={Amount} type="number" id="Amount" name="Amount" className='cs-color-Search w-100 border-0' />
+                        <div class= "d-flex flex-row mt-4">
+                            <label for="Selltype" className='text-primary me-2 fs-5'>Sell type:</label>
+                            <div class="dropdown w-75" id='Selltype'>
+                                <button class="btn cs-btn-Postsaleuniq dropdown-toggle w-100 ms-auto" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {selltype ? <div>{selltype}</div> : <div>{setsell("Normal Sell")}</div>}
+                                </button>
+                                <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsell("Normal Sell")}>Normal Sell</a></li>
+                                    <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsell("Bid (sell to the first person)")}>Bid (sell to the first person)</a></li>                                       
+                                    <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsell("Bid (Sell to the most expensive)")}>Bid (Sell to the most expensive)</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className='d-flex flex-row mt-4 w-100'>
+                            {(selltype === "Bid (Sell to the most expensive)" || selltype === "Bid (sell to the first person)") && (
+                                <div className="d-flex flex-row ms-5">
+                                    <input
+                                        type="checkbox"
+                                        className='ms-auto me-2'
+                                        checked={isCheckedBlindP}
+                                        onChange={(e) => setCheckedBlindP(e.target.checked)}
+                                        style={{ width: "30px", height: "30px" }}
+                                    />
+                                    <label className='text-primary me-auto fs-5'>Blind Price</label>
+                                </div>
+                            )}
+                            {(type === "Digital" || type === "Photography") && (
+                                <div className="d-flex flex-row ms-5">
+                                    <input
+                                        type="checkbox"
+                                        className='ms-auto me-2'
+                                        checked={isCheckedBlindA}
+                                        onChange={(e) => setCheckedBlindA(e.target.checked)}
+                                        style={{ width: "30px", height: "30px" }}
+                                    />
+                                    <label className='text-primary me-auto fs-5'>Blind Art</label>
+                                </div>
+                            )}
+                            
                         </div>
                     </div>
                     <div className='d-flex justify-content-center align-items-start row me-5'>
-                        <button onClick={handleclick} className="btn cs-btn-Postsaleordinary2 rounded-pill w-25 mt-5" type="button">Post</button>
+                        <button onClick={handleclick} className="btn cs-btn-Postsaleuniq2 rounded-pill w-25 mt-5" type="button">Post</button>
                     </div>
                 </div>
                 <div className="col-12 col-md-1"></div>

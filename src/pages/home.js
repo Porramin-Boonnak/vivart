@@ -16,6 +16,7 @@ export default function Home() {
             .catch(error => console.error("There was an error!", error));
         axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
             setuser(response.data);
+            localStorage.setItem('user_login', JSON.stringify(response.data.username));
         }).catch(error => {
             console.log(error)
         });
@@ -25,7 +26,7 @@ export default function Home() {
     }
     const like = (id) => {
         console.log("like")
-        axios.put(API_URL + "/update/like/" + id, user)
+        axios.put(API_URL + "/update/like/" + id, {username:user.username})
             .then(response => {console.log(response.data) 
                
             })
@@ -36,7 +37,7 @@ export default function Home() {
     axios.request({
         method: 'DELETE',
         url: `${API_URL}/delete/like/${id}`,
-        data: user,  // ส่ง user เป็น JSON body
+        data: {username:user.username},  // ส่ง user เป็น JSON body
         headers: {
             "Content-Type": "application/json"
         }
@@ -91,6 +92,7 @@ export default function Home() {
                                 <div className="card-body" onClick={() => handleclick(item._id)}>
                                     <h2 className="card-title">{item.artist}</h2>
                                     <h5 className="d-inline">{item.name}</h5>
+                                    {item.views ? <div className="c-card-like">{item.views} views</div>:<></>}
                                     <div className="d-flex align-items-center justify-content-between">
                                         {item.typepost !== "normal" && (
                                             <h5 className="text-primary fw-bold">
@@ -114,7 +116,7 @@ export default function Home() {
             <div className="row">
                 <Navbar />
             </div>
-            <div className="row">
+            <div className="row bg-secondary">
                 <Searchbar />
             </div>
             <div className="row bg-secondary p-3">

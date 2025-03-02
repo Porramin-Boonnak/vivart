@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "../../component/navbar";
 // import photo from "../../pictures/ic-round-photo.png";
 import send from "../../pictures/mingcute_send-fill.png";
-import Chat_List from "./Component/ChatList";
+//import Chat_List from "./Component/ChatList";
 import { v4 as uuidv4 } from "uuid";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000"; // Fallback for API URL
@@ -142,7 +142,7 @@ const Chat = () => {
         <div className="body">
         <Navbar />
         <div className="chat-container">
-            <Chat_List users />
+            
             <div className="chat-window">
                 <div className="chat-header"></div>
                 

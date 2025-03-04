@@ -135,6 +135,7 @@ const Chat = ({ photo }) => {
     }
 };
 
+
   // 📌 ฟังก์ชันส่งข้อความ
   const handleSendMessage = async () => {
     if (!messageText.trim() || !loginUser || !this_username) return;

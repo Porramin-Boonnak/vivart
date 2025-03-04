@@ -9,6 +9,8 @@ import Post from "../pages/post";
 import Createpost from "../pages/createpost";
 import Postnotsale from "../pages/postnotsale";
 import Editpostnotsale from "../pages/editpostnotsale";
+import Editpostsaleuniq from "../pages/editpostsaleuniq";
+import Editpostsaleordi from "../pages/editpostsaleordi";
 import Postsaleordinary from "../pages/postsaleordinary";
 import Postsaleuniq from "../pages/postsaleuniq";
 import Bidsection from "../component/bidsection";
@@ -22,14 +24,14 @@ import EditProfile from "../pages/Profile/Edit_Pro";
 import Chat from "../pages/Chat/chat";
 //import ChatWorld from "../pages/Chat/chatworld";
 import Cart from "../pages/cart";
-import Filltracking from "../pages/filltracking";
+import Filltracking from "../pages/ForSeller/filltracking";
 import Notification from "../pages/notification";
 import Draw from "../component/draw";
 import Blindart from "../pages/blindart";
-import Product from "./product";
-import Selling from "./selling";
+import Product from "../pages/ForSeller/product";
+import Selling from "../pages/ForSeller/selling";
 import Choose from "./choose";
-import Salehistory from "./salehistory";
+import Salehistory from "../pages/ForSeller/salehistory";
 import ForSeller from "../pages/Forseller";
 import Topay from "../pages/BuyHistory/Topay";
 
@@ -46,6 +48,8 @@ export default function Router(){
             <Route path="/post/:postid" element={<Post/>}/>
             <Route path="/createpost" element={<Createpost/>}/>
             <Route path="/editpostnotsale/:postid" element={<Editpostnotsale/>}/>
+            <Route path="/editpostsaleuniq/:postid" element={<Editpostsaleuniq/>}/>
+            <Route path="/editpostsaleordi/:postid" element={<Editpostsaleordi/>}/>
             <Route path="/postnotsale" element={<Postnotsale/>}/>
             <Route path="/postsaleordinary" element={<Postsaleordinary/>}/>
             <Route path="/postsaleuniq" element={<Postsaleuniq/>}/>

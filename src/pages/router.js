@@ -22,14 +22,14 @@ import EditProfile from "../pages/Profile/Edit_Pro";
 import Chat from "../pages/Chat/chat";
 //import ChatWorld from "../pages/Chat/chatworld";
 import Cart from "../pages/cart";
-import Filltracking from "../pages/filltracking";
+import Filltracking from "../pages/ForSeller/filltracking";
 import Notification from "../pages/notification";
 import Draw from "../component/draw";
 import Blindart from "../pages/blindart";
-import Product from "./product";
-import Selling from "./selling";
+import Product from "../pages/ForSeller/product";
+import Selling from "../pages/ForSeller/selling";
 import Choose from "./choose";
-import Salehistory from "./salehistory";
+import Salehistory from "../pages/ForSeller/salehistory";
 import ForSeller from "../pages/Forseller";
 import Topay from "../pages/BuyHistory/Topay";
 

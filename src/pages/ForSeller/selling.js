@@ -1,6 +1,7 @@
-import Navbar from "../component/navbar";
+import Searchbar from "../../component/searchbar";
+import Navbar from "../../component/navbar";
 import { IoReturnUpBackOutline } from "react-icons/io5";
-import TuuImage from "../pictures/Tuu.jpg";
+import TuuImage from "../../pictures/Tuu.jpg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";

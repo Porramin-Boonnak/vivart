@@ -31,6 +31,8 @@ import Selling from "./selling";
 import Choose from "./choose";
 import Salehistory from "./salehistory";
 import ForSeller from "../pages/Forseller";
+import Topay from "../pages/BuyHistory/Topay";
+
 export default function Router(){
     return (
         <BrowserRouter>
@@ -68,6 +70,7 @@ export default function Router(){
             <Route path="/choose" element={<Choose/>}/>
             <Route path="/salehistory" element={<Salehistory/>}/>
             <Route path="/forseller" element={<ForSeller/>}/>
+            <Route path="/Topay" element={<Topay/>}/>
           </Routes>
         </BrowserRouter>
       );

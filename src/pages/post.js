@@ -89,7 +89,8 @@ export default function Post() {
         const data = {
             post_id: postid,
             name: user.username,
-            comment: ncomment.current.value
+            comment: ncomment.current.value,
+            img: user.img
         };
     
         try {

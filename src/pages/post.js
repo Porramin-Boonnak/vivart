@@ -235,7 +235,24 @@ const ncomment = useRef();
 
                                         {user && (user.username === post.artist) ?
                                             <div>
-                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between" onClick={() => navigate(`/editpostnotsale/${postid}`)} >Edit<i className="bi bi-pencil-square"></i></a></li>
+                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between" 
+                                                    onClick={() => {
+                                                        const paths = {
+                                                            normal: `/editpostnotsale/${postid}`,
+                                                            uniq: `/editpostsaleuniq/${postid}`,
+                                                            ordinary: `/editpostsaleordi/${postid}`,
+                                                        };
+                                                    
+                                                        if (paths[post.typepost]) {
+                                                            navigate(paths[post.typepost]);
+                                                        }
+                                                        }
+                                                    }>
+                                                        Edit
+                                                        <i className="bi bi-pencil-square">
+                                                        </i>
+                                                    </a>
+                                                </li>
                                                 <li><a className="dropdown-item d-flex align-items-center justify-content-between" >Delete<i className="bi bi-trash3-fill"></i></a></li>
                                             </div>
                                             :

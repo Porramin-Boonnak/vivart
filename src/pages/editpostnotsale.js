@@ -71,26 +71,26 @@ export default function Editpostnotsale() {
     };
 
     const handleUpdate = () => {
-    if (!API_URL || !postid) {
-        console.error("API_URL or postid is undefined");
-        alert("API_URL หรือ postid ไม่มีค่า กรุณาตรวจสอบโค้ด");
-        return;
-    }
+        if (!API_URL || !postid) {
+            console.error("API_URL or postid is undefined");
+            alert("API_URL หรือ postid ไม่มีค่า กรุณาตรวจสอบโค้ด");
+            return;
+        }
 
-    const data = {
-        artist: user?.username,
-        name: Title.current?.value,
-        tag: Tag.current?.value,
-        type: type,
-        typepost: "normal",
-        description: Description.current?.value,
-        img: base64List
-    };
+        const data = {
+            artist: user?.username,
+            name: Title.current?.value,
+            tag: Tag.current?.value,
+            type: type,
+            typepost: "normal",
+            description: Description.current?.value,
+            img: base64List
+        };
 
-    console.log("Sending PUT request to:", `${API_URL}/post/${postid}`);
-    console.log("Data:", data);
+        console.log("Sending PUT request to:", `${API_URL}/post/${postid}`);
+        console.log("Data:", data);
 
-    axios.put(`${API_URL}/post/${postid}`, data)
+        axios.put(`${API_URL}/post/${postid}`, data)
         .then(response => {
             console.log("Response:", response.data);
             alert("Update successful!");
@@ -124,7 +124,7 @@ export default function Editpostnotsale() {
                 <div className="col-12 col-md-3">
                     <div className='row ms-2'>
                         {user ? (
-                            <div className='d-flex mt-5 justify-content-center align-items-start'>
+                            <div className='d-flex mt-5 justify-content-center align-items-start justify-content-md-start align-items-md-start'>
                                 <img src={user.img} alt='profile' className='rounded-circle c-img-post-not-sale' />
                                 <div className='mt-3 ms-3 fw-bold fs-5'>{user.username}</div>
                             </div>
@@ -133,33 +133,35 @@ export default function Editpostnotsale() {
                         )}
                     </div>
                     <div className='row ms-2'>
-                        <div className='d-flex mt-4'>
+                    <div className='d-flex mt-4 justify-content-center align-items-start justify-content-md-start align-items-md-start'>
                             <label className='text-primary me-2 fs-5'>Title:</label>
                             <input ref={Title} type="text" className='cs-color-Search w-100 border-0' />
                         </div>
-                        <div className='mt-4'>
-                            <label className='text-primary me-2 fs-5'>Description :</label><br />
-                            <textarea ref={Description} className='cs-color-Search border-0 mt-1' rows="5" />
+                        <div className='mt-4 text-center text-md-start'>
+                            <label for="Description" className='text-primary me-2 fs-5'>Description :</label><br />
+                            <textarea ref={Description} type="text" id="Description" name="Description" className='cs-color-Search border-0 mt-1' rows="5" />
                         </div>
-                        <div className='d-flex mt-4'>
-                            <label className='text-primary me-2 fs-5'>#tag:</label>
-                            <input ref={Tag} type="text" className='cs-color-Search w-100 border-0' />
+                        <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
+                            <label for="tag" className='text-primary me-2 fs-5'>#tag:</label>
+                            <input ref={Tag} type="text" id="tag" name="tag" className='cs-color-Search w-100 border-0' />
                         </div>
-                        <div className='d-flex flex-row mt-4'>
-                            <label className='text-primary me-2 fs-5'>Art type</label>
-                            <div className="dropdown">
-                                <button className="btn cs-btn-Postnotsale dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                    {type ? type : "Select Type"}
-                                </button>
-                                <ul className="dropdown-menu">
-                                    {['Digital', 'Hand draw', 'Sculpture', 'Painting', 'Photography'].map(t => (
-                                        <li key={t}><a className="dropdown-item" onClick={() => setType(t)}>{t}</a></li>
-                                    ))}
-                                </ul>
+                        <div className='d-flex flex-row justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
+                            <div className='d-flex flex-row mt-4'>
+                                <label className='text-primary me-2 fs-5'>Art type</label>
+                                <div className="dropdown">
+                                    <button className="btn cs-btn-Postnotsale dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        {type ? type : "Select Type"}
+                                    </button>
+                                    <ul className="dropdown-menu">
+                                        {['Digital', 'Hand draw', 'Sculpture', 'Painting', 'Photography'].map(t => (
+                                            <li key={t}><a className="dropdown-item" onClick={() => setType(t)}>{t}</a></li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className='d-flex justify-content-center row me-5'>
+                    <div className='d-flex justify-content-center align-items-start row me-5'>
                         <button onClick={handleUpdate} className="btn cs-btn-Postnotsale2 rounded-pill w-25 mt-5">Update</button>
                     </div>
                 </div>

@@ -41,7 +41,7 @@ export default function Navbar() {
                         <button className="btn btn-sm btn-outline-primary border-0" onClick={() => { if (!user?.username) { alert("Please Login"); navigate("/signin"); } else { navigate("/createpost"); }}}>Create</button>
                         <button className="btn btn-sm btn-outline-primary border-0" onClick={() => { if (!user?.username) { alert("Please Login"); navigate("/signin"); } else { navigate("/profile/" + user.username); }}}>Profile</button>
                         <button className="btn btn-sm btn-outline-primary border-0" onClick={() => navigate("/cart")}>Cart</button>
-                        <button className="btn btn-sm btn-outline-primary border-0" onClick={() => navigate("/Topay")}>Buy</button>
+                        <button className="btn btn-sm btn-outline-primary border-0" onClick={() => navigate("/Toship")}>Buy</button>
                         <button className="btn btn-sm btn-outline-primary border-0" onClick={() => navigate("/shipping")}>Ship</button>
                         <button className="btn btn-sm btn-outline-primary border-0" onClick={() => navigate("/forseller")}>Sell</button>
                     </div>

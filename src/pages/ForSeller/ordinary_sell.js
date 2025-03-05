@@ -79,7 +79,7 @@ export default function Product() {
                 <div className="col-12 col-md-8">
                     {products.map((product) => (
                         <div key={product._id} className="d-flex flex-wrap align-items-center bg-white p-3 my-2 rounded">
-                            <img src={product.image} alt={product.name} className="me-3" style={{ width: "50px", height: "50px" }} />
+                            <img src={product.img} alt={product.name} className="me-3" style={{ width: "50px", height: "50px" }} />
                             <span className="fs-4 flex-grow-1">{product.name}</span>
 
                             <div className="d-flex flex-column text-end flex-grow-1">

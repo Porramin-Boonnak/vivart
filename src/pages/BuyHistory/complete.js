@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../../component/navbar";
-import "../../pagescss/Topay.css";
+import "../../pagescss/complete.css";
 
-export default function Topay() {
+export default function Complete() {
     const navigate = useNavigate();
     const location = useLocation();
 
     const tabs = [
-        { name: "To pay" },
+        { name: "To pay", path: "/Topay" },
         { name: "To ship", path: "/Toship" },
-        { name: "Complete", path: "/complete" },
+        { name: "Complete" },
         { name: "Paid History", path: "/paidHistory" },
         { name: "Bid History", path: "/bidHistory" },
     ];
@@ -25,19 +25,17 @@ export default function Topay() {
     return (
         <>
             <Navbar />
-            <div className="topay-container">
+            <div className="complete-container">
                 {/* Tabs */}
                 <div className="tabs">
                     {tabs.map((tab) => (
-                        <span 
-                        key={tab.path} 
-                        className={`${location.pathname === tab.path ? "active-tab" : ""} ${tab.name === "To pay" ? "to-pay-tab" : ""}`}
-                        onClick={() => tab.path && navigate(tab.path)}
-                    >
-                        {tab.name}
-                    </span>
-                    
-
+                        <span
+                            key={tab.path || tab.name}
+                            className={`${location.pathname === tab.path ? "active-tab" : ""} ${tab.name === "Complete" ? "complete-tab" : ""}`}
+                            onClick={() => tab.path && navigate(tab.path)}
+                        >
+                            {tab.name}
+                        </span>
                     ))}
                 </div>
 
@@ -55,16 +53,13 @@ export default function Topay() {
                                 <p className="total">
                                     Total <span>{(item.price * item.quantity).toLocaleString()} Baht</span>
                                 </p>
-                                <button className="pay-button">Pay</button>
+                                {/* แสดงสถานะตามหน้าเว็บ */}
+                                <p className={`Status ${location.pathname === "/Complete" ? "complete" : "uncomplete"}`}>
+                                    {location.pathname === "/Complete" ? "complete" : "uncomplete"}
+                                </p>
                             </div>
                         </div>
                     ))}
-                </div>
-
-                {/* Footer */}
-                <div className="total-footer">
-                    <span>Total : {totalAmount.toLocaleString()} Baht</span>
-                    <button className="pay-all-button">Pay All</button>
                 </div>
             </div>
         </>

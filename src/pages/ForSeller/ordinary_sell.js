@@ -8,13 +8,24 @@ import axios from "axios";
 export default function Product() {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
+    const [user, setuser] = useState();
     const API_URL = process.env.REACT_APP_API_URL;
     // 🚀 ดึงข้อมูลจาก Backend
     useEffect(() => {
-        axios.get("http://localhost:5000/products")
-            .then((response) => setProducts(response.data))
+        axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
+            setuser(response.data);
+            axios.post("http://localhost:5000/product", { artist: response.data.username, typepost: "ordinary" })
+            .then((response) => {
+                console.log("Response Data:", response.data);
+                setProducts(response.data);
+            })
             .catch((error) => console.error("Error fetching products:", error));
+        }).catch(error => {
+            console.log(error);
+        });
+       
     }, []);
+    
 
     // ✏️ ฟังก์ชันเปิดโหมดแก้ไข
     const handleEdit = (id) => {
@@ -27,7 +38,7 @@ export default function Product() {
     const handleSave = async (id) => {
         const productToUpdate = products.find(p => p._id === id);
         try {
-            await axios.put(`http://localhost:5000/products/${id}`, {
+            await axios.put(`http://localhost:5000/product/${id}`, {
                 name: productToUpdate.name,
                 image: productToUpdate.image,
                 stock: productToUpdate.stock,

@@ -4,7 +4,7 @@ import Navbar from "../../component/navbar";
 import "../../pagescss/Toship.css";
 import Shipping from "../shipping";
 
-export default function Topay() {
+export default function Toship() {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -12,8 +12,8 @@ export default function Topay() {
         { name: "To pay" , path: "/Topay"},
         { name: "To ship" },
         { name: "Complete", path: "/complete" },
-        { name: "Paid History", path: "/paid-history" },
-        { name: "Bid History", path: "/bid-history" },
+        { name: "Paid History", path: "/paidHistory" },
+        { name: "Bid History", path: "/bidHistory" },
     ];
 
     const [items] = useState([

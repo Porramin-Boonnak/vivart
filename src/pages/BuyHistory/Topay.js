@@ -11,8 +11,8 @@ export default function Topay() {
         { name: "To pay" },
         { name: "To ship", path: "/Toship" },
         { name: "Complete", path: "/complete" },
-        { name: "Paid History", path: "/paid-history" },
-        { name: "Bid History", path: "/bid-history" },
+        { name: "Paid History", path: "/paidHistory" },
+        { name: "Bid History", path: "/bidHistory" },
     ];
 
     const [items] = useState([

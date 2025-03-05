@@ -37,6 +37,7 @@ import Topay from "../pages/BuyHistory/Topay";
 import Toship from "../pages/BuyHistory/Toship";
 import Complete from "../pages/BuyHistory/complete";
 import PaidHistory from "../pages/BuyHistory/paidHistory";
+import BidHistory from "../pages/BuyHistory/BidHistory";
 
 export default function Router(){
     return (
@@ -80,6 +81,7 @@ export default function Router(){
             <Route path="/Toship" element={<Toship/>}/>
             <Route path="/complete" element={<Complete/>}/>
             <Route path="/paidHistory" element={<PaidHistory/>}/>
+            <Route path="/bidHistory" element={<BidHistory/>}/>
           </Routes>
         </BrowserRouter>
       );

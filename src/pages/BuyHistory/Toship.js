@@ -13,7 +13,7 @@ export default function Toship() {
         { name: "To ship" },
         { name: "Complete", path: "/complete" },
         { name: "Paid History", path: "/paidHistory" },
-        { name: "Bid History", path: "/bid-history" },
+        { name: "Bid History", path: "/bidHistory" },
     ];
 
     const [items] = useState([

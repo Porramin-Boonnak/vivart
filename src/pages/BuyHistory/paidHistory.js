@@ -12,7 +12,7 @@ export default function PaidHistory() {
         { name: "To ship", path: "/Toship" },
         { name: "Complete", path: "/complete" },
         { name: "Paid History" },
-        { name: "Bid History", path: "/bid-history" },
+        { name: "Bid History", path: "/bidHistory" },
     ];
 
     // ใช้ useState เพื่อเก็บวันที่และเวลาที่ซื้อของแต่ละรายการ

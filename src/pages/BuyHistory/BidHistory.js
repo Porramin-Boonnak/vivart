@@ -1,37 +1,55 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../../component/navbar";
-import "../../pagescss/complete.css";
+import "../../pagescss/bidHistory.css";
 
-export default function Complete() {
+export default function BidHistory() {
     const navigate = useNavigate();
     const location = useLocation();
 
     const tabs = [
         { name: "To pay", path: "/Topay" },
         { name: "To ship", path: "/Toship" },
-        { name: "Complete" },
+        { name: "Complete", path: "/complete" },
         { name: "Paid History", path: "/paidHistory" },
-        { name: "Bid History", path: "/bidHistory" },
+        { name: "Bid History" },
     ];
 
-    const [items] = useState([
-        { id: 1, name: "Light star", price: 7000, quantity: 1, image: "/images/light-star.png" },
-        { id: 2, name: "Reach star", price: 10000, quantity: 2, image: "/images/reach-star.png" }
+    const [items, setItems] = useState([
+        { id: 1, name: "Light star", price: 7000, quantity: 1, image: "/images/light-star.png", purchaseDate: "" },
+        { id: 2, name: "Reach star", price: 10000, quantity: 2, image: "/images/reach-star.png", purchaseDate: "" }
     ]);
 
-    const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const formatDateTime = (date) => {
+        const options = { hour: "2-digit", minute: "2-digit", hour12: true };
+        const time = date.toLocaleTimeString("en-US", options).toLowerCase();
+        const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+        return (
+            <>
+                <span className="purchase-time">{time}</span>
+                <br />
+                <span className="purchase-date">{formattedDate}</span>
+            </>
+        );
+    };
+
+    useEffect(() => {
+        const updatedItems = items.map(item => ({
+            ...item,
+            purchaseDate: formatDateTime(new Date())
+        }));
+        setItems(updatedItems);
+    }, []);
 
     return (
         <>
             <Navbar />
-            <div className="complete-container">
-                {/* Tabs */}
+            <div className="bidHistory-container">
                 <div className="tabs">
                     {tabs.map((tab) => (
                         <span
                             key={tab.path || tab.name}
-                            className={`${location.pathname === tab.path ? "active-tab" : ""} ${tab.name === "Complete" ? "complete-tab" : ""}`}
+                            className={`${location.pathname === tab.path ? "active-tab" : ""} ${tab.name === "Bid History" ? "bidHistory-tab" : ""}`}
                             onClick={() => tab.path && navigate(tab.path)}
                         >
                             {tab.name}
@@ -39,7 +57,6 @@ export default function Complete() {
                     ))}
                 </div>
 
-                {/* Order List */}
                 <div className="order-list">
                     {items.map((item) => (
                         <div key={item.id} className="order-item">
@@ -53,10 +70,7 @@ export default function Complete() {
                                 <p className="total">
                                     Total <span>{(item.price * item.quantity).toLocaleString()} Baht</span>
                                 </p>
-                                {/* แสดงสถานะตามหน้าเว็บ */}
-                                <p className={`Status ${location.pathname === "/Complete" ? "complete" : "uncomplete"}`}>
-                                    {location.pathname === "/Complete" ? "complete" : "uncomplete"}
-                                </p>
+                                <p>{item.purchaseDate}</p>
                             </div>
                         </div>
                     ))}

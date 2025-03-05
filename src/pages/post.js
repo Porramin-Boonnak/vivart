@@ -30,7 +30,7 @@ export default function Post() {
             console.log(error);
         });
 
-        axios.get(`http://127.0.0.1:5000/comment/${postid}`)
+        axios.get(`${API_URL}/comment/${postid}`)
             .then(response => {
                 setcomment(response.data);
             })
@@ -48,7 +48,8 @@ export default function Post() {
             quantity: 1,
             img: post.img,
             typepost : post.typepost,
-            type : post.type
+            type : post.type,
+            own : post.own ? post.own : post.artist
         })
         .then(response => {
             console.log(response.data);
@@ -94,8 +95,8 @@ export default function Post() {
         };
     
         try {
-            await axios.post(`http://127.0.0.1:5000/comment/${postid}`, data);
-            const response = await axios.get(`http://127.0.0.1:5000/comment/${postid}`);
+            await axios.post(`${API_URL}/comment/${postid}`, data);
+            const response = await axios.get(`${API_URL}comment/${postid}`);
             setcomment(response.data);
             ncomment.current.value = ""; // ล้าง input หลังส่งคอมเมนต์
         } catch (error) {

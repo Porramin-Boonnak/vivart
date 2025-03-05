@@ -46,7 +46,7 @@ export default function Shipping() {
             .catch(error => {
                 console.error("Error fetching IP:", error);
             });
-        axios.post("http://localhost:5000/get_address", { token: localStorage.getItem('token') }).then(response => { setalladdress(response.data); console.log(response.data) })
+        axios.post(`${API_URL}/get_address`, { token: localStorage.getItem('token') }).then(response => { setalladdress(response.data); console.log(response.data) })
     }, [API_URL, navigate]);
 
     useEffect(() => {
@@ -79,7 +79,7 @@ export default function Shipping() {
                         typepost: item.typepost,
                         quantity: item.quantity
                     };
-                    axios.put("http://localhost:5000/amount", data)
+                    axios.put(`${API_URL}/amount`, data)
                 });
             }
         };
@@ -96,40 +96,10 @@ export default function Shipping() {
         const interval = setInterval(async () => {
             setCountdown(prev => {
                 if (prev > 0) {
-                    axios.post(`http://localhost:5000/proxy`, {
-                        url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&con_id=106728&method=confirm&id_pay=${bill.id_pay}&accode=${accode}&account_no=0431494574&ip=${ip}`
-                    })
-                        .then(response => {
-                            console.log(response.data)
-                            if (response.data.status === 1) {
-                                axios.post("http://localhost:5000/history", cart);
-                                const cartRequests = cart.map(async (item) => {
-                                    const data = {
-                                        _id: item._id_post,
-                                        typepost: item.typepost,
-                                        quantity: item.quantity,
-                                        payment: "success",
-                                        username: user.username
-                                    };
-
-                                    await axios.post("http://localhost:5000/success", data);
-                                    await axios.delete(`${API_URL}/cart/${user._id}/${item._id_post}`);
-                                });
-                                Promise.all(cartRequests)
-                                    .then(() => {
-                                        handlePurchase();
-                                        clearInterval(interval);
-                                        return 0;
-                                    })
-                                    .catch(error => console.error("Error processing cart:", error));
-                            }
-                        })
-                        .catch(error => console.error("Error confirming payment:", error));
-
                     return prev - 1;
                 } else {
                    
-                    axios.post(`http://localhost:5000/proxy`, {
+                    axios.post(`${API_URL}/proxy`, {
                         url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&con_id=106728&id_pay=${bill.id_pay}&method=cancel`
                     })
                         .then(response => console.log("Canceled:", response.data))
@@ -143,7 +113,7 @@ export default function Shipping() {
                             quantity: item.quantity
                         };
 
-                        await axios.put("http://localhost:5000/amount", data);
+                        await axios.put(`${API_URL}/amount`, data);
                     });
                     return 0;
                 }
@@ -172,7 +142,7 @@ export default function Shipping() {
                 quantity: item.quantity,
                 payment: "waiting"
             };
-            return axios.post("http://localhost:5000/amount", data)
+            return axios.post(`${API_URL}/amount`, data)
                 .then(response => {
                     check = true;
                 })
@@ -186,11 +156,11 @@ export default function Shipping() {
         await Promise.allSettled(requests);
         if (!hasError && check) {
             setProgress(prev => Math.min(prev + 37.5, 100));
-            axios.post(`http://localhost:5000/proxy`, { url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&amount=${totalPrice}&ref1=${user.username}&con_id=106728&method=create_pay` })
+            axios.post(`${API_URL}/proxy`, { url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&amount=${totalPrice}&ref1=${user.username}&con_id=106728&method=create_pay` })
                 .then(response => {
                     console.log(response.data)
                     if (response.data.status === 1) {
-                        axios.post(`http://localhost:5000/proxy`, { url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&con_id=106728&id_pay=${response.data.id_pay}&type=01&promptpay_id=0933658682&method=detail_pay` })
+                        axios.post(`${API_URL}/proxy`, { url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&con_id=106728&id_pay=${response.data.id_pay}&type=01&promptpay_id=0933658682&method=detail_pay` })
                             .then(response => {
                                 console.log(response.data);
                                 if (response.data.status === 1) {
@@ -215,7 +185,7 @@ export default function Shipping() {
             country: country,
             phone: phone
         }
-        axios.post("http://localhost:5000/address", data).then(axios.post("http://localhost:5000/get_address", { token: localStorage.getItem('token') }).then(response => { setalladdress(response.data) }));
+        axios.post(`${API_URL}/address`, data).then(axios.post(`${API_URL}/get_address`, { token: localStorage.getItem('token') }).then(response => { setalladdress(response.data) }));
         setaddaddress(false);
     };
 
@@ -233,12 +203,12 @@ export default function Shipping() {
                 phone: phone
             }
         }
-        axios.put("http://localhost:5000/edit_address", data).then(axios.post("http://localhost:5000/get_address", { token: localStorage.getItem('token') }).then(response => { setalladdress(response.data) }));
+        axios.put(`${API_URL}/edit_address`, data).then(axios.post(`API_URL}/get_address`, { token: localStorage.getItem('token') }).then(response => { setalladdress(response.data) }));
         setedit(false)
     };
 
     const handledelete = (_id) => {
-        axios.delete("http://localhost:5000/delete_address", {
+        axios.delete(`${API_URL}/delete_address`, {
             headers: {
                 'Content-Type': 'application/json', // ระบุว่าเป็น JSON
             },
@@ -246,7 +216,7 @@ export default function Shipping() {
                 token: localStorage.getItem('token'), // ส่ง token ใน body
                 _id: _id  // ส่ง _id ใน body
             }
-        }).then(axios.post("http://localhost:5000/get_address", { token: localStorage.getItem('token') }).then(response => { setalladdress(response.data); }));
+        }).then(axios.post(`${API_URL}/get_address`, { token: localStorage.getItem('token') }).then(response => { setalladdress(response.data); }));
     };
 
     const handlePurchase = () => {
@@ -254,7 +224,61 @@ export default function Shipping() {
         setIsComplete(true);
         setIsPayment(true);
     };
-
+    const paymentclick = () =>{
+        console.log(bill.id_pay)
+        axios.post(`${API_URL}/proxy`, {
+            url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&con_id=106728&method=confirm&id_pay=${bill.id_pay}&accode=${accode}&account_no=0431494574&ip=${ip}`
+        })
+            .then(response => {
+                console.log(response.data)
+                if (response.data.status === 1) {
+                    const cartRequests = cart.map(async (item) => {
+                        const data = {
+                            _id: item._id_post,
+                            typepost: item.typepost,
+                            quantity: item.quantity,
+                            payment: "success",
+                            username: user.username
+                        };
+                        const sellandbuy = {
+                            _id_post: item._id,
+                            typepost: item.typepost,
+                            quantity: item.quantity,
+                            customer: user.username,
+                            price : Number(item.price),
+                            own : item.own,
+                            gender : user.gender,
+                            age : (() => {
+                                const birth = new Date(user.birthDate); // ตรวจสอบให้แน่ใจว่า `user.birthDate` มีค่าที่ถูกต้อง
+                                const today = new Date();
+                                let age = today.getFullYear() - birth.getFullYear();
+                            
+                                // ตรวจสอบว่าวันเกิดยังมาไม่ถึงในปีนี้หรือไม่
+                                if (
+                                  today.getMonth() < birth.getMonth() ||
+                                  (today.getMonth() === birth.getMonth() && today.getDate() < birth.getDate())
+                                ) {
+                                  age--;
+                                }
+                            
+                                return age; // return ค่าที่คำนวณได้
+                              })(),
+                            time: new Date().toISOString()
+                        };
+                        await axios.post(`${API_URL}/history`, sellandbuy);
+                        await axios.post(`${API_URL}/success`, data);
+                        await axios.delete(`${API_URL}/cart/${user._id}/${item._id_post}`);
+                    });
+                    Promise.all(cartRequests)
+                        .then(() => {
+                            handlePurchase();
+                            return 0;
+                        })
+                        .catch(error => console.error("Error processing cart:", error));
+                }
+            })
+            .catch(error => console.error("Error confirming payment:", error));
+    }
     const backtohome = () => {
         navigate('/');
     };
@@ -294,6 +318,7 @@ export default function Shipping() {
                                                 <img src={`data:image/png;base64,${bill.qr_image_base64}`} alt="qr_image_base64" className="img-fluid" />
                                                 <div>
                                                     เวลาที่เหลือ: {countdown !== null ? formatTime(countdown) : "กำลังโหลด..."}
+                                                    <button className="btn btn-dark w-100 mt-4" onClick={() => paymentclick()}>Continue</button>
                                                 </div>
                                             </>
                                             : <>Loading...</>

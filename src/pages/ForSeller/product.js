@@ -1,4 +1,5 @@
-import Navbar from "../component/navbar";
+import Searchbar from "../../component/searchbar";
+import Navbar from "../../component/navbar";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";

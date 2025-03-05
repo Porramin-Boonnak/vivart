@@ -11,6 +11,7 @@ export default function Post() {
     const { postid } = useParams();
     const [post, setpost] = useState(null);
     const [user, setuser] = useState();
+    const [comment, setcomment] = useState();
     const hasFetched = useRef(false);
     const API_URL = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
@@ -28,6 +29,12 @@ export default function Post() {
         }).catch(error => {
             console.log(error);
         });
+
+        axios.get(`http://127.0.0.1:5000/comment/${postid}`)
+            .then(response => {
+                setcomment(response.data);
+            })
+            .catch(error => console.error("Comment error:", error));
     }, [postid]);
 
     const addToCart = () => {
@@ -56,7 +63,6 @@ export default function Post() {
             navigate('/signin');
         }
         };
-        
     const examplecomment = [
         { name: "Naruto", comment: "So interesting.", img: "https://www.beartai.com/wp-content/uploads/2024/02/Naruto-1600x840.jpg" },
         { name: "Sasuke", comment: "Beautiful as hellll!", img: "https://pm1.aminoapps.com/6493/8e7caf892a720f98952caf5f589e2c265458a291_hq.jpg" },
@@ -78,6 +84,24 @@ export default function Post() {
 
 
     ];
+    
+    const sendcomment = async () => {
+        const data = {
+            post_id: postid,
+            name: user.username,
+            comment: ncomment.current.value,
+            img: user.img
+        };
+    
+        try {
+            await axios.post(`http://127.0.0.1:5000/comment/${postid}`, data);
+            const response = await axios.get(`http://127.0.0.1:5000/comment/${postid}`);
+            setcomment(response.data);
+            ncomment.current.value = ""; // ล้าง input หลังส่งคอมเมนต์
+        } catch (error) {
+            console.error("Comment error:", error);
+        }
+    };
     const Allcomment = ({ items }) => {
         return (<>
             <div className="container">
@@ -102,6 +126,9 @@ export default function Post() {
             </div>
         </>);
     };
+
+const ncomment = useRef();
+
     const like = (id) => {
         console.log("like")
         axios.put(API_URL + "/update/like/" + id, {username:user.username})
@@ -209,7 +236,24 @@ export default function Post() {
 
                                         {user && (user.username === post.artist) ?
                                             <div>
-                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between" onClick={() => navigate(`/editpostnotsale/${postid}`)} >Edit<i className="bi bi-pencil-square"></i></a></li>
+                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between" 
+                                                    onClick={() => {
+                                                        const paths = {
+                                                            normal: `/editpostnotsale/${postid}`,
+                                                            uniq: `/editpostsaleuniq/${postid}`,
+                                                            ordinary: `/editpostsaleordi/${postid}`,
+                                                        };
+                                                    
+                                                        if (paths[post.typepost]) {
+                                                            navigate(paths[post.typepost]);
+                                                        }
+                                                        }
+                                                    }>
+                                                        Edit
+                                                        <i className="bi bi-pencil-square">
+                                                        </i>
+                                                    </a>
+                                                </li>
                                                 <li><a className="dropdown-item d-flex align-items-center justify-content-between" >Delete<i className="bi bi-trash3-fill"></i></a></li>
                                             </div>
                                             :
@@ -236,13 +280,13 @@ export default function Post() {
                                 Comment
                             </div>
                             <div className="cs-bg-allcomment w-100 ">
-                                <Allcomment items={examplecomment} />
+                                {comment ? <Allcomment items={comment} /> : <></>}
                                 <div className="d-flex justify-content-center align-items-center m-2">
                                     <div className="rounded-pill rounded-end-0 border-end-0 border border-dark p-2">
                                         <img className="rounded-circle c-img-sent-comment " src={user&&user.img ? user.img : <i class="bi bi-person-circle"></i>} />
                                     </div>
-                                    <input className="form-control rounded-pill rounded-end-0 rounded-start-0 w-75 d-inline-block border-end-0 border-start-0 border border-dark p-3" type="search" placeholder="comment" aria-label="Search" />
-                                    <button type="button" className="btn rounded-pill rounded-start-0 border-start-0 border border-dark p-3"><i className="bi bi-send-fill"></i></button>
+                                    <input className="form-control rounded-pill rounded-end-0 rounded-start-0 w-75 d-inline-block border-end-0 border-start-0 border border-dark p-3" ref={ncomment} type="search" placeholder="comment" aria-label="Search" />
+                                    <button type="button" className="btn rounded-pill rounded-start-0 border-start-0 border border-dark p-3" onClick={sendcomment}><i className="bi bi-send-fill"></i></button>
                                 </div>
                             </div>
                         </div>

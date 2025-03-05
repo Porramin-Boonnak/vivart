@@ -1,80 +1,4 @@
-/* 
 
-
-.notification-nav button {
-  background: none;
-  border: none;
-  font-size: 16px;
-  font-weight: bold;
-  color: #555;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.notification-nav button.active-tab {
-  color: #d93c91;
-  border-bottom: 3px solid #d93c91;
-}
-
-.notification-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.notification-item {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
-  cursor: pointer;
-}
-
-.notification-item:hover {
-  background-color: #fce7eb;
-}
-
-.profile-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 12px;
-}
-
-.notification-text {
-  flex-grow: 1;
-  font-size: 14px;
-  color: #333;
-}
-
-.notification-timestamp {
-  font-size: 12px;
-  color: #888;
-  text-align: right;
-  min-width: 80px;
-}
-
-.post-thumbnail {
-  width: 50px;
-  height: 50px;
-  border-radius: 5px;
-  margin-left: 10px;
-}
-
-.no-notifications {
-  text-align: center;
-  padding: 20px;
-  color: #888;
-}
-
-.modal-header-custom {
-  background-color: #FFFBFB !important; 
-}
-
-
-
- */ 
-/* notification.css */
 .modal-body-scrollable {
   min-height: 400px;
   max-height: 400px; 
@@ -99,16 +23,34 @@
 }
 
 
-.custom-tab-color {
-  color:#ffffff !important;
+.custom-tab-colors {
+  color: white !important;
   background-color: #e25ea6 !important; 
   width: 100%; 
   text-align: center;
   font-size: 20px;
+}
+
+.notifications-nav {
 
 }
 
-.nav-tabs .nav-link {
-  color: #fff; /* Set the text color to white */
+#notification-custom-tabs .nav-link {
+  color: white !important;
+  background-color: #e25ea6 !important;
+  transition: background-color 0.3s ease-in-out;
+  
 }
-
+#notification-custom-tabs .nav-link.active {
+  color: rgb(255, 255, 255) !important;
+  background-color: #e3449c !important;
+  transition: background-color 0.3s ease-in-out;
+  border-bottom: 3px solid #fff; 
+  font-weight: bold;
+}
+#notification-custom-tabs .nav-link:hover {
+  color: rgb(232, 221, 221) !important;
+  background-color: #ee82bf !important;
+  transition: background-color 0.3s ease-in-out;
+  font-weight: bold;
+}

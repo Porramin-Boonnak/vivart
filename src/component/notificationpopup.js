@@ -36,14 +36,14 @@ const NotificationModal = ({ isOpen, onClose }) => {
         />
         <Tabs
           defaultActiveKey="post"
-          id="notification-tabs"
-          className="custom-tab-color"
+          id="notification-custom-tabs"
+          className="custom-tab-colors notifications-nav"
           fill
           onSelect={(k) => setActiveTab(k)}
         >
-          <Tab eventKey="post" title="Post"></Tab>
-          <Tab eventKey="buy" title="Buy"></Tab>
-          <Tab eventKey="sell" title="Sell"></Tab>
+          <Tab className="" eventKey="post" title="Post"></Tab>
+          <Tab className="" eventKey="buy" title="Buy"></Tab>
+          <Tab className="" eventKey="sell" title="Sell"></Tab>
         </Tabs>
       </Modal.Header>
 

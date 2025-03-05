@@ -25,13 +25,16 @@
 }
 
 .masonry-layout{
-    column-gap: 1em;
+    column-gap: 1.5em; /* เพิ่มช่องว่างระหว่างคอลัมน์ */
+    row-gap: 2em; /* เพิ่มช่องว่างระหว่างแถว */
+    padding: 0 2em;
 }
 
 .masonry-item{
     break-inside: avoid;
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;/* เพิ่มช่องว่างด้านล่างของแต่ละโพสต์ */
     box-sizing: border-box;
+    padding: 10px; /* เพิ่ม padding ภายในแต่ละการ์ด */
 }
 
 @media (min-width:576px){
@@ -44,6 +47,13 @@
     .masonry-layout{
         column-count: 4;
     }
+}
+
+.card {
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); 
+    padding: 15px;
+    border-radius: 0px;
+    background: #F9F9F9;
 }
 
 .c-card-icon {
@@ -68,4 +78,13 @@
     right: 50px;
     color: #DE5499; 
     font-size: 24px;
+}
+
+.card-img-top {
+    border: none; 
+    border-radius: 0px; 
+}
+
+.d-inline {
+    color: #0000007f;
 }

@@ -210,23 +210,25 @@ export default function Postsaleuniq() {
                             )}
                         </div>
                             {(selltype === "Bid (Sell to the most expensive)" || selltype === "Bid (sell to the first person)") && (
-                                    <div div className="d-flex flex-row mt-5 ">
+                                    <div div className="d-flex flex-row mt-3 ">
                                         <div>
                                             <Form.Group>
                                                 <label className='text-primary me-2 fs-5'>Start Bid:</label>
                                                 <Form.Control
                                                 type="datetime-local"
                                                 value={dateTimeS}
+                                                className='cs-color-Search text-primary'
                                                 onChange={(e) => setDateTimeS(e.target.value)}
                                                 />
                                             </Form.Group>
                                         </div>
-                                        <div>
+                                        <div className='ms-3'>
                                             <Form.Group>
                                                 <label className='text-primary me-2 fs-5'>End Bid:</label>
                                                 <Form.Control
                                                 type="datetime-local"
                                                 value={dateTimeE}
+                                                className='cs-color-Search text-primary'
                                                 onChange={(e) => setDateTimeE(e.target.value)}
                                                 />
                                             </Form.Group>

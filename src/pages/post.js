@@ -38,31 +38,31 @@ export default function Post() {
     }, [postid]);
 
     const addToCart = () => {
-        if(user){
-        
-        axios.post(`${API_URL}/cart`, {
-            _id_post: post._id,
-            _id_customer: user._id,
-            name: post.name,
-            price: post.price,
-            quantity: 1,
-            img: post.img,
-            typepost : post.typepost,
-            type : post.type
-        })
-        .then(response => {
-            console.log(response.data);
-            navigate('/cart');
-        })
-        .catch(error => {
-            console.error("Error fetching cart data:", error)
-            }
-            );
-        }else{
+        if (user) {
+
+            axios.post(`${API_URL}/cart`, {
+                _id_post: post._id,
+                _id_customer: user._id,
+                name: post.name,
+                price: post.price,
+                quantity: 1,
+                img: post.img,
+                typepost: post.typepost,
+                type: post.type
+            })
+                .then(response => {
+                    console.log(response.data);
+                    navigate('/cart');
+                })
+                .catch(error => {
+                    console.error("Error fetching cart data:", error)
+                }
+                );
+        } else {
             alert("Please login");
             navigate('/signin');
         }
-        };
+    };
     const examplecomment = [
         { name: "Naruto", comment: "So interesting.", img: "https://www.beartai.com/wp-content/uploads/2024/02/Naruto-1600x840.jpg" },
         { name: "Sasuke", comment: "Beautiful as hellll!", img: "https://pm1.aminoapps.com/6493/8e7caf892a720f98952caf5f589e2c265458a291_hq.jpg" },
@@ -84,7 +84,7 @@ export default function Post() {
 
 
     ];
-    
+
     const sendcomment = async () => {
         const data = {
             post_id: postid,
@@ -92,7 +92,7 @@ export default function Post() {
             comment: ncomment.current.value,
             img: user.img
         };
-    
+
         try {
             await axios.post(`http://127.0.0.1:5000/comment/${postid}`, data);
             const response = await axios.get(`http://127.0.0.1:5000/comment/${postid}`);
@@ -127,11 +127,11 @@ export default function Post() {
         </>);
     };
 
-const ncomment = useRef();
+    const ncomment = useRef();
 
     const like = (id) => {
         console.log("like")
-        axios.put(API_URL + "/update/like/" + id, {username:user.username})
+        axios.put(API_URL + "/update/like/" + id, { username: user.username })
             .then(response => {
                 console.log(response.data)
             })
@@ -142,7 +142,7 @@ const ncomment = useRef();
         axios.request({
             method: 'DELETE',
             url: `${API_URL}/delete/like/${id}`,
-            data: {username:user.username},
+            data: { username: user.username },
             headers: {
                 "Content-Type": "application/json"
             }
@@ -182,11 +182,24 @@ const ncomment = useRef();
     };
     const handleCopy = async () => {
         try {
-          await navigator.clipboard.writeText(`${API_URL}/post/${postid}`);
+            await navigator.clipboard.writeText(`${API_URL}/post/${postid}`);
         } catch (err) {
-          console.error("Failed to copy: ", err);
+            console.error("Failed to copy: ", err);
         }
-      };
+    };
+    const deletePost = async () => {
+        if (window.confirm("Are you sure you want to delete this post?")) {
+            try {
+                await axios.delete(`${API_URL}/post/${postid}`);
+                alert("Post deleted successfully");
+                navigate('/'); // หลังจากลบเสร็จให้กลับไปหน้าหลัก
+            } catch (error) {
+                console.error("Error deleting post:", error);
+                alert("Failed to delete post");
+            }
+        }
+    };
+
     return (
         <>{post ?
             <div className="container-fluid p-0 bg-secondary vh-100">
@@ -200,10 +213,10 @@ const ncomment = useRef();
                             {post && post.img && post.img.length ? (<Showimg items={post.img} like={post.like} />) : <div>Loading...</div>}
                             <div className="bg-primary-lighter p-2">
                                 <div className="d-flex align-items-center justify-content-center">
-                                    {post && user&&(user.username) ? <Showicon post={post} /> : <i className="bi bi-heart me-2"></i>}
+                                    {post && user && (user.username) ? <Showicon post={post} /> : <i className="bi bi-heart me-2"></i>}
                                     <div className="fw-bold">LIKE</div>
                                     <i className="bi bi-share ms-3 me-2"></i>
-                                    <button className="fw-bold bg-primary-lighter border-0" onClick={()=>handleCopy()}>SHARE</button>
+                                    <button className="fw-bold bg-primary-lighter border-0" onClick={() => handleCopy()}>SHARE</button>
                                 </div>
                             </div>
 
@@ -236,25 +249,30 @@ const ncomment = useRef();
 
                                         {user && (user.username === post.artist) ?
                                             <div>
-                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between" 
+                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between"
                                                     onClick={() => {
                                                         const paths = {
                                                             normal: `/editpostnotsale/${postid}`,
                                                             uniq: `/editpostsaleuniq/${postid}`,
                                                             ordinary: `/editpostsaleordi/${postid}`,
                                                         };
-                                                    
+
                                                         if (paths[post.typepost]) {
                                                             navigate(paths[post.typepost]);
                                                         }
-                                                        }
+                                                    }
                                                     }>
-                                                        Edit
-                                                        <i className="bi bi-pencil-square">
-                                                        </i>
+                                                    Edit
+                                                    <i className="bi bi-pencil-square">
+                                                    </i>
+                                                </a>
+                                                </li>
+                                                <li>
+                                                    <a className="dropdown-item d-flex align-items-center justify-content-between"
+                                                        onClick={deletePost}>
+                                                        Delete<i className="bi bi-trash3-fill"></i>
                                                     </a>
                                                 </li>
-                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between" >Delete<i className="bi bi-trash3-fill"></i></a></li>
                                             </div>
                                             :
                                             <div className="d-none"></div>
@@ -268,12 +286,12 @@ const ncomment = useRef();
                             <div className="fw-light mt-2">
                                 #{post.tag}
                             </div>
-                            {user && post.typepost !== "normal" ? post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open" && post.artist !== user.username?
+                            {user && post.typepost !== "normal" ? post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open" && post.artist !== user.username ?
                                 <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                     <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
                                 : post.typepost === "ordinary" && post.artist !== user.username ? <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
-                                <h6 className="text-primary fw-bold fs-2 mt-4">amount : {post.amount}</h6>
-                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>: <></>
+                                    <h6 className="text-primary fw-bold fs-2 mt-4">amount : {post.amount}</h6>
+                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></> : <></>
                                 : <></>
                             }
                             <div className="p-1 mt-4 text-center cs-bg-comment mb-0">
@@ -283,7 +301,7 @@ const ncomment = useRef();
                                 {comment ? <Allcomment items={comment} /> : <></>}
                                 <div className="d-flex justify-content-center align-items-center m-2">
                                     <div className="rounded-pill rounded-end-0 border-end-0 border border-dark p-2">
-                                        <img className="rounded-circle c-img-sent-comment " src={user&&user.img ? user.img : <i class="bi bi-person-circle"></i>} />
+                                        <img className="rounded-circle c-img-sent-comment " src={user && user.img ? user.img : <i class="bi bi-person-circle"></i>} />
                                     </div>
                                     <input className="form-control rounded-pill rounded-end-0 rounded-start-0 w-75 d-inline-block border-end-0 border-start-0 border border-dark p-3" ref={ncomment} type="search" placeholder="comment" aria-label="Search" />
                                     <button type="button" className="btn rounded-pill rounded-start-0 border-start-0 border border-dark p-3" onClick={sendcomment}><i className="bi bi-send-fill"></i></button>

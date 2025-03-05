@@ -30,7 +30,7 @@ export default function Post() {
             console.log(error);
         });
 
-        axios.get(`http://127.0.0.1:5000/comment/${postid}`)
+        axios.get(`${API_URL}/comment/${postid}`)
             .then(response => {
                 setcomment(response.data);
             })
@@ -38,27 +38,28 @@ export default function Post() {
     }, [postid]);
 
     const addToCart = () => {
-        if (user) {
-
-            axios.post(`${API_URL}/cart`, {
-                _id_post: post._id,
-                _id_customer: user._id,
-                name: post.name,
-                price: post.price,
-                quantity: 1,
-                img: post.img,
-                typepost: post.typepost,
-                type: post.type
-            })
-                .then(response => {
-                    console.log(response.data);
-                    navigate('/cart');
-                })
-                .catch(error => {
-                    console.error("Error fetching cart data:", error)
-                }
-                );
-        } else {
+        if(user){
+        
+        axios.post(`${API_URL}/cart`, {
+            _id_post: post._id,
+            _id_customer: user._id,
+            name: post.name,
+            price: post.price,
+            quantity: 1,
+            img: post.img,
+            typepost : post.typepost,
+            type : post.type,
+            own : post.own ? post.own : post.artist
+        })
+        .then(response => {
+            console.log(response.data);
+            navigate('/cart');
+        })
+        .catch(error => {
+            console.error("Error fetching cart data:", error)
+            }
+            );
+        }else{
             alert("Please login");
             navigate('/signin');
         }
@@ -94,8 +95,8 @@ export default function Post() {
         };
 
         try {
-            await axios.post(`http://127.0.0.1:5000/comment/${postid}`, data);
-            const response = await axios.get(`http://127.0.0.1:5000/comment/${postid}`);
+            await axios.post(`${API_URL}/comment/${postid}`, data);
+            const response = await axios.get(`${API_URL}comment/${postid}`);
             setcomment(response.data);
             ncomment.current.value = ""; // ล้าง input หลังส่งคอมเมนต์
         } catch (error) {
@@ -289,9 +290,9 @@ export default function Post() {
                             {user && post.typepost !== "normal" ? post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open" && post.artist !== user.username ?
                                 <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                     <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
-                                : post.typepost === "ordinary" && post.artist !== user.username ? <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
-                                    <h6 className="text-primary fw-bold fs-2 mt-4">amount : {post.amount}</h6>
-                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></> : <></>
+                                : post.typepost === "ordinary" && post.artist !== user.username && post.amount!==0 ? <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
+                                <h6 className="text-primary fw-bold fs-2 mt-4">amount : {post.amount}</h6>
+                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>: <></>
                                 : <></>
                             }
                             <div className="p-1 mt-4 text-center cs-bg-comment mb-0">

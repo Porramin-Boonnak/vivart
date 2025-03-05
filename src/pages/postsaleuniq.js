@@ -24,8 +24,11 @@ export default function Postsaleuniq() {
     useEffect(() => {
 
         axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
-            console.log(response.data)
+            console.log(response.data);
             setuser(response.data);
+            axios.get(`${API_URL}/bank/${response.data.username}`).catch(error => {
+                navigate('/createpost');
+              });
         }).catch(error => {
             alert("please login ");
             navigate('/signin');

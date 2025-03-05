@@ -98,14 +98,14 @@ export default function Shipping() {
                 if (prev > 0) {
                     return prev - 1;
                 } else {
-                   
+
                     axios.post(`${API_URL}/proxy`, {
                         url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&con_id=106728&id_pay=${bill.id_pay}&method=cancel`
                     })
                         .then(response => console.log("Canceled:", response.data))
                         .catch(error => console.error("Error canceling:", error));
 
-                    
+
                     cart.map(async (item) => {
                         const data = {
                             _id: item._id_post,
@@ -120,7 +120,7 @@ export default function Shipping() {
             });
         }, 1000);
 
-        return () => clearInterval(interval); 
+        return () => clearInterval(interval);
 
     }, [countdown]);
 
@@ -224,7 +224,7 @@ export default function Shipping() {
         setIsComplete(true);
         setIsPayment(true);
     };
-    const paymentclick = () =>{
+    const paymentclick = () => {
         console.log(bill.id_pay)
         axios.post(`${API_URL}/proxy`, {
             url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&con_id=106728&method=confirm&id_pay=${bill.id_pay}&accode=${accode}&account_no=0431494574&ip=${ip}`
@@ -245,26 +245,37 @@ export default function Shipping() {
                             typepost: item.typepost,
                             quantity: item.quantity,
                             customer: user.username,
-                            price : Number(item.price),
-                            own : item.own,
-                            gender : user.gender,
-                            age : (() => {
-                                const birth = new Date(user.birthDate); // ตรวจสอบให้แน่ใจว่า `user.birthDate` มีค่าที่ถูกต้อง
+                            price: Number(item.price),
+                            own: item.own,
+                            gender: user.gender,
+                            age: (() => {
+                                const birth = new Date(user.birthdate); // ตรวจสอบให้แน่ใจว่า `user.birthDate` มีค่าที่ถูกต้อง
                                 const today = new Date();
                                 let age = today.getFullYear() - birth.getFullYear();
-                            
+
                                 // ตรวจสอบว่าวันเกิดยังมาไม่ถึงในปีนี้หรือไม่
                                 if (
-                                  today.getMonth() < birth.getMonth() ||
-                                  (today.getMonth() === birth.getMonth() && today.getDate() < birth.getDate())
+                                    today.getMonth() < birth.getMonth() ||
+                                    (today.getMonth() === birth.getMonth() && today.getDate() < birth.getDate())
                                 ) {
-                                  age--;
+                                    age--;
                                 }
-                            
+
                                 return age; // return ค่าที่คำนวณได้
-                              })(),
+                            })(),
                             time: new Date().toISOString()
                         };
+                        await axios.get(`${API_URL}/bank/${item.own}`).then(async (res) => {
+                            const data = {
+                                username: res.data.username,
+                                nameaccount: res.data.nameaccount,
+                                bank: res.data.bank,
+                                number: res.data.number,
+                                totalPrice : totalPrice,
+                                status : "waiting"
+                            }
+                            await axios.post(`${API_URL}/payout`, data);
+                        })
                         await axios.post(`${API_URL}/history`, sellandbuy);
                         await axios.post(`${API_URL}/success`, data);
                         await axios.delete(`${API_URL}/cart/${user._id}/${item._id_post}`);
@@ -275,6 +286,7 @@ export default function Shipping() {
                             return 0;
                         })
                         .catch(error => console.error("Error processing cart:", error));
+                    
                 }
             })
             .catch(error => console.error("Error confirming payment:", error));

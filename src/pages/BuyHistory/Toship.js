@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../../component/navbar";
-import "../../pagescss/Topay.css";
+import "../../pagescss/Toship.css";
+import Shipping from "../shipping";
 
 export default function Topay() {
     const navigate = useNavigate();
     const location = useLocation();
 
     const tabs = [
-        { name: "To pay" },
-        { name: "To ship", path: "/Toship" },
+        { name: "To pay" , path: "/Topay"},
+        { name: "To ship" },
         { name: "Complete", path: "/complete" },
         { name: "Paid History", path: "/paid-history" },
         { name: "Bid History", path: "/bid-history" },
@@ -25,13 +26,13 @@ export default function Topay() {
     return (
         <>
             <Navbar />
-            <div className="topay-container">
+            <div className="toship-container">
                 {/* Tabs */}
                 <div className="tabs">
                     {tabs.map((tab) => (
                         <span 
                         key={tab.path} 
-                        className={`${location.pathname === tab.path ? "active-tab" : ""} ${tab.name === "To pay" ? "to-pay-tab" : ""}`}
+                        className={`${location.pathname === tab.path ? "active-tab" : ""} ${tab.name === "To ship" ? "to-ship-tab" : ""}`}
                         onClick={() => tab.path && navigate(tab.path)}
                     >
                         {tab.name}
@@ -55,16 +56,10 @@ export default function Topay() {
                                 <p className="total">
                                     Total <span>{(item.price * item.quantity).toLocaleString()} Baht</span>
                                 </p>
-                                <button className="pay-button">Pay</button>
+                                <button className="ship-button" onClick={() => navigate("/shipping")}>View shipping details</button>
                             </div>
                         </div>
                     ))}
-                </div>
-
-                {/* Footer */}
-                <div className="total-footer">
-                    <span>Total : {totalAmount.toLocaleString()} Baht</span>
-                    <button className="pay-all-button">Pay All</button>
                 </div>
             </div>
         </>

@@ -34,6 +34,7 @@ import Choose from "./choose";
 import Salehistory from "../pages/ForSeller/salehistory";
 import ForSeller from "../pages/Forseller";
 import Topay from "../pages/BuyHistory/Topay";
+import Toship from "../pages/BuyHistory/Toship";
 
 export default function Router(){
     return (
@@ -63,7 +64,6 @@ export default function Router(){
             <Route path="/editprofile" element={<EditProfile />}/>
             <Route path="/chat" element={<Chat />}/>
             <Route path="/chat/:this_username" element={<Chat />}/>
-            
             <Route path="/cart" element={<Cart/>}/>
             <Route path="/filltracking" element={<Filltracking />}/>
             <Route path="/notification" element={<Notification/>}/>
@@ -75,6 +75,7 @@ export default function Router(){
             <Route path="/salehistory" element={<Salehistory/>}/>
             <Route path="/forseller" element={<ForSeller/>}/>
             <Route path="/Topay" element={<Topay/>}/>
+            <Route path="/Toship" element={<Toship/>}/>
           </Routes>
         </BrowserRouter>
       );

@@ -19,13 +19,17 @@ export default function Postsaleordinary() {
     useEffect(() => {
 
         axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
-            console.log(response.data)
+            console.log(response.data);
             setuser(response.data);
+            axios.get(`${API_URL}/bank/${response.data.username}`).catch(error => {
+                navigate('/createpost');
+              });
         }).catch(error => {
             alert("please login ");
             navigate('/signin');
 
         });
+        
     }, [API_URL, navigate])
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files); // แปลงเป็น array
@@ -64,7 +68,7 @@ export default function Postsaleordinary() {
         });
     }
     return (<>
-        <div className="container-fluid bg-secondary vh-100 wh-100">
+        <div className="container-fluid p-0 bg-secondary min-vh-100 min-vw-100">
             <div className='row'>
                 <Navbar />
             </div>

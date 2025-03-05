@@ -2,16 +2,13 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../../component/navbar";
 import "../../pagescss/Toship.css";
-import Shipping from "../shipping";
 
 export default function Toship() {
     const navigate = useNavigate();
     const location = useLocation();
 
     const tabs = [
-        { name: "To pay" , path: "/Topay"},
         { name: "To ship" },
-        { name: "Complete", path: "/complete" },
         { name: "Paid History", path: "/paidHistory" },
         { name: "Bid History", path: "/bidHistory" },
     ];

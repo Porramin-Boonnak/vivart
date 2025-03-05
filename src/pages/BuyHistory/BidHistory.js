@@ -8,9 +8,7 @@ export default function BidHistory() {
     const location = useLocation();
 
     const tabs = [
-        { name: "To pay", path: "/Topay" },
         { name: "To ship", path: "/Toship" },
-        { name: "Complete", path: "/complete" },
         { name: "Paid History", path: "/paidHistory" },
         { name: "Bid History" },
     ];

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Tabs, Tab, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import "../pagescss/notification.css";
@@ -6,8 +6,7 @@ import "../pagescss/notification.css";
 const NotificationModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('post');
-
-  const tabContent = {
+  const [notifications, setNotifications] = useState({
     post: [
       { icon: "❤️", label: "New Post #1", path: "/post/67aae35268ef2216e0e7b808", time: "10:00 AM", date: "2024-07-26" },
       { icon: "😽", label: "New Post #2", path: "/post/67ac9cacef18b5230eb8afe6", time: "11:30 AM", date: "2024-07-26" },
@@ -22,11 +21,56 @@ const NotificationModal = ({ isOpen, onClose }) => {
       { icon: "✅", label: "Sell Item #2", path: "/sell/2", time: "05:55 PM", date: "2024-07-28" },
       { icon: "✨", label: "Sell Item #3", path: "/sell/3", time: "08:10 AM", date: "2024-07-29" }
     ]
+  });
+
+  const databaseData = [
+    {
+      post_id: "123123",
+      sender: "NongSoii",
+      receiver: "Nonthakan",
+      stage_noti: "35",
+      post_msg: "Your bid post time out in 1 hour",
+      descript: "Your bid post time out in 1 hour"
+    },
+    {
+      post_id: "456456",
+      sender: "JohnDoe",
+      receiver: "JaneDoe",
+      stage_noti: "12",
+      post_msg: "New post created successfully",
+      descript: "Your new post is now live"
+    }
+  ];
+
+  const categoryMap = {
+    "1": "post",
+    "2": "buy",
+    "3": "sell"
   };
+
+  useEffect(() => {
+    const updatedNotifications = { ...notifications };
+
+    databaseData.forEach(data => {
+      const stageCategory = categoryMap[data.stage_noti[0]]; // Get category from first digit
+
+      if (stageCategory) {
+        updatedNotifications[stageCategory].push({
+          icon: "🔔", // Notification icon
+          label: data.post_msg,
+          path: `/notification/${data.post_id}`,
+          time: new Date().toLocaleTimeString(), // Current time
+          date: new Date().toISOString().split("T")[0] // Current date
+        });
+      }
+    });
+
+    setNotifications(updatedNotifications);
+  }, []); // Run only once on mount
 
   return (
     <Modal show={isOpen} onHide={onClose} centered>
-      <Modal.Header className="modal-title-custom  flex-column ">
+      <Modal.Header className="modal-title-custom  flex-column">
         <Modal.Title className="modal-title-custom">Notifications</Modal.Title>
         <Button
           variant="close"
@@ -52,8 +96,8 @@ const NotificationModal = ({ isOpen, onClose }) => {
           <Row className="justify-content-center">
             <Col xs={12}>
               <ul className="list-group">
-                {tabContent[activeTab]?.length > 0 ? (
-                  tabContent[activeTab].map(({ icon, label, path, time, date }, index) => (
+                {notifications[activeTab]?.length > 0 ? (
+                  notifications[activeTab].map(({ icon, label, path, time, date }, index) => (
                     <li
                       key={index}
                       className="list-group-item d-flex justify-content-between align-items-center cursor-pointer"

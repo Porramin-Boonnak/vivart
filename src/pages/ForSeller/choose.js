@@ -1,6 +1,6 @@
-import Navbar from "../component/navbar";
+import Navbar from "../../component/navbar";
 import { IoReturnUpBackOutline } from "react-icons/io5";
-import TuuImage from "../pictures/Tuu.jpg";
+import TuuImage from "../../pictures/Tuu.jpg";
 import { useNavigate } from "react-router-dom";
 
 export default function Choose() {

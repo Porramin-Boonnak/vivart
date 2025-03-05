@@ -35,6 +35,7 @@ import Salehistory from "../pages/ForSeller/salehistory";
 import ForSeller from "../pages/Forseller";
 import Topay from "../pages/BuyHistory/Topay";
 import Toship from "../pages/BuyHistory/Toship";
+import Complete from "../pages/BuyHistory/complete";
 
 export default function Router(){
     return (
@@ -76,6 +77,7 @@ export default function Router(){
             <Route path="/forseller" element={<ForSeller/>}/>
             <Route path="/Topay" element={<Topay/>}/>
             <Route path="/Toship" element={<Toship/>}/>
+            <Route path="/complete" element={<Complete/>}/>
           </Routes>
         </BrowserRouter>
       );

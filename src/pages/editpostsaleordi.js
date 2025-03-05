@@ -19,6 +19,7 @@ export default function Editpostsaleordi() {
     const Description = useRef();
     const navigate = useNavigate();
     const API_URL = process.env.REACT_APP_API_URL;
+    
     useEffect(() => {
 
         axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
@@ -95,7 +96,7 @@ export default function Editpostsaleordi() {
                 .catch(() => alert("Failed to update post"));
     }
     return (<>
-        <div className="container-fluid bg-secondary vh-100 wh-100">
+        <div className="container-fluid p-0 bg-secondary min-vh-100 min-vw-100">
             <div className='row'>
                 <Navbar />
             </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect,useRef } from 'react';
 import Navbar from '../component/navbar';
 import Showimg from '../component/showimg';
 import axios from 'axios';
+import { Form } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import "../pagescss/postsaleuniq.css"
 export default function Postsaleuniq() {
@@ -18,9 +19,8 @@ export default function Postsaleuniq() {
     const API_URL = process.env.REACT_APP_API_URL;
     const [isCheckedBlindP, setCheckedBlindP] = useState(false);
     const [isCheckedBlindA, setCheckedBlindA] = useState(false);
-
-
-   
+    const [dateTimeE, setDateTimeE] = useState("");
+    const [dateTimeS, setDateTimeS] = useState("");
     useEffect(() => {
 
         axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
@@ -65,7 +65,9 @@ export default function Postsaleuniq() {
             description : Description.current.value,
             img:base64List,
             price : Price.current.value,
-            status : "open"
+            status : "open",
+            startbid : dateTimeS,
+            endbid : dateTimeE
         }
         if(!isCheckedBlindA){
         axios.post(API_URL + '/post', data).then(response => {
@@ -81,7 +83,7 @@ export default function Postsaleuniq() {
         }
     }
     return (<>
-        <div className="container-fluid bg-secondary vh-100 wh-100">
+        <div className="container-fluid p-0 bg-secondary min-vh-100 min-vw-100">
             <div className='row'>
                 <Navbar />
             </div>
@@ -182,20 +184,8 @@ export default function Postsaleuniq() {
                             </div>
                         </div>
                         <div className='d-flex flex-row mt-4 w-100'>
-                            {(selltype === "Bid (Sell to the most expensive)" || selltype === "Bid (sell to the first person)") && (
-                                <div className="d-flex flex-row ms-5">
-                                    <input
-                                        type="checkbox"
-                                        className='ms-auto me-2'
-                                        checked={isCheckedBlindP}
-                                        onChange={(e) => setCheckedBlindP(e.target.checked)}
-                                        style={{ width: "30px", height: "30px" }}
-                                    />
-                                    <label className='text-primary me-auto fs-5'>Blind Price</label>
-                                </div>
-                            )}
                             {(type === "Digital" || type === "Photography") && (
-                                <div className="d-flex flex-row ms-5">
+                                <div className="d-flex flex-row me-auto ">
                                     <input
                                         type="checkbox"
                                         className='ms-auto me-2'
@@ -206,8 +196,43 @@ export default function Postsaleuniq() {
                                     <label className='text-primary me-auto fs-5'>Blind Art</label>
                                 </div>
                             )}
-                            
+                            {(selltype === "Bid (Sell to the most expensive)" || selltype === "Bid (sell to the first person)") && (
+                                <div className="d-flex flex-row me-auto">
+                                   <input
+                                        type="checkbox"
+                                        className='ms-auto me-2'
+                                        checked={isCheckedBlindP}
+                                        onChange={(e) => setCheckedBlindP(e.target.checked)}
+                                        style={{ width: "30px", height: "30px" }}
+                                    />
+                                    <label className='text-primary me-auto fs-5'>Blind Price</label>
+                                </div>
+                            )}
                         </div>
+                            {(selltype === "Bid (Sell to the most expensive)" || selltype === "Bid (sell to the first person)") && (
+                                    <div div className="d-flex flex-row mt-5 ">
+                                        <div>
+                                            <Form.Group>
+                                                <label className='text-primary me-2 fs-5'>Start Bid:</label>
+                                                <Form.Control
+                                                type="datetime-local"
+                                                value={dateTimeS}
+                                                onChange={(e) => setDateTimeS(e.target.value)}
+                                                />
+                                            </Form.Group>
+                                        </div>
+                                        <div>
+                                            <Form.Group>
+                                                <label className='text-primary me-2 fs-5'>End Bid:</label>
+                                                <Form.Control
+                                                type="datetime-local"
+                                                value={dateTimeE}
+                                                onChange={(e) => setDateTimeE(e.target.value)}
+                                                />
+                                            </Form.Group>
+                                        </div>
+                                    </div>
+                            )}
                     </div>
                     <div className='d-flex justify-content-center align-items-start row me-5'>
                         <button onClick={handleclick} className="btn cs-btn-Postsaleuniq2 rounded-pill w-25 mt-5" type="button">Post</button>

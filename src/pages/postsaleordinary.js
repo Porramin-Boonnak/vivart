@@ -64,7 +64,7 @@ export default function Postsaleordinary() {
         });
     }
     return (<>
-        <div className="container-fluid bg-secondary vh-100 wh-100">
+        <div className="container-fluid p-0 bg-secondary min-vh-100 min-vw-100">
             <div className='row'>
                 <Navbar />
             </div>

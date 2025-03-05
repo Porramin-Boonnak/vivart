@@ -132,7 +132,7 @@ export default function Postsaleuniq() {
                         </div>
                         <div className='d-flex flex-row justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <div class= "d-flex flex-row">
-                                <label for="Arttype" className='text-primary me-2 fs-5'>Art type:</label>
+                                <label for="Arttype" className='text-primary fs-5'>Art type</label>
                                 <div class="dropdown" id='Arttype'>
                                     <button class="btn cs-btn-Postsaleuniq dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         {type ? <div>{type}</div> : <div>Select Type</div>}
@@ -147,7 +147,7 @@ export default function Postsaleuniq() {
                                 </div>
                             </div>
                             <div class= "ms-5 d-flex flex-row">
-                                <label for="Sizetype" className='text-primary me-2 fs-5'>Size:</label>
+                                <label for="Sizetype" className='text-primary fs-5'>Size</label>
                                 <div class="dropdown" id='Sizetype'>
                                     <button class="btn cs-btn-Postsaleuniq dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         {size ? <div>{size}</div> : <div>Select Type</div>}
@@ -210,7 +210,7 @@ export default function Postsaleuniq() {
                             )}
                         </div>
                             {(selltype === "Bid (Sell to the most expensive)" || selltype === "Bid (sell to the first person)") && (
-                                    <div div className="d-flex flex-row mt-5 ">
+                                    <div div className="d-flex flex-row mt-3 ">
                                         <div>
                                             <Form.Group>
                                                 <label className='text-primary me-2 fs-5'>Start Bid:</label>
@@ -221,9 +221,9 @@ export default function Postsaleuniq() {
                                                 />
                                             </Form.Group>
                                         </div>
-                                        <div>
+                                        <div className='ms-2 '>
                                             <Form.Group>
-                                                <label className='text-primary me-2 fs-5'>End Bid:</label>
+                                                <label className='text-primary ms-2 fs-5'>End Bid:</label>
                                                 <Form.Control
                                                 type="datetime-local"
                                                 value={dateTimeE}
@@ -235,7 +235,7 @@ export default function Postsaleuniq() {
                             )}
                     </div>
                     <div className='d-flex justify-content-center align-items-start row me-5'>
-                        <button onClick={handleclick} className="btn cs-btn-Postsaleuniq2 rounded-pill w-25 mt-5" type="button">Post</button>
+                        <button onClick={handleclick} className="btn cs-btn-Postsaleuniq2 rounded-pill w-25 mt-3" type="button">Post</button>
                     </div>
                 </div>
                 <div className="col-12 col-md-1"></div>

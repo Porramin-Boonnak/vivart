@@ -94,7 +94,7 @@ export default function Postsaleordinary() {
                             <div>Loading...</div>
                         )}
                     </div>
-                    <div className='row ms-2'>
+                    <div className='row ms-2 d-flex'>
                         <div className='d-flex mt-4 justify-content-center align-items-start justify-content-md-start align-items-md-start'>
                             <label for="Title" className='text-primary me-2 fs-5'>Title:</label>
                             <input ref={Title} type="text" id="Title" name="Title" className='cs-color-Search w-100 border-0' />
@@ -113,7 +113,7 @@ export default function Postsaleordinary() {
                         </div>
                         <div className='d-flex flex-row justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <div class= "d-flex flex-row">
-                                <label for="Arttype" className='text-primary me-2 fs-5'>Art type</label>
+                                <label for="Arttype" className='text-primary  fs-5'>Art type</label>
                                 <div class="dropdown" id='Arttype'>
                                     <button class="btn cs-btn-Postsaleordinary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         {type ? <div>{type}</div> : <div>Select Type</div>}
@@ -128,7 +128,7 @@ export default function Postsaleordinary() {
                                 </div>
                             </div>
                             <div class= "ms-5 d-flex flex-row">
-                                <label for="Sizetype" className='text-primary me-2 fs-5'>Size</label>
+                                <label for="Sizetype" className='text-primary fs-5'>Size</label>
                                 <div class="dropdown" id='Sizetype'>
                                     <button class="btn cs-btn-Postsaleordinary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         {size ? <div>{size}</div> : <div>Select Type</div>}

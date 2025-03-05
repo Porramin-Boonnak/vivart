@@ -186,7 +186,19 @@ const ncomment = useRef();
         } catch (err) {
           console.error("Failed to copy: ", err);
         }
-      };
+    };
+    const deletePost = async () => {
+        if (window.confirm("Are you sure you want to delete this post?")) {
+            try {
+                await axios.delete(`${API_URL}/post/${postid}`);
+                alert("Post deleted successfully");
+                navigate('/'); // หลังจากลบเสร็จให้กลับไปหน้าหลัก
+            } catch (error) {
+                console.error("Error deleting post:", error);
+                alert("Failed to delete post");
+            }
+        }
+    };
     return (
         <>{post ?
             <div className="container-fluid p-0 bg-secondary vh-100">
@@ -254,7 +266,12 @@ const ncomment = useRef();
                                                         </i>
                                                     </a>
                                                 </li>
-                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between" >Delete<i className="bi bi-trash3-fill"></i></a></li>
+                                                <li>
+                                                    <a className="dropdown-item d-flex align-items-center justify-content-between text-danger"
+                                                        onClick={deletePost}>
+                                                        Delete <i className="bi bi-trash3-fill"></i>
+                                                    </a>
+                                                </li>
                                             </div>
                                             :
                                             <div className="d-none"></div>

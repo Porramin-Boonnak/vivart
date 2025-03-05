@@ -239,7 +239,7 @@ export default function Editpostsaleuniq() {
                             )}
                         </div>
                             {(selltype === "Bid (Sell to the most expensive)" || selltype === "Bid (sell to the first person)") && (
-                                    <div div className="d-flex flex-row mt-5 ">
+                                    <div div className="d-flex flex-row mt-3 ">
                                         <div>
                                             <Form.Group>
                                                 <label className='text-primary me-2 fs-5'>Start Bid:</label>
@@ -250,9 +250,9 @@ export default function Editpostsaleuniq() {
                                                 />
                                             </Form.Group>
                                         </div>
-                                        <div>
+                                        <div className='ms-2 '>
                                             <Form.Group>
-                                                <label className='text-primary me-2 fs-5'>End Bid:</label>
+                                                <label className='text-primary ms-2 fs-5'>End Bid:</label>
                                                 <Form.Control
                                                 type="datetime-local"
                                                 value={dateTimeE}
@@ -264,7 +264,7 @@ export default function Editpostsaleuniq() {
                             )}
                     </div>
                     <div className='d-flex justify-content-center align-items-start row me-5'>
-                        <button onClick={handleclick} className="btn cs-btn-Postsaleuniq2 rounded-pill w-25 mt-5" type="button">Post</button>
+                        <button onClick={handleclick} className="btn cs-btn-Postsaleuniq2 rounded-pill w-25 mt-3" type="button">Post</button>
                     </div>
                 </div>
                 <div className="col-12 col-md-1"></div>

@@ -87,18 +87,21 @@ export default function Post() {
     ];
 
     const sendcomment = async () => {
-        const data = {
+        const newComment = {
             post_id: postid,
             name: user.username,
             comment: ncomment.current.value,
             img: user.img
         };
-
+    
         try {
-            await axios.post(`${API_URL}/comment/${postid}`, data);
-            const response = await axios.get(`${API_URL}comment/${postid}`);
-            setcomment(response.data);
-            ncomment.current.value = ""; // ล้าง input หลังส่งคอมเมนต์
+            await axios.post(`${API_URL}/comment/${postid}`, newComment);
+    
+            // อัปเดต state คอมเมนต์ทันที ไม่ต้องโหลดใหม่
+            setcomment(prevComments => [...prevComments, newComment]);
+    
+            // ล้าง input หลังส่งคอมเมนต์
+            ncomment.current.value = "";
         } catch (error) {
             console.error("Comment error:", error);
         }

@@ -26,28 +26,29 @@ export default function Home() {
     }
     const like = (id) => {
         console.log("like")
-        axios.put(API_URL + "/update/like/" + id, {username:user.username})
-            .then(response => {console.log(response.data) 
-               
+        axios.put(API_URL + "/update/like/" + id, { username: user.username })
+            .then(response => {
+                console.log(response.data)
+
             })
             .catch(error => console.error("There was an error!", error));
     }
     const unlike = (id) => {
         console.log("unlike");
-    axios.request({
-        method: 'DELETE',
-        url: `${API_URL}/delete/like/${id}`,
-        data: {username:user.username},  // ส่ง user เป็น JSON body
-        headers: {
-            "Content-Type": "application/json"
-        }
-    })
-    .then(response => console.log(response.data))
-    .catch(error => console.error(error));
+        axios.request({
+            method: 'DELETE',
+            url: `${API_URL}/delete/like/${id}`,
+            data: { username: user.username },  // ส่ง user เป็น JSON body
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => console.log(response.data))
+            .catch(error => console.error(error));
     }
     const Allpictures = ({ items, username }) => {
         const [likedItems, setLikedItems] = useState({});
-    
+
         const toggleLike = (id, isLiked) => {
             setLikedItems((prev) => ({
                 ...prev,
@@ -59,14 +60,14 @@ export default function Home() {
                 like(id);
             }
         };
-    
+
         return (
             <div className="masonry-layout">
                 {items.map((item) => {
                     const isLiked =
                         likedItems[item._id] ??
                         (Array.isArray(item.like) && item.like.some((element) => element.username === username) && username);
-    
+
                     const icon = isLiked ? (
                         <i
                             className="bi bi-heart-fill fs-2 text-primary c-card-icon"
@@ -78,7 +79,7 @@ export default function Home() {
                             onDoubleClick={() => toggleLike(item._id, isLiked)}
                         ></i>
                     );
-    
+
                     return (
                         <div className="masonry-item" key={item._id}>
                             <div className="card">
@@ -90,17 +91,19 @@ export default function Home() {
                                     alt={item.name || "Image"}
                                 />
                                 <div className="card-body" onClick={() => handleclick(item._id)}>
-                                    <h2 className="card-title">{item.artist}</h2>
-                                    <h5 className="d-inline">{item.name}</h5>
-                                    {item.views ? <div className="c-card-like">{item.views} views</div>:<></>}
-                                    <div className="d-flex align-items-center justify-content-between">
-                                        {item.typepost !== "normal" && (
-                                            <h5 className="text-primary fw-bold">
-                                                <FaBahtSign />
-                                                {item.price}
-                                            </h5>
-                                        )}
+                                    <h2 className="card-title">{item.name}</h2>
+                                    <div className="card-details">
+                                        <div className="card-user">
+                                            <h5>{item.artist}</h5>
+                                            {item.typepost !== "normal" && (
+                                                <h5 className="text-primary fw-bold">
+                                                    <FaBahtSign />
+                                                    {item.price}
+                                                </h5>
+                                            )}
+                                        </div>
                                     </div>
+                                    {item.views ? <div className="c-card-like">{item.views} views</div> : null}
                                 </div>
                             </div>
                         </div>
@@ -109,8 +112,8 @@ export default function Home() {
             </div>
         );
     };
-    
-    
+
+
     return (<>
         <div className="container-fluid p-0">
             <div className="row">
@@ -120,7 +123,7 @@ export default function Home() {
                 <Searchbar />
             </div>
             <div className="row bg-secondary p-3">
-                {post&&user ? <Allpictures items={post} username={user.username} />:post ? <Allpictures items={post} />:<div>Loading...</div>}
+                {post && user ? <Allpictures items={post} username={user.username} /> : post ? <Allpictures items={post} /> : <div>Loading...</div>}
             </div>
         </div>
     </>)

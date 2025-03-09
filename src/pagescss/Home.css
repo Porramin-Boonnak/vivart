@@ -70,6 +70,11 @@
     margin-bottom: 0.5rem;
 }
 
+.card-details {
+    display: flex;
+    flex-direction: column;
+}
+
 .card-body {
     text-align: left;
     align-items: flex-start;
@@ -80,15 +85,24 @@
     top: 10px;
     right: 10px;
     color: #DE5499; 
-    font-size: 15px;
 }
 
-.c-card-like {
+.c-card-view {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    color: #DE5499; 
-    font-size: 24px;
+    bottom: 65px;
+    right: 20px;
+    color: #ffb636; 
+    font-size: 14px;
+}
+
+.card-view-container {
+    display: flex;
+    align-items: center; 
+}
+
+.view-icon {
+    width: 20px; /* ขนาดของไอคอน view */
+    margin-right: 3px; /* เว้นระยะระหว่างไอคอนกับจำนวน */
 }
 
 .c-card-number {

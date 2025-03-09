@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../../component/navbar";
 import "../../pagescss/paidHistory.css";
-
+import axios from "axios";
 export default function PaidHistory() {
     const navigate = useNavigate();
     const location = useLocation();
+    const API_URL = process.env.REACT_APP_API_URL;
 
     const tabs = [
         { name: "To ship", path: "/Toship" },
@@ -31,12 +32,40 @@ export default function PaidHistory() {
     };
 
     useEffect(() => {
-        const updatedItems = items.map(item => ({
-            ...item,
-            purchaseDate: formatDateTime(new Date()) // กำหนดวันที่เวลาปัจจุบัน
-        }));
-        setItems(updatedItems);
+        const fetchPaidHistory = async () => {
+            try {
+                if (!API_URL) {
+                    console.error("API_URL is undefined");
+                    return;
+                }
+
+                const statusRes = await axios.post(API_URL + "/status", { token: localStorage.getItem("token") });
+                const username = statusRes.data.username;
+
+                if (!username) {
+                    console.error("Username not found");
+                    return;
+                }
+
+                const historyRes = await axios.get(`${API_URL}/paidHistory/${username}`);
+
+                // แปลงวันที่ให้เป็น Date Object
+                const formattedItems = historyRes.data.map(item => ({
+                    ...item,
+                    time: item.time ? new Date(item.time) : null
+                }));
+
+
+                setItems(formattedItems);
+            } catch (error) {
+                console.error("Error fetching paid history:", error);
+            }
+        };
+
+        fetchPaidHistory();
     }, []);
+
+
 
     return (
         <>
@@ -59,7 +88,7 @@ export default function PaidHistory() {
                 <div className="order-list">
                     {items.map((item) => (
                         <div key={item.id} className="order-item">
-                            <img src={item.image} alt={item.name} className="order-image" />
+                            <img src={item.img} alt={item.name} className="order-image" />
                             <div className="order-info">
                                 <h3>{item.name}</h3>
                                 <p className="price">Price : {item.price.toLocaleString()} </p>
@@ -70,7 +99,12 @@ export default function PaidHistory() {
                                     Total <span>{(item.price * item.quantity).toLocaleString()} Baht</span>
                                 </p>
                                 {/* แสดงวันที่และเวลาที่ซื้อ */}
-                                <p className="purchase-date">{item.purchaseDate}</p>
+                                <p className="purchase-date">
+                                    {item.time
+                                        ? `${item.time.getFullYear()}-${(item.time.getMonth() + 1).toString().padStart(2, '0')}-${item.time.getDate().toString().padStart(2, '0')} ${item.time.getHours().toString().padStart(2, '0')}:${item.time.getMinutes().toString().padStart(2, '0')}`
+                                        : "N/A"}
+                                </p>
+
                             </div>
                         </div>
                     ))}

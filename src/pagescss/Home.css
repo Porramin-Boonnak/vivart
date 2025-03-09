@@ -56,6 +56,7 @@
     background: #F9F9F9;
     padding-bottom: 0px;
     align-items:flex-start;
+    position: relative;
 }
 
 .card-user {
@@ -137,6 +138,27 @@
     height: auto; 
     margin-left: 8px;
 }
+
+.like-bottom-right {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 2px 8px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .like-number {
+    font-size: 14px;
+    color: #DE5499; 
+  }
+
+  .like-text {
+    font-size: 14px;
+    color: #DE5499; 
+  }
 
 .d-inline {
     color: #0000007f;

@@ -92,19 +92,23 @@ export default function Home() {
                                     className="card-img-top"
                                     alt={item.name || "Image"}
                                 />
+                                <div className="like-bottom-right">
+                                    <div className="like-number">{item.like?.length || 0}</div>
+                                    <div className="like-text">Likes</div>
+                                </div>
                                 <div className="card-body" onClick={() => handleclick(item._id)}>
                                     <h2 className="card-title">{item.name}</h2>
                                     <div className="card-details">
                                         <div className="card-user">
                                             <h5>{item.artist}</h5>
                                             <div className="card-view-container">
-                                            {item.visit ? (
-                                                <div className="c-card-view">
-                                                    <img src={view} alt="view" className="view-icon" />
-                                                    {item.visit}
-                                                </div>
-                                            ) : null}
-                                        </div>
+                                                {item.visit ? (
+                                                    <div className="c-card-view">
+                                                        <img src={view} alt="view" className="view-icon" />
+                                                        {item.visit}
+                                                    </div>
+                                                ) : null}
+                                            </div>
                                             {item.typepost !== "normal" && (
                                                 <h5 className="text-primary fw-bold">
                                                     <FaBahtSign />
@@ -115,7 +119,7 @@ export default function Home() {
                                                 </h5>
                                             )}
                                         </div>
-                                    </div>      
+                                    </div>
                                 </div>
                             </div>
                         </div>

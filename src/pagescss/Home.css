@@ -54,6 +54,25 @@
     padding: 15px;
     border-radius: 0px;
     background: #F9F9F9;
+    padding-bottom: 0px;
+    align-items:flex-start;
+}
+
+.card-user {
+    display: flex;
+    flex-direction: column;
+    color:#0000007f;
+    padding-bottom: 0;
+}
+
+.card-title {
+    font-size: 20px;
+    margin-bottom: 0.5rem;
+}
+
+.card-body {
+    text-align: left;
+    align-items: flex-start;
 }
 
 .c-card-icon {
@@ -61,7 +80,7 @@
     top: 10px;
     right: 10px;
     color: #DE5499; 
-    font-size: 24px;
+    font-size: 15px;
 }
 
 .c-card-like {
@@ -74,10 +93,24 @@
 
 .c-card-number {
     position: absolute;
-    top: 10px;
-    right: 50px;
     color: #DE5499; 
-    font-size: 24px;
+}
+
+.card-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.card-details .text-primary.fw-bold {
+    font-size: 16px;
+}
+
+.card-user h5 {
+    margin: 0;
+    font-size: 18px;
 }
 
 .card-img-top {

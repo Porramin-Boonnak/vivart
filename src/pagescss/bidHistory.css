@@ -103,9 +103,14 @@
 }
 
 .price {
-    color: #d63384;
+    color: #DE5499 !important;
     font-weight: bold;
 }
+
+.item-time {
+    color: rgba(38, 65, 67, 0.5) !important;
+}
+
 
 /* Order Summary */
 .order-summary {

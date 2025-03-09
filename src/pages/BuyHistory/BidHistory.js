@@ -1,11 +1,32 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 import Navbar from "../../component/navbar";
 import "../../pagescss/bidHistory.css";
 
 export default function BidHistory() {
     const navigate = useNavigate();
     const location = useLocation();
+    const storedUser = localStorage.getItem("user_login");
+    const [loginUser, setLoginUser] = useState(storedUser ? JSON.parse(storedUser) : null);
+    const [items, setItems] = useState([]);
+    const API_URL = process.env.REACT_APP_API_URL;
+
+    useEffect(() => {
+        console.log("hello world")
+        const fetchBidHistory = async () => {
+            try {
+                const response = await axios.get(`${API_URL}/bid_history/${loginUser}`);
+                const data = response.data;
+                console.log(data);
+                setItems(data);
+            } catch (err) {
+                console.error("Error fetching bid history:", err);
+            }
+        };
+
+        fetchBidHistory();
+    }, [loginUser]);
 
     const tabs = [
         { name: "To ship", path: "/Toship" },
@@ -13,31 +34,10 @@ export default function BidHistory() {
         { name: "Bid History" },
     ];
 
-    const [items, setItems] = useState([
-        { id: 1, name: "Light star", price: 7000, quantity: 1, image: "/images/light-star.png", purchaseDate: "" },
-        { id: 2, name: "Reach star", price: 10000, quantity: 2, image: "/images/reach-star.png", purchaseDate: "" }
-    ]);
-
-    const formatDateTime = (date) => {
-        const options = { hour: "2-digit", minute: "2-digit", hour12: true };
-        const time = date.toLocaleTimeString("en-US", options).toLowerCase();
-        const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-        return (
-            <>
-                <span className="purchase-time">{time}</span>
-                <br />
-                <span className="purchase-date">{formattedDate}</span>
-            </>
-        );
+    const handleItemClick = (itemId) => {
+        navigate(`/post/${itemId}`); // Navigate to the post detail page
     };
 
-    useEffect(() => {
-        const updatedItems = items.map(item => ({
-            ...item,
-            purchaseDate: formatDateTime(new Date())
-        }));
-        setItems(updatedItems);
-    }, []);
 
     return (
         <>
@@ -57,18 +57,18 @@ export default function BidHistory() {
 
                 <div className="order-list">
                     {items.map((item) => (
-                        <div key={item.id} className="order-item">
-                            <img src={item.image} alt={item.name} className="order-image" />
+                        <div
+                            key={item._id}
+                            className="order-item"
+                            onClick={() => handleItemClick(item._id_post)} // Call handleItemClick with item._id
+                        >
+                            <img src={item.img} alt={item.name} className="order-image" />
                             <div className="order-info">
-                                <h3>{item.name}</h3>
-                                <p className="price">Price : {item.price.toLocaleString()} </p>
+                                <h3>Name: {item.name}</h3>
                             </div>
                             <div className="order-summary">
-                                <p>Piece (s) x {item.quantity}</p>
-                                <p className="total">
-                                    Total <span>{(item.price * item.quantity).toLocaleString()} Baht</span>
-                                </p>
-                                <p>{item.purchaseDate}</p>
+                                <p className="price">Price : {item.price.toLocaleString()} Baht</p>
+                                <p style={{ color: "rgba(38, 65, 67, 0.5)" }}>{item.time}</p>
                             </div>
                         </div>
                     ))}

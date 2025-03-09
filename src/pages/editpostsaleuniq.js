@@ -39,31 +39,31 @@ export default function Editpostsaleuniq() {
             console.error("postid is undefined");
             return;
         }
-    
+
         axios.get(`${API_URL}/post/${postid}`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         })
-        .then(response => {
-            const data = response.data;
-            setPost(data);
-            setBase64List(data.img);
-            settype(data.type);
-            setsize(data.size);
-            setDateTimeS(data.startbid)
-            setDateTimeE(data.endbid)
-            setsell(data.selltype);
-            setCheckedBlindP(data.BlindP);
-            setCheckedBlindA(data.BlindA);
-            Title.current.value = data.name;
-            Tag.current.value = data.tag;
-            Price.current.value = data.price;
-            Description.current.value = data.description;
+            .then(response => {
+                const data = response.data;
+                setPost(data);
+                setBase64List(data.img);
+                settype(data.type);
+                setsize(data.size);
+                setDateTimeS(data.startbid)
+                setDateTimeE(data.endbid)
+                setsell(data.selltype);
+                setCheckedBlindP(data.BlindP);
+                setCheckedBlindA(data.BlindA);
+                Title.current.value = data.name;
+                Tag.current.value = data.tag;
+                Price.current.value = data.price;
+                Description.current.value = data.description;
 
-        })
-        .catch(error => {
-            console.error("Error fetching post data:", error.response ? error.response.data : error.message);
-            alert("Error fetching post data");
-        });
+            })
+            .catch(error => {
+                console.error("Error fetching post data:", error.response ? error.response.data : error.message);
+                alert("Error fetching post data");
+            });
     }, [postid, API_URL]);
 
     const handleFileChange = (e) => {
@@ -84,29 +84,28 @@ export default function Editpostsaleuniq() {
             name: Title.current.value,
             own: user.username,
             tag: Tag.current.value,
-            type : type,
+            type: type,
             typepost: "uniq",
             selltype: selltype,
-            size : size,
+            size: size,
             BlindP: isCheckedBlindP,
             BlindA: isCheckedBlindA,
             description: Description.current.value,
             img: base64List,
             price: Price.current.value,
             status: "open",
-            startbid : dateTimeS,
-            endbid : dateTimeE
+            startbid: dateTimeS,
+            endbid: dateTimeE
         };
-        if(!isCheckedBlindA){
+        if (!isCheckedBlindA) {
             axios.put(`${API_URL}/post/${postid}`, data)
                 .then(() => {
                     alert("Post updated successfully!");
                     navigate('/');
                 })
                 .catch(() => alert("Failed to update post"));
-            }
-        else
-        {
+        }
+        else {
             navigate("/blindart", { state: { Data: data } });
         }
     }
@@ -160,7 +159,7 @@ export default function Editpostsaleuniq() {
                             <input ref={Tag} type="text" id="tag" name="Tag" className='cs-color-Search w-100 border-0' />
                         </div>
                         <div className='d-flex flex-row justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
-                            <div class= "d-flex flex-row">
+                            <div class="d-flex flex-row">
                                 <label for="Arttype" className='text-primary me-2 fs-5'>Art type:</label>
                                 <div class="dropdown" id='Arttype'>
                                     <button class="btn cs-btn-Postsaleuniq dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -175,7 +174,7 @@ export default function Editpostsaleuniq() {
                                     </ul>
                                 </div>
                             </div>
-                            <div class= "ms-5 d-flex flex-row">
+                            <div class="ms-5 d-flex flex-row">
                                 <label for="Sizetype" className='text-primary me-2 fs-5'>Size:</label>
                                 <div class="dropdown" id='Sizetype'>
                                     <button class="btn cs-btn-Postsaleuniq dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -194,12 +193,12 @@ export default function Editpostsaleuniq() {
                                             placeholder="Custom size(w x h )"
                                             value={size}
                                             onClick={(e) => e.stopPropagation()}
-                                            onChange={(e) => setsize(e.target.value)}/>
+                                            onChange={(e) => setsize(e.target.value)} />
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class= "d-flex flex-row mt-4">
+                        <div class="d-flex flex-row mt-4">
                             <label for="Selltype" className='text-primary me-2 fs-5'>Sell type:</label>
                             <div class="dropdown w-75" id='Selltype'>
                                 <button class="btn cs-btn-Postsaleuniq dropdown-toggle w-100 ms-auto" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -207,7 +206,7 @@ export default function Editpostsaleuniq() {
                                 </button>
                                 <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
                                     <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsell("Normal Sell")}>Normal Sell</a></li>
-                                    <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsell("Bid (sell to the first person)")}>Bid (sell to the first person)</a></li>                                       
+                                    <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsell("Bid (sell to the first person)")}>Bid (sell to the first person)</a></li>
                                     <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsell("Bid (Sell to the most expensive)")}>Bid (Sell to the most expensive)</a></li>
                                 </ul>
                             </div>
@@ -227,7 +226,7 @@ export default function Editpostsaleuniq() {
                             )}
                             {(selltype === "Bid (Sell to the most expensive)" || selltype === "Bid (sell to the first person)") && (
                                 <div className="d-flex flex-row me-auto">
-                                   <input
+                                    <input
                                         type="checkbox"
                                         className='ms-auto me-2'
                                         checked={isCheckedBlindP}
@@ -238,30 +237,32 @@ export default function Editpostsaleuniq() {
                                 </div>
                             )}
                         </div>
-                            {(selltype === "Bid (Sell to the most expensive)" || selltype === "Bid (sell to the first person)") && (
-                                    <div div className="d-flex flex-row mt-5 ">
-                                        <div>
-                                            <Form.Group>
-                                                <label className='text-primary me-2 fs-5'>Start Bid:</label>
-                                                <Form.Control
-                                                type="datetime-local"
-                                                value={dateTimeS}
-                                                onChange={(e) => setDateTimeS(e.target.value)}
-                                                />
-                                            </Form.Group>
-                                        </div>
-                                        <div>
-                                            <Form.Group>
-                                                <label className='text-primary me-2 fs-5'>End Bid:</label>
-                                                <Form.Control
-                                                type="datetime-local"
-                                                value={dateTimeE}
-                                                onChange={(e) => setDateTimeE(e.target.value)}
-                                                />
-                                            </Form.Group>
-                                        </div>
-                                    </div>
-                            )}
+                        {(selltype === "Bid (Sell to the most expensive)" || selltype === "Bid (sell to the first person)") && (
+                            <div div className="d-flex flex-row mt-3 ">
+                                <div>
+                                    <Form.Group>
+                                        <label className='text-primary me-2 fs-5'>Start Bid:</label>
+                                        <Form.Control
+                                            type="datetime-local"
+                                            value={dateTimeS}
+                                            className='cs-color-Search text-primary'
+                                            onChange={(e) => setDateTimeS(e.target.value)}
+                                        />
+                                    </Form.Group>
+                                </div>
+                                <div className='ms-3'>
+                                    <Form.Group>
+                                        <label className='text-primary me-2 fs-5'>End Bid:</label>
+                                        <Form.Control
+                                            type="datetime-local"
+                                            value={dateTimeE}
+                                            className='cs-color-Search text-primary'
+                                            onChange={(e) => setDateTimeE(e.target.value)}
+                                        />
+                                    </Form.Group>
+                                </div>
+                            </div>
+                        )}
                     </div>
                     <div className='d-flex justify-content-center align-items-start row me-5'>
                         <button onClick={handleclick} className="btn cs-btn-Postsaleuniq2 rounded-pill w-25 mt-5" type="button">Post</button>

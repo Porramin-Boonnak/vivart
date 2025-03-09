@@ -39,7 +39,8 @@ const Cart = () => {
             quantity: item.quantity,
             image: item.img?.[0] || bird,
             typepost : item.typepost,
-            type : item.type // Ensure 'bird' is defined and imported
+            type : item.type,
+            own : item.own ? item.own : item.artist // Ensure 'bird' is defined and imported
           }));
           setCart(newCart);
         })

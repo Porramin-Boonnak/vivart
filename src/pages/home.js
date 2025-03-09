@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../component/navbar"
+import uniq from "../pictures/uniq.png"
 export default function Home() {
     const navigate = useNavigate();
     const [post, setpost] = useState([]);
@@ -99,6 +100,9 @@ export default function Home() {
                                                 <h5 className="text-primary fw-bold">
                                                     <FaBahtSign />
                                                     {item.price}
+                                                    {item.typepost === "uniq" && (
+                                                        <img src={uniq} alt="uniq" className="uniq-image" />
+                                                    )}
                                                 </h5>
                                             )}
                                         </div>

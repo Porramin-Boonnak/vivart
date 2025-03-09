@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../component/navbar"
 import uniq from "../pictures/uniq.png"
+import view from "../pictures/view.png"
 export default function Home() {
     const navigate = useNavigate();
     const [post, setpost] = useState([]);
@@ -96,6 +97,14 @@ export default function Home() {
                                     <div className="card-details">
                                         <div className="card-user">
                                             <h5>{item.artist}</h5>
+                                            <div className="card-view-container">
+                                            {item.visit ? (
+                                                <div className="c-card-view">
+                                                    <img src={view} alt="view" className="view-icon" />
+                                                    {item.visit}
+                                                </div>
+                                            ) : null}
+                                        </div>
                                             {item.typepost !== "normal" && (
                                                 <h5 className="text-primary fw-bold">
                                                     <FaBahtSign />
@@ -106,8 +115,7 @@ export default function Home() {
                                                 </h5>
                                             )}
                                         </div>
-                                    </div>
-                                    {item.views ? <div className="c-card-like">{item.views} views</div> : null}
+                                    </div>      
                                 </div>
                             </div>
                         </div>

@@ -5,6 +5,7 @@ import Navbar from "../../component/navbar"
 import axios from "axios";
 const EditProfile = () => {
   const [bio, setBio] = useState("");
+  const [base64List, setBase64List] = useState([]);
   const [profileImage, setProfileImage] = useState(null);
   const [loginUser, setLoginUser] = useState(() => {
     const storedUser = localStorage.getItem('user_login');
@@ -39,7 +40,7 @@ const EditProfile = () => {
       const response = await axios.put(API_URL + "/editprofile", {
         username: loginUser,
         user_bio: bio,
-        profile_pic: profileImage,
+        profile_pic: base64List,
       });
 
       if (response.status === 200) {
@@ -57,18 +58,22 @@ const EditProfile = () => {
     setBio(e.target.value);
   };
 
-  const handleImageChange = (e) => {
-    if (e.target.files[0]) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files); // แปลงเป็น array
+    const promises = files.map((file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    });
 
-      reader.onloadend = () => {
-        setProfileImage(reader.result);  // This will contain the base64 string
-      };
-
-      reader.readAsDataURL(file);  // Converts the file to base64
-    }
-  };
+    Promise.all(promises).then((results) => {
+        setBase64List(results);
+        setProfileImage(results);
+    });
+};
 
 
 
@@ -93,7 +98,7 @@ const EditProfile = () => {
             type="file"
             id="profile-upload"
             accept="image/*"
-            onChange={handleImageChange}
+            onChange={handleFileChange}
             style={{ display: "none" }}
           />
           <p className="mt-2 text-primary">Change Profile</p>

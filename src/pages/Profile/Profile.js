@@ -28,11 +28,11 @@ export default function Profile() {
     const [userInfo, setUserInfo] = useState({});
     const [rawUserPost, setUserPost] = useState([]);
     const [showData, setShowData] = useState([]);
-      
+
     useEffect(() => {
         const controller = new AbortController();
         const { signal } = controller;
-    
+
         const fetchUserData = async () => {
             try {
                 const [userInfoRes, userPostRes, userFollowRes] = await Promise.all([
@@ -40,10 +40,10 @@ export default function Profile() {
                     axios.get(`${API_URL}/profile/posts/${this_username}`, { signal }),
                     axios.get(`${API_URL}/profile/follow/${this_username}`, { signal }),
                 ]);
-    
+
                 setUserInfo(userInfoRes.data);
                 setUserPost(userPostRes.data ?? []);
-                setShowData(userPostRes.data ?? []);                
+                setShowData(userPostRes.data ?? []);
                 setFollow(userFollowRes.data);
             } catch (error) {
                 if (axios.isCancel(error)) {
@@ -53,14 +53,14 @@ export default function Profile() {
                 }
             }
         };
-    
+
         fetchUserData();
-    
+
         return () => {
             controller.abort();
         };
     }, [this_username]);
-    
+
 
     return (
         <>
@@ -68,7 +68,7 @@ export default function Profile() {
             <Searchbar />
 
             {/* User Information Section */}
-            <User_Impormation this_username={userInfo} follow = {follow} post_qty={rawUserPost?.length ?? 0}/>
+            <User_Impormation this_username={userInfo} follow={follow} post_qty={rawUserPost?.length ?? 0} />
 
             {/* Debugging Display */}
             {/* <div>Login user == {loginUser}</div> */}
@@ -76,7 +76,7 @@ export default function Profile() {
             {/* <div>{JSON.stringify(userInfo, null, 2)}</div> */}
             <div>{JSON.stringify(follow, null, 2)}</div>
             {/* Sorting Tabs */}
-        
+
             <ul className="nav nav-tabs justify-content-center">
                 {tabs.map((tab) => (
                     <li className="nav-item" key={tab.name}>
@@ -96,7 +96,7 @@ export default function Profile() {
             </ul>
 
             {/* Render Posts */}
-            
+
             <Piccard posts={Array.isArray(showData) ? showData : []} />
         </>
     );

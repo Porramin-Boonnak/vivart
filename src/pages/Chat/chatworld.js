@@ -51,7 +51,7 @@ const ChatWorld = () => {
                         <h2>Chat</h2>
                         <div className="chat-actions">
                             <img src={newchat} alt="newchat" />
-                            <img src={chatworld} alt="chatworld" onClick={() => navigate("/chat")}/>
+                            <img src={chatworld} alt="chatworld" onClick={() => navigate("/chat")} />
                         </div>
                     </div>
                     {users.map((user) => (

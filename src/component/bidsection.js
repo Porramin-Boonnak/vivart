@@ -17,12 +17,21 @@ export default function BidSection({ isOpen, onClose, post, user,isBlind}) {
   const { postid } = useParams();
   const [allBids, setAllBids] = useState([]);
   const [currentBid, setCurrentBid] = useState(null);
-  const now = new Date();
-  const bidStartTime = new Date(post.startbid); // เพิ่มตัวแปรนี้สำหรับเวลาเริ่มต้น
+  const [now, setNow] = useState(new Date());
+  const bidStartTime = new Date(post.startbid);
   const bidEndTime = new Date(post.endbid);
-  const isBidClosed = now < bidStartTime || now >= bidEndTime; // ปิดถ้ายังไม่ถึงเวลาหรือเลยเวลาแล้ว
-
+  const isBidClosed = now < bidStartTime || now >= bidEndTime; 
   
+  
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(new Date());
+    }, 1000); // อัปเดตทุกวินาที
+
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     if (isOpen && post?._id) {
       getbid();
@@ -117,18 +126,31 @@ export default function BidSection({ isOpen, onClose, post, user,isBlind}) {
           </div>
           <div className="modal-body text-center">
           <p className="text-muted fw-bold">
-              Bidding closes on:{" "}
-                <span className="text-danger">{new Date(post.endbid).toLocaleString("en-GB", {
-                  weekday: "long",
+              Bid Start and closer
+              </p>
+          <p className="text-muted fw-bold">
+              {" "} 
+                <span className="text-danger">{new Date(bidStartTime).toLocaleString("en-GB", {
                   day: "numeric",
                   month: "long",
                   year: "numeric",
                   hour: "2-digit",
                   minute: "2-digit",
-                  hour12: false,
+                  hour12: true,
+                  timeZone: "Asia/Bangkok",
+                })}</span>
+              . -{" "}
+                <span className="text-danger">{new Date(bidEndTime).toLocaleString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
                   timeZone: "Asia/Bangkok",
                 })}</span>
                 </p>
+          
 
             <h6 className="fw-bold">All Bidders</h6>
             <div className="list-group mt-3" style={{ maxHeight: "200px", overflowY: "auto"}}>
@@ -168,7 +190,7 @@ export default function BidSection({ isOpen, onClose, post, user,isBlind}) {
 
           <div className="yourbidbody bid-form-container text-center">
           {currentBid && (
-                  <h6 className="yourbid mt-4 fw-bold">Your highest bid: {currentBid} ฿</h6>
+                  <h5 className="yourbid mt-4 fw-bold">Your highest bid: {currentBid} ฿</h5>
                           )}
             <div className="input-group mb-3">
               <input 

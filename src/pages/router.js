@@ -42,6 +42,7 @@ export default function Router(){
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />}/>
+            <Route path="/search/:filter" element={<Home />}/>
             <Route path="/signup" element={<Signup />}/>
             <Route path="/signin" element={<Signin />}/>
             <Route path="/information" element={<Information />}/>

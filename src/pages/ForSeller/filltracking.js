@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function Filltracking() {
     const navigate = useNavigate();
 
-    const forsellerclick= () =>{
+    const forsellerclick = () => {
         navigate("/forseller");
     };
 
@@ -16,53 +16,53 @@ export default function Filltracking() {
     const [user, setuser] = useState();
     const API_URL = process.env.REACT_APP_API_URL;
     useEffect(() => {
-        axios.get(API_URL + "/post")
-            .then(response => { setpost(response.data); console.log(response.data) })
-            .catch(error => console.error("There was an error!", error));
+
         axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
             setuser(response.data);
+            axios.get(API_URL + "/get_tracking/"+response.data.username)
+                .then(response => { setpost(response.data); console.log(response.data) })
+                .catch(error => console.error("There was an error!", error));
         }).catch(error => {
             console.log(error)
         });
     }, []);
-    
+
     const Saleitem = () => {
         const [isEdit, setIsEdit] = useState(null);
         const [trackingNumbers, setTrackingNumbers] = useState({});
         const [submittedTracking, setSubmittedTracking] = useState({});
-    
+
         const API_URL = process.env.REACT_APP_API_URL;
-    
+
         // Retrieve tracking numbers from localStorage on component mount
         useEffect(() => {
             const storedTrackingNumbers = JSON.parse(localStorage.getItem('trackingNumbers')) || {};
             setSubmittedTracking(storedTrackingNumbers);
         }, []);
-    
+
         const handleInputChange = (event, itemId) => {
             setTrackingNumbers(prevState => ({
                 ...prevState,
                 [itemId]: event.target.value
             }));
         };
-    
+
         const handleSubmit = async (itemId) => {
             if (!trackingNumbers[itemId]) return alert("กรุณากรอกหมายเลขติดตาม");
-    
+
             console.log("🔍 Sending Data:", {
                 username: user?.username,
                 tracking_number: trackingNumbers[itemId]
             });
-    
+
             try {
-                const response = await axios.post(`http://127.0.0.1:5000/submit`, {
-                    username: user?.username,
+                const response = await axios.put(`http://127.0.0.1:5000/edit/${itemId}`, {
                     tracking_number: trackingNumbers[itemId]
                 });
                 console.log("✅ Response:", response.data);
                 alert("บันทึกสำเร็จ: " + response.data.message);
                 setIsEdit(null);
-    
+
                 // Update submitted tracking numbers and save them to localStorage
                 const updatedTrackingNumbers = {
                     ...submittedTracking,
@@ -75,11 +75,11 @@ export default function Filltracking() {
                 alert("ไม่สามารถบันทึกหมายเลขติดตามได้");
             }
         };
-    
+
         return (
             <>
                 {post && user && user.username ? (
-                    post.filter(item => item.artist === user.username).map(item => (
+                    post.map(item => (
                         <div className="d-flex justify-content-between mb-5" key={item._id}>
                             <div className="d-flex justify-content-between">
                                 <div className="ms-5 ">
@@ -87,7 +87,12 @@ export default function Filltracking() {
                                 </div>
                                 <div>
                                     <div className="ms-3 fw-bold fs-5">{item.name}</div>
-                                    <div className="ms-3">address</div>
+                                    <div className="ms-3">
+                                        Username : {item.address.username} <br />
+                                        Name : {item.address.name} <br />
+                                        Address : {item.address.address}, {item.address.city}, {item.address.country}, {item.address.zip} <br />
+                                        Phone : {item.address.phone}
+                                    </div>
                                 </div>
                             </div>
                             <div className="me-5">
@@ -127,8 +132,8 @@ export default function Filltracking() {
             </>
         );
     };
-        
-    
+
+
     return (
         <div className="container-fluid p-0 bg-secondary vh-100 w-100">
             <div className="row">

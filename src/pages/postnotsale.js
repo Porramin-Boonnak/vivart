@@ -39,6 +39,8 @@ export default function Postnotsale() {
             setBase64List(results);
         });
     };
+    const date = new Date();
+    const formattedDate = date.toLocaleString('sv-SE', { timeZone: 'Asia/Bangkok' }).replace(' ', 'T').slice(0, 16);
     const handleclick =()=>{
         const data = {
             artist : user.username,
@@ -48,7 +50,8 @@ export default function Postnotsale() {
             type : type,
             typepost : "normal",
             description : Description.current.value,
-            img:base64List
+            img:base64List,
+            date: formattedDate
         }
 
         axios.post(API_URL + '/post', data).then(response => {

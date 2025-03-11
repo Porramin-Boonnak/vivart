@@ -53,6 +53,8 @@ export default function Postsaleuniq() {
     const handleCheckboxChange = (setter) => (e) => {
         setter(e.target.checked);
     };
+    const date = new Date();
+    const formattedDate = date.toLocaleString('sv-SE', { timeZone: 'Asia/Bangkok' }).replace(' ', 'T').slice(0, 16);
     const handleclick =()=>{
         const data = {
             artist : user.username,
@@ -70,7 +72,8 @@ export default function Postsaleuniq() {
             price : Price.current.value,
             status : "open",
             startbid : dateTimeS,
-            endbid : dateTimeE
+            endbid : dateTimeE,
+            date: formattedDate
         }
         if(!isCheckedBlindA){
         axios.post(API_URL + '/post', data).then(response => {

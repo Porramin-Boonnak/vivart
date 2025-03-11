@@ -14,7 +14,7 @@ export default function Post() {
     const { postid } = useParams();
     const [post, setpost] = useState(null);
     const [user, setuser] = useState();
-    const [comment, setcomment] = useState();
+    const [comment, setcomment] = useState([]);
     const hasFetched = useRef(false);
     const API_URL = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();

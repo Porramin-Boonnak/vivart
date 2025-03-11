@@ -25,16 +25,16 @@
 }
 
 .masonry-layout{
-    column-gap: 1.5em; /* เพิ่มช่องว่างระหว่างคอลัมน์ */
-    row-gap: 2em; /* เพิ่มช่องว่างระหว่างแถว */
+    column-gap: 1.5em; 
+    row-gap: 2em; 
     padding: 0 2em;
 }
 
 .masonry-item{
     break-inside: avoid;
-    margin-bottom: 1.5em;/* เพิ่มช่องว่างด้านล่างของแต่ละโพสต์ */
+    margin-bottom: 1.5em;
     box-sizing: border-box;
-    padding: 10px; /* เพิ่ม padding ภายในแต่ละการ์ด */
+    padding: 10px; 
 }
 
 @media (min-width:576px){
@@ -83,10 +83,13 @@
 
 .c-card-icon {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    color: #DE5499; 
+    top: 20px; 
+    left: 260px; 
+    font-size: 1.2rem; 
+    color: #DE5499;
+    cursor: pointer;
 }
+
 
 .c-card-view {
     position: absolute;
@@ -102,8 +105,8 @@
 }
 
 .view-icon {
-    width: 20px; /* ขนาดของไอคอน view */
-    margin-right: 3px; /* เว้นระยะระหว่างไอคอนกับจำนวน */
+    width: 20px; 
+    margin-right: 3px; 
 }
 
 .c-card-number {

@@ -6,6 +6,7 @@ import Information from "../pages/information";
 import ForgetPassword from "../pages/forgetpassword";
 import Report from "../pages/report";
 import Post from "../pages/post";
+import Tracking  from "../pages/tracking";
 import Createpost from "../pages/createpost";
 import Postnotsale from "../pages/postnotsale";
 import Editpostnotsale from "../pages/editpostnotsale";
@@ -42,6 +43,7 @@ export default function Router(){
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />}/>
+            <Route path="/search/:filter" element={<Home />}/>
             <Route path="/signup" element={<Signup />}/>
             <Route path="/signin" element={<Signin />}/>
             <Route path="/information" element={<Information />}/>
@@ -60,6 +62,7 @@ export default function Router(){
             <Route path="/reportmanagement" element={<Reportmanagement />}/>
             <Route path="/reportdetail" element={<Reportdetail />}/>
             <Route path="/share" element={<Share />}/>
+            <Route path="/tracking/:tracking_number" element={<Tracking />}/>
             <Route path="/shipping" element={<Shipping />}/>
             <Route path="/profile/:this_username" element={<Profile />}/>
             <Route path="/editprofile" element={<EditProfile />}/>

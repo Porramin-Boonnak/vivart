@@ -1,13 +1,30 @@
 import { Dropdown } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Searchbar() {
+    const navigate = useNavigate();
+    const { filter } = useParams(); // ดึงค่า filter จาก URL
+
+    const handleFilterSelect = (filter) => {
+        navigate(`/search/${filter}`); // เปลี่ยนเส้นทางไปยัง URL ที่กรองประเภทนั้นๆ
+    };
+    
+    const handleSearch = () => {
+        const searchValue = document.getElementById("searchInput").value;
+        if (searchValue) {
+            navigate(`/search/${searchValue}`); // นำทางไปยังหน้าค้นหาพร้อมคำค้นหา
+        }
+    };
+    
     return (
-        <div className="d-flex justify-content-between align-items-center bg-secondary py-2 px-4" style={{ marginBottom: "-10px" }}>
-            <div className="d-flex align-items-center" style={{ marginLeft: "200px" }}>
+        <div className="d-flex align-items-center bg-secondary py-2 px-4 position-relative">
+            {/* Dropdown + Buttons */}
+            <div className="d-flex align-items-center flex-shrink-0 gap-2 mt-2">
+                {/* Assets */}
                 <Dropdown>
-                    <Dropdown.Toggle className="btn cs-color-btn rounded-pill border border-dark px-2 py-1 d-flex align-items-center" style={{ fontSize: "15px" ,marginLeft: "-110px"}}>
+                    <Dropdown.Toggle className="btn cs-color-btn rounded-pill border border-dark px-2 py-1 d-flex align-items-center" style={{ fontSize: "15px", marginLeft: "-110px" }}>
                         <i className="bi bi-caret-down-fill me-2"></i>
-                        <div className="d-none d-lg-inline-block">Assets</div>
+                        <span className="d-none d-lg-inline-block">Assets</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown drop="end">
@@ -15,11 +32,11 @@ export default function Searchbar() {
                                 Rarity
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between">
+                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between" onClick={() => handleFilterSelect("normal")}>
                                     Normal
                                     <i className="bi bi-fullscreen-exit"></i>
                                 </Dropdown.Item>
-                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between">
+                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between" onClick={() => handleFilterSelect("uniq")}>
                                     Unique
                                     <i className="bi bi-star-fill"></i>
                                 </Dropdown.Item>
@@ -30,23 +47,23 @@ export default function Searchbar() {
                                 Type
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between">
+                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between" onClick={() => handleFilterSelect("Digital")}>
                                     Digital
                                     <i className="bi bi-film"></i>
                                 </Dropdown.Item>
-                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between">
+                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between" onClick={() => handleFilterSelect("Handdraw")}>
                                     Hand draw
                                     <i className="bi bi-palette-fill"></i>
                                 </Dropdown.Item>
-                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between">
+                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between" onClick={() => handleFilterSelect("Sculpture")}>
                                     Sculpture
                                     <i className="bi bi-piggy-bank-fill"></i>
                                 </Dropdown.Item>
-                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between">
+                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between" onClick={() => handleFilterSelect("Painting")}>
                                     Painting
                                     <i className="bi bi-brush-fill"></i>
                                 </Dropdown.Item>
-                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between">
+                                <Dropdown.Item href="#" className="d-flex align-items-center justify-content-between" onClick={() => handleFilterSelect("Photography")}>
                                     Photography
                                     <i className="bi bi-image-fill"></i>
                                 </Dropdown.Item>
@@ -57,6 +74,7 @@ export default function Searchbar() {
             </div>
             <div className="d-flex align-items-center flex-grow-1 justify-content-center" style={{ marginLeft: "-50px", marginBottom: "-15px" }}>
                 <input
+                    id="searchInput"
                     className="form-control rounded-pill rounded-end-0 cs-color-Search border-end-0 border border-dark px-2 py-0"
                     type="search"
                     placeholder="Searching"
@@ -67,10 +85,27 @@ export default function Searchbar() {
                     type="button"
                     className="btn rounded-pill rounded-start-0 cs-color-btn-Search border-start-0 border border-dark px-2 py-0"
                     style={{ fontSize: "17px" }}
+                    onClick={handleSearch} // Use the corrected function here
                 >
                     <i className="bi bi-search"></i>
                 </button>
             </div>
+
+            {/* Search Bar (ขนาดความสูงเท่ากับปุ่ม Assets แต่กว้างเท่าเดิม) */}
+            <div className="d-flex align-items-center justify-content-center flex-grow-1 position-absolute mt-2" style={{ left: "55%", transform: "translateX(-50%)", marginTop: "10px" }}>
+                <div className="d-flex align-items-center border border-dark rounded-pill px-2 py-1" style={{ width: "500px", height: "38px", backgroundColor: "#fff" }}>
+                    <input
+                        className="form-control border-0 shadow-none"
+                        type="search"
+                        placeholder="Searching"
+                        aria-label="Search"
+                        style={{ fontSize: "15px", color: "#264143", opacity: "0.6", flex: 1 }}
+                    />
+                    <button type="button" className="btn border-0 px-2 py-0">
+                        <i className="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-    );  
+    );
 }

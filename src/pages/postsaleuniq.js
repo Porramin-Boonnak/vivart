@@ -243,7 +243,7 @@ export default function Postsaleuniq() {
                         <button onClick={handleclick} className="btn cs-btn-Postsaleuniq2 rounded-pill w-25 mt-5" type="button">Post</button>
                     </div>
                 </div>
-                <div className="col-12 col-md-1"></div>
+                <div className="col-12 col-md-5"></div>
             </div>
         </div>
     </>)

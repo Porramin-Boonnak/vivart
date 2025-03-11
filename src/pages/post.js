@@ -239,7 +239,7 @@ export default function Post() {
                                     Size <div className="d-inline ms-3">{post.size}</div>
                                 </div>
                                 <div className="m-2">
-                                    Rarity {"           -"}
+                                    Rarity <div className="d-inline ms-3">{post.typepost}</div>
                                 </div>
                                 <div className="m-2">
                                     Type <div className="d-inline ms-3">{post.type}</div>
@@ -292,9 +292,17 @@ export default function Post() {
                             <div className="fw-light fs-4">
                                 {post.description}
                             </div>
+                            
+                            <h4 className="mt-2">By<button
+                                className="border-0 bg-transparent"
+                                 onClick={() => navigate(`/profile/${post.own ? post.own : post.artist}`)}
+                                >
+                                <p className="text-primary"> {post.own ? post.own : post.artist}</p>
+                                </button></h4>
                             <div className="fw-light mt-2">
                                 #{post.tag}
                             </div>
+                            
                             {(user && post.typepost !== "normal" )?( post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open" && post.artist !== user.username )?(
                                 <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                     <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>

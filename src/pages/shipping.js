@@ -242,11 +242,13 @@ export default function Shipping() {
                         };
                         const sellandbuy = {
                             _id_post: item._id,
+                            name : item.name,
                             typepost: item.typepost,
                             quantity: item.quantity,
                             customer: user.username,
                             price: Number(item.price),
                             own: item.own,
+                            img : item.img,
                             gender: user.gender,
                             age: (() => {
                                 const birth = new Date(user.birthdate); // ตรวจสอบให้แน่ใจว่า `user.birthDate` มีค่าที่ถูกต้อง

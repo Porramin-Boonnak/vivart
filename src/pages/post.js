@@ -6,8 +6,11 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Navbar from "../component/navbar"
 import Showimg from "../component/showimg"
+import Bidsectionopen from "../component/bidsection";
+import Blindbidopen from "../component/bidblind";
 import { useNavigate } from 'react-router-dom';
 export default function Post() {
+    const [bidsection, setbidsection] = useState(false);
     const { postid } = useParams();
     const [post, setpost] = useState(null);
     const [user, setuser] = useState();
@@ -49,7 +52,8 @@ export default function Post() {
             img: post.img,
             typepost : post.typepost,
             type : post.type,
-            own : post.own ? post.own : post.artist
+            own : post.own ? post.own : post.artist,
+            img : post.img
         })
         .then(response => {
             console.log(response.data);
@@ -106,6 +110,7 @@ export default function Post() {
             console.error("Comment error:", error);
         }
     };
+
     const Allcomment = ({ items }) => {
         return (<>
             <div className="container">
@@ -290,13 +295,32 @@ export default function Post() {
                             <div className="fw-light mt-2">
                                 #{post.tag}
                             </div>
-                            {user && post.typepost !== "normal" ? post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open" && post.artist !== user.username ?
+                            {(user && post.typepost !== "normal" )?( post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open" && post.artist !== user.username )?(
                                 <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                     <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
-                                : post.typepost === "ordinary" && post.artist !== user.username && post.amount!==0 ? <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
+                                ):( post.typepost === "ordinary" && post.artist !== user.username && post.amount!==0 )?( <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                 <h6 className="text-primary fw-bold fs-2 mt-4">amount : {post.amount}</h6>
-                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>: <></>
-                                : <></>
+                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
+                                ):( <h6>
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary btn-lg rounded-pill w-100 text-white"
+                                        onClick={() => {
+                                            if (!user?.username) {
+                                                alert("Please Login");
+                                                navigate("/signin");
+                                            } else {
+                                                setbidsection(true);
+                                            }
+                                        }}
+                                    >
+                                        Bid Now
+                                    </button>
+                                    <Bidsectionopen 
+                                        isOpen={bidsection} onClose={() => setbidsection(false)} post={post} user={user} isBlind={post.BlindP}/>
+                                    </h6>
+                                
+                                ):( <></> )
                             }
                             <div className="p-1 mt-4 text-center cs-bg-comment mb-0">
                                 Comment

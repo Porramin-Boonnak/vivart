@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Chat_List from "./Component/ChatList";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { db } from "./Component/firebaseconfig";
 import Navbar from "../../component/navbar";
 import send from "../../pictures/mingcute_send-fill.png";
@@ -30,9 +30,9 @@ const Chat = ({ photo }) => {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
+  const location = useLocation();
+  const this_user_img = location.state?.this_user_img || "default_profile.png";
 
-
-  
   useEffect(() => {
     if (!loginUser || !this_username) return;
 
@@ -70,70 +70,70 @@ const Chat = ({ photo }) => {
     const receiverRef = doc(db, "chats", this_username);
 
     try {
-        // Fetch the current chat lists for both sender and receiver
-        const senderDoc = await getDoc(senderRef);
-        const receiverDoc = await getDoc(receiverRef);
+      // Fetch the current chat lists for both sender and receiver
+      const senderDoc = await getDoc(senderRef);
+      const receiverDoc = await getDoc(receiverRef);
 
-        const senderData = senderDoc.exists() ? senderDoc.data() : null;
-        const receiverData = receiverDoc.exists() ? receiverDoc.data() : null;
+      const senderData = senderDoc.exists() ? senderDoc.data() : null;
+      const receiverData = receiverDoc.exists() ? receiverDoc.data() : null;
 
-        // Get the current message counts for the sender and receiver
-        const currentSenderQtyMsg = senderData ? senderData.chat_list?.find(item => item.username === this_username)?.qty_msg || 0 : 0;
-        const currentReceiverQtyMsg = receiverData ? receiverData.chat_list?.find(item => item.username === loginUser)?.qty_msg || 0 : 0;
+      // Get the current message counts for the sender and receiver
+      const currentSenderQtyMsg = senderData ? senderData.chat_list?.find(item => item.username === this_username)?.qty_msg || 0 : 0;
+      const currentReceiverQtyMsg = receiverData ? receiverData.chat_list?.find(item => item.username === loginUser)?.qty_msg || 0 : 0;
 
-        // Update the chat list of the sender (loginUser)
-        let updatedSenderChatList = senderData ? senderData.chat_list : [];
+      // Update the chat list of the sender (loginUser)
+      let updatedSenderChatList = senderData ? senderData.chat_list : [];
 
-        // Check if the sender's chat list already contains an entry for this_username
-        const existingSenderChat = updatedSenderChatList.find(item => item.username === this_username);
+      // Check if the sender's chat list already contains an entry for this_username
+      const existingSenderChat = updatedSenderChatList.find(item => item.username === this_username);
 
-        if (existingSenderChat) {
-            // If entry exists, update the message count and last send time
-            existingSenderChat.qty_msg = 0;
-            existingSenderChat.last_send_time = Timestamp.now();
-        } else {
-            // If no entry exists, add a new entry
-            updatedSenderChatList.push({
-                username: this_username,
-                qty_msg: 0,
-                last_send_time: Timestamp.now(),
-            });
-        }
+      if (existingSenderChat) {
+        // If entry exists, update the message count and last send time
+        existingSenderChat.qty_msg = 0;
+        existingSenderChat.last_send_time = Timestamp.now();
+      } else {
+        // If no entry exists, add a new entry
+        updatedSenderChatList.push({
+          username: this_username,
+          qty_msg: 0,
+          last_send_time: Timestamp.now(),
+        });
+      }
 
-        // Update sender's chat list with the modified data
-        await setDoc(senderRef, {
-            chat_list: updatedSenderChatList,
-        }, { merge: true });
+      // Update sender's chat list with the modified data
+      await setDoc(senderRef, {
+        chat_list: updatedSenderChatList,
+      }, { merge: true });
 
-        // Update the chat list of the receiver (this_username)
-        let updatedReceiverChatList = receiverData ? receiverData.chat_list : [];
+      // Update the chat list of the receiver (this_username)
+      let updatedReceiverChatList = receiverData ? receiverData.chat_list : [];
 
-        // Check if the receiver's chat list already contains an entry for loginUser
-        const existingReceiverChat = updatedReceiverChatList.find(item => item.username === loginUser);
+      // Check if the receiver's chat list already contains an entry for loginUser
+      const existingReceiverChat = updatedReceiverChatList.find(item => item.username === loginUser);
 
-        if (existingReceiverChat) {
-            // If entry exists, update the message count and last send time
-            existingReceiverChat.qty_msg += 1;
-            existingReceiverChat.last_send_time = Timestamp.now();
-        } else {
-            // If no entry exists, add a new entry
-            updatedReceiverChatList.push({
-                username: loginUser,
-                qty_msg: 1,
-                last_send_time: Timestamp.now(),
-            });
-        }
+      if (existingReceiverChat) {
+        // If entry exists, update the message count and last send time
+        existingReceiverChat.qty_msg += 1;
+        existingReceiverChat.last_send_time = Timestamp.now();
+      } else {
+        // If no entry exists, add a new entry
+        updatedReceiverChatList.push({
+          username: loginUser,
+          qty_msg: 1,
+          last_send_time: Timestamp.now(),
+        });
+      }
 
-        // Update receiver's chat list with the modified data
-        await setDoc(receiverRef, {
-            chat_list: updatedReceiverChatList,
-        }, { merge: true });
+      // Update receiver's chat list with the modified data
+      await setDoc(receiverRef, {
+        chat_list: updatedReceiverChatList,
+      }, { merge: true });
 
-        console.log(`✅ Updated chat lists for ${loginUser} and ${this_username}`);
+      console.log(`✅ Updated chat lists for ${loginUser} and ${this_username}`);
     } catch (error) {
-        console.error("❌ Error updating chat lists:", error);
+      console.error("❌ Error updating chat lists:", error);
     }
-};
+  };
 
 
   // 📌 ฟังก์ชันส่งข้อความ
@@ -155,11 +155,12 @@ const Chat = ({ photo }) => {
       console.error("❌ Error sending message:", error);
     }
   };
-  
+
   return (
 
     <div className="body">
       <Navbar />
+      <div>{this_user_img}</div>
       <div className="chat-container">
         <Chat_List users />
         <div className="chat-window">
@@ -171,7 +172,7 @@ const Chat = ({ photo }) => {
                 key={msg.id}
                 className={`message ${msg.sender === loginUser ? "sent" : "received"}`}
               >
-                <img src={msg.avatar || photo} alt="Avatar" />
+                {msg.sender !== loginUser && <img src={this_user_img} alt="Avatar" />}
                 <span className="message-text">{msg.message}</span>
                 <span className="message-time">
                   {msg.send_time.toDate().toLocaleTimeString([], {

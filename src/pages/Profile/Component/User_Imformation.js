@@ -5,7 +5,7 @@ import axios from "axios";
 
 export default function User_Impormation({ this_username, follow, post_qty }) {
     const navigate = useNavigate();
-    
+
     // Local states for followers and followings
     const [followers, setFollower] = useState([]);
     const [followings, setFollowing] = useState([]);
@@ -45,7 +45,7 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
                     user_login: loginUser,
                     img: "ABC",
                 });
-    
+
                 console.log(response.data);
                 setFollower(prevFollowers => prevFollowers.filter(follower => follower.username !== loginUser));
                 setIsFollowing(false);
@@ -56,7 +56,7 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
                     user_login: loginUser,
                     img: "ABC",
                 });
-    
+
                 console.log(response.data);
                 setFollower(prevFollowers => [
                     ...prevFollowers,
@@ -68,18 +68,18 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
             console.error("Error in follow/unfollow operation:", error);
         }
     };
-    
+
 
     return (
         <div className="container mt-5">
             <div className="row align-items-center">
                 {/* Image Column */}
                 <div className="col-md-3 text-center">
-                    <img 
-                        src={this_username.img} 
-                        alt="Profile" 
+                    <img
+                        src={this_username.img}
+                        alt="Profile"
                         className="profile-img rounded-circle img-fluid"
-                        style={{ width: "150px", height: "150px", objectFit: "cover" }} 
+                        style={{ width: "150px", height: "150px", objectFit: "cover" }}
                     />
                 </div>
 
@@ -87,32 +87,32 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
                 <div className="col-md-9">
                     <h2>{this_username.username}</h2>
                     <p>{this_username.user_bio}</p>
-                    
-                    <p>{JSON.stringify(followers, null, 2)}</p> 
+
+                    <p>{JSON.stringify(followers, null, 2)}</p>
                     <p>{isFollowing ? "Following" : "Not Following"}</p>
 
                     <p>{post_qty} posts | {followers.length} followers | {followings.length} following</p>
 
                     {this_username.username === loginUser ? (
-                        <Button 
-                            variant="outline-dark" 
-                            onClick={() => navigate("/editprofile")} 
+                        <Button
+                            variant="outline-dark"
+                            onClick={() => navigate("/editprofile")}
                             style={{ cursor: "pointer", color: "light" }}
                         >
                             Edit
                         </Button>
                     ) : (
                         <div style={{ flexDirection: "row", justifyContent: "start", display: "flex", gap: "5px" }}>
-                            <Button 
-                                variant="primary" 
-                                onClick={handleFollowToggle} 
+                            <Button
+                                variant="primary"
+                                onClick={handleFollowToggle}
                                 style={{ cursor: "pointer", color: "white" }}
                             >
                                 {isFollowing ? "Unfollow" : "Follow"}
                             </Button>
-                            <Button 
-                                variant="secondary" 
-                                onClick={() => navigate("/chat")} 
+                            <Button
+                                variant="secondary"
+                                onClick={() => navigate("/chat")}
                                 style={{ cursor: "pointer", color: "light" }}
                             >
                                 Message

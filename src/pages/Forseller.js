@@ -2,60 +2,111 @@ import "../pagescss/Forseller.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../component/navbar";
+import axios from "axios";
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
 
 
 export default function ForSeller() {
+    const [history, sethistory] = useState();
+    const [user, setuser] = useState();
+    const [total_likes, settotal_likes] = useState();
+    const API_URL = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
-
-    const filltrackclick= () =>{
+    useEffect(() => {
+        axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
+            setuser(response.data);
+            localStorage.setItem('user_login', JSON.stringify(response.data.username));
+        }).catch(error => {
+            console.log(error)
+        });
+    }, []);
+    useEffect(() => {
+        if (user) {
+            axios.get(API_URL + "/history/" + user.username).then(response => {
+                sethistory(response.data);
+            })
+            axios.get(API_URL + "/countlike/" + user.username).then(response => {
+                settotal_likes(response.data.total_likes);
+            })
+        }
+    }, [user]);
+    const filltrackclick = () => {
         navigate("/filltracking");
     };
 
-    const productclick= () =>{
+    const productclick = () => {
         navigate("/product");
     };
 
-    const sellingclick= () =>{
+    const sellingclick = () => {
         navigate("/selling");
     };
 
-    const salehistoryclick= () =>{
+    const salehistoryclick = () => {
         navigate("/salehistory");
     };
 
-    // ข้อมูล Pie Chart
-    const pieData = [
-        { name: "Man", value: 270, color: "#264143" },
-        { name: "Woman", value: 156, color: "#DE5499" },
-        { name: "LGBTQAI2S+", value: 711, color: "#E99F4C" },
+    const currentYear = new Date().getFullYear();
+    const gender = ["Male", "Female", "lgbtqai2s+"];
+    const colors = ["#264143", "#DE5499", "#E99F4C"];
+    const allgender = gender.map(g => ({
+        gender: g,
+        sum: 0,
+        color: ""
+    }));
+    const sumgender = history ? history.reduce((acc, item) => {
+        const genderIndex = gender.findIndex(g => g === item.gender);
+        if (genderIndex !== -1) {
+            acc[genderIndex].sum += 1;
+            acc[genderIndex].color = colors[genderIndex];
+        }
+        return acc;
+    }, allgender) : null;
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const fullYearData = monthNames.map((month, index) => ({
+        month,
+        price: 0,
+    }));
+    const summedData = history ? history.reduce((acc, item) => {
+        const monthIndex = new Date(item.time).getMonth();
+        acc[monthIndex].price += item.price || 0; // บวก price เข้าไปในเดือนที่ตรงกัน
+        return acc;
+    }, fullYearData) : null;
+    const ageRanges = [
+        "0-10", "11-20", "21-30", "31-40", "41-50",
+        "51-60", "61-70", "71-80", "81-90", "91-100", "101-150"
     ];
 
-    // ข้อมูล Bar Chart
-    const barData = Array.from({ length: 50 }, (_, i) => ({
-        age: i + 1,
-        customers: Math.floor(Math.random() * 800),
+    // สร้างโครงสร้างเริ่มต้นของข้อมูล
+    const fullAgeData = ageRanges.map((age) => ({
+        age,
+        customers: 0, // เริ่มต้นที่ 0 คนในแต่ละช่วงอายุ
     }));
 
-    // ข้อมูล Line Graph (Product Sales)
-    const currentYear = new Date().getFullYear();
-    const lineData = [
-        { month: "Jan", sales: 50 },
-        { month: "Feb", sales: 60 },
-        { month: "Mar", sales: 55 },
-        { month: "Apr", sales: 70 },
-        { month: "May", sales: 90 },
-        { month: "Jun", sales: 100 },
-        { month: "Jul", sales: 80 },
-        { month: "Aug", sales: 110 },
-        { month: "Sep", sales: 130 },
-        { month: "Oct", sales: 140 },
-        { month: "Nov", sales: 150 },
-        { month: "Dec", sales: 170 },
-    ];
+    const summedAgeData = history
+        ? history.reduce((acc, item) => {
+            const age = item.age;
+            const rangeIndex = ageRanges.findIndex(range => {
+                const [min, max] = range.split("-").map(Number);
+                return age >= min && age <= max;
+            });
 
+            if (rangeIndex !== -1) {
+                acc[rangeIndex].customers += 1; // นับจำนวนคนในช่วงอายุที่ตรงกัน
+            }
+            return acc;
+        }, fullAgeData)
+        : fullAgeData;
+    const totalprice = history  ? history.reduce((sum, item) => sum + item.price, 0) : 0;
+    const totalsells = history  ? history.reduce((sum, item) => sum + item.quantity, 0) : 0;
+    const totalAges = history  ? history.reduce((sum, item) => sum + item.age, 0) : 0;
+    const averageAge = history  ? totalAges / history.length : 0;
+    
     return (
-        
+
         <div className="body">
             <Navbar />
             <div className="container">
@@ -73,9 +124,9 @@ export default function ForSeller() {
                 {/* Stats */}
                 <div className="stats">
                     <div className="stat-card"><span className="highlight2">0.5%</span> Customer Royalty</div>
-                    <div className="stat-card"><span className="highlight2">99</span> Total Likes</div>
-                    <div className="stat-card"><span className="highlight2">99</span> Total Sells</div>
-                    <div className="stat-card"><span className="highlight2">1998</span> Total Income</div>
+                    <div className="stat-card"><span className="highlight2">{total_likes}</span> Total Likes</div>
+                    <div className="stat-card"><span className="highlight2">{totalsells}</span> Total Sells</div>
+                    <div className="stat-card"><span className="highlight2">{totalprice}</span> Total Income</div>
                 </div>
 
                 {/* Product Sales (Line Chart) */}
@@ -83,11 +134,19 @@ export default function ForSeller() {
                     <h3 className="product-title">Product sales</h3>
                     <p className="y-axis-label">In thousand (bht)</p>
                     <ResponsiveContainer width="100%" height={300}>
-                        <LineChart data={lineData}>
-                            <XAxis dataKey="month" tick={{ fill: "#264143" }} />
+                        <LineChart width={800} height={300} data={summedData}>
+                            <XAxis
+                                dataKey="month"
+                                tick={{ fill: "#264143" }}
+                                interval={0}
+                                angle={-12}
+                                textAnchor="end"
+                                dy={0}
+                                padding={{ left: 10, right: 10 }}
+                            />
                             <YAxis tick={{ fill: "#264143" }} />
                             <Tooltip />
-                            <Line type="monotone" dataKey="sales" stroke="#ff4081" strokeWidth={3} />
+                            <Line type="monotone" dataKey="price" stroke="#ff4081" strokeWidth={3} />
                         </LineChart>
                     </ResponsiveContainer>
                     <p className="x-axis-label">Months <br /></p>
@@ -102,25 +161,25 @@ export default function ForSeller() {
                         <div className="pie-chart">
                             <ResponsiveContainer width="100%" height={300}>
                                 <PieChart>
-                                    <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
-                                        {pieData.map((entry, index) => (
+                                    {sumgender ? <Pie data={sumgender} dataKey="sum" nameKey="gender" cx="50%" cy="50%" outerRadius={80} label>
+                                        {sumgender.map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={entry.color} />
                                         ))}
-                                    </Pie>
+                                    </Pie> : <></>}
                                 </PieChart>
                             </ResponsiveContainer>
                         </div>
-                        <div className="gender-info">
+                        {sumgender ? <div className="gender-info">
                             <p><strong>Gender</strong></p>
                             <p>
-                                <span className="pieHighlight1">Man: 270</span>
+                                <span className="pieHighlight1">Man: {sumgender[0].sum}</span>
                                 <br></br>
-                                <span className="pieHighlight2"> Woman: 156</span>
+                                <span className="pieHighlight2"> Woman: {sumgender[1].sum}</span>
                                 <br></br>
-                                <span className="pieHighlight3"> LGBTQAI2S+: 711</span>
+                                <span className="pieHighlight3"> LGBTQAI2S+: {sumgender[2].sum}</span>
                             </p>
-                            <p><strong>Total: 1137</strong></p>
-                        </div>
+                            <p><strong>Total: {sumgender[0].sum + sumgender[1].sum + sumgender[2].sum}</strong></p>
+                        </div> : <></>}
                     </div>
                 </div>
 
@@ -128,14 +187,14 @@ export default function ForSeller() {
                 <div className="customer-age">
                     <h3>Customer Age</h3>
                     <ResponsiveContainer width="100%" height={300}>
-                        <BarChart data={barData}>
+                        <BarChart data={summedAgeData}>
                             <XAxis dataKey="age" />
                             <YAxis />
                             <Tooltip />
                             <Bar dataKey="customers" fill="#f39c12" />
                         </BarChart>
                     </ResponsiveContainer>
-                    <p className="average-age"><span className="age">32</span>Average age</p>
+                    <p className="average-age"><span className="age">{averageAge}</span>Average age</p>
                 </div>
             </div>
         </div>

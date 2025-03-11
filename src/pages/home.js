@@ -70,17 +70,20 @@ export default function Home() {
                         likedItems[item._id] ??
                         (Array.isArray(item.like) && item.like.some((element) => element.username === username) && username);
 
-                    const icon = isLiked ? (
-                        <i
-                            className="bi bi-heart-fill fs-2 text-primary c-card-icon"
-                            onDoubleClick={() => toggleLike(item._id, isLiked)}
-                        ></i>
-                    ) : (
-                        <i
-                            className="bi bi-heart fs-2 text-primary c-card-icon"
-                            onDoubleClick={() => toggleLike(item._id, isLiked)}
-                        ></i>
-                    );
+                        const icon = isLiked ? (
+                            <i
+                                className="bi bi-heart-fill text-primary c-card-icon fs-5"
+                                style={{ fontSize: "1.2rem" }} // ลดขนาดไอคอน
+                                onDoubleClick={() => toggleLike(item._id, isLiked)}
+                            ></i>
+                        ) : (
+                            <i
+                                className="bi bi-heart text-primary c-card-icon fs-5"
+                                style={{ fontSize: "1.2rem" }} // ลดขนาดไอคอน
+                                onDoubleClick={() => toggleLike(item._id, isLiked)}
+                            ></i>
+                        );
+                        
 
                     return (
                         <div className="masonry-item" key={item._id}>

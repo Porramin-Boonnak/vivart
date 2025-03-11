@@ -14,10 +14,8 @@ export default function PaidHistory() {
         { name: "Bid History", path: "/bidHistory" },
     ];
 
-    // ใช้ useState เพื่อเก็บวันที่และเวลาที่ซื้อของแต่ละรายการ
     const [items, setItems] = useState([
-        { id: 1, name: "Light star", price: 7000, quantity: 1, image: "/images/light-star.png", purchaseDate: "" },
-        { id: 2, name: "Reach star", price: 10000, quantity: 2, image: "/images/reach-star.png", purchaseDate: "" }
+        
     ]);
 
     const formatDateTime = (date) => {

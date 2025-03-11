@@ -87,7 +87,12 @@ export default function Filltracking() {
                                 </div>
                                 <div>
                                     <div className="ms-3 fw-bold fs-5">{item.name}</div>
-                                    <div className="ms-3">address</div>
+                                    <div className="ms-3">
+                                        Username : {item.address.username} <br />
+                                        Name : {item.address.name} <br />
+                                        Address : {item.address.address}, {item.address.city}, {item.address.country}, {item.address.zip} <br />
+                                        Phone : {item.address.phone}
+                                    </div>
                                 </div>
                             </div>
                             <div className="me-5">

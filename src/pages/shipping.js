@@ -242,13 +242,13 @@ export default function Shipping() {
                         };
                         const sellandbuy = {
                             _id_post: item._id,
-                            name : item.name,
+                            name: item.name,
                             typepost: item.typepost,
                             quantity: item.quantity,
                             customer: user.username,
                             price: Number(item.price),
                             own: item.own,
-                            img : item.img,
+                            img: item.img,
                             gender: user.gender,
                             age: (() => {
                                 const birth = new Date(user.birthdate); // ตรวจสอบให้แน่ใจว่า `user.birthDate` มีค่าที่ถูกต้อง
@@ -273,11 +273,21 @@ export default function Shipping() {
                                 nameaccount: res.data.nameaccount,
                                 bank: res.data.bank,
                                 number: res.data.number,
-                                totalPrice : totalPrice,
-                                status : "waiting"
+                                totalPrice: totalPrice,
+                                status: "waiting"
                             }
                             await axios.post(`${API_URL}/payout`, data);
                         })
+                        const filltracking = {
+                            name: item.name,
+                            customer: user.username,
+                            own: item.own,
+                            img: item.img,
+                            address: selectedAddresses
+                        }
+                        if(item.type!=="Digital"){
+                            await axios.post(`${API_URL}/filltracking`, filltracking);
+                        }
                         await axios.post(`${API_URL}/history`, sellandbuy);
                         await axios.post(`${API_URL}/success`, data);
                         await axios.delete(`${API_URL}/cart/${user._id}/${item._id_post}`);
@@ -288,7 +298,7 @@ export default function Shipping() {
                             return 0;
                         })
                         .catch(error => console.error("Error processing cart:", error));
-                    
+
                 }
             })
             .catch(error => console.error("Error confirming payment:", error));
@@ -427,7 +437,13 @@ export default function Shipping() {
                                             <button className="btn btn-dark w-100 mt-4" onClick={handleaddress}>Save and Continue</button>
                                         </form> :
                                             <><div className="text-danger mt-2" style={{ cursor: "pointer" }} onClick={() => setaddaddress(true)}>+ Add a new address</div>
-                                                <button className="btn btn-dark w-100 mt-4" onClick={() => handleNext()}>Save and Continue</button></>}
+                                                <button className="btn btn-dark w-100 mt-4" onClick={() => 
+                                                    {
+                                                        if(selectedAddresses!==null){
+                                                        handleNext()}
+                                                        else{alert("Please select address")
+
+                                                        }}}>Save and Continue</button></>}
                                     </>
                                 ) : <>
                                     <div>No Shipping</div>

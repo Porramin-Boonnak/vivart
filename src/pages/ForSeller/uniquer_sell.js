@@ -1,4 +1,3 @@
-import Searchbar from "../../component/searchbar";
 import Navbar from "../../component/navbar";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import TuuImage from "../../pictures/Tuu.jpg"; // ใช้รูปนี้หากไม่มีภาพในโพสต์
@@ -105,29 +104,46 @@ export default function Selling() {
                     ) : (
                         posts.map((post) => (
                             <div key={post._id} className="d-flex flex-wrap align-items-center bg-white p-3 my-2 rounded">
+                                {/* รูปภาพ */}
                                 <img
                                     src={post.img || TuuImage} // ใช้ภาพจากโพสต์ ถ้าไม่มีให้ใช้ TuuImage
                                     alt={post.name}
                                     className="me-3"
                                     style={{ width: "50px", height: "50px" }}
                                 />
-                                <span className="fs-4 flex-grow-1">{post.name}</span>
+
+                                {/* โซนข้อความ */}
+                                <div className="flex-grow-1">
+                                    {/* ชื่อโพสต์ */}
+                                    <span className="fs-4 d-block">{post.name}</span>
+
+                                    <div className="Countdown">
+                                        Time Countdown:{post.endbid}
+                                    </div>
+                                </div>
+
+                                {/* โซนปุ่ม */}
                                 <div className="d-flex flex-column align-items-end gap-2">
+                                    {/* Sell to user */}
                                     <div className="text-dark">
                                         Sell to user
                                         <span className="text-primary">
-                                            <button className="btn btn-dark text-white" style={{ width: 150 }} onClick={selectclick}>
+                                            <button className="btn btn-dark text-white" style={{ width: 150, marginLeft: '10px' }} onClick={selectclick}>
                                                 Select
                                             </button>
                                         </span>
                                     </div>
-                                    <button className="btn btn-primary text-white" style={{ width: 150 }} onClick={() => sellProduct(post._id)}>
-                                        Sell now
-                                    </button>
+                                    <div className="d-flex align-items-center text-dark">
+                                        <div className="Candidate me-2">Candidate:</div>
+                                        <button className="btn btn-primary text-white" style={{ width: 150 }} onClick={() => sellProduct(post._id)}>
+                                            Sell now
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))
                     )}
+
                 </div>
             </div>
             <div className="row bg-secondary py-4">

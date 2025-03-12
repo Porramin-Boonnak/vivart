@@ -41,29 +41,29 @@ export default function Post() {
     }, [postid]);
 
     const addToCart = () => {
-        if(user){
-        
-        axios.post(`${API_URL}/cart`, {
-            _id_post: post._id,
-            _id_customer: user.username,
-            name: post.name,
-            price: post.price,
-            quantity: 1,
-            img: post.img,
-            typepost : post.typepost,
-            type : post.type,
-            own : post.own ? post.own : post.artist,
-            img : post.img
-        })
-        .then(response => {
-            console.log(response.data);
-            navigate('/cart');
-        })
-        .catch(error => {
-            console.error("Error fetching cart data:", error)
-            }
-            );
-        }else{
+        if (user) {
+
+            axios.post(`${API_URL}/cart`, {
+                _id_post: post._id,
+                _id_customer: user.username,
+                name: post.name,
+                price: post.price,
+                quantity: 1,
+                img: post.img,
+                typepost: post.typepost,
+                type: post.type,
+                own: post.own ? post.own : post.artist,
+                img: post.img
+            })
+                .then(response => {
+                    console.log(response.data);
+                    navigate('/cart');
+                })
+                .catch(error => {
+                    console.error("Error fetching cart data:", error)
+                }
+                );
+        } else {
             alert("Please login");
             navigate('/signin');
         }
@@ -97,13 +97,13 @@ export default function Post() {
             comment: ncomment.current.value,
             img: user.img
         };
-    
+
         try {
             await axios.post(`${API_URL}/comment/${postid}`, newComment);
-    
+
             // อัปเดต state คอมเมนต์ทันที ไม่ต้องโหลดใหม่
             setcomment(prevComments => [...prevComments, newComment]);
-    
+
             // ล้าง input หลังส่งคอมเมนต์
             ncomment.current.value = "";
         } catch (error) {
@@ -277,10 +277,12 @@ export default function Post() {
                                                 </a>
                                                 </li>
                                                 <li>
-                                                    <a className="dropdown-item d-flex align-items-center justify-content-between"
-                                                        onClick={deletePost}>
-                                                        Delete<i className="bi bi-trash3-fill"></i>
-                                                    </a>
+                                                    {post.typepost === "normal" ?
+                                                        <a className="dropdown-item d-flex align-items-center justify-content-between"
+                                                            onClick={deletePost}>
+                                                            Delete<i className="bi bi-trash3-fill"></i>
+                                                        </a>
+                                                    : <></>}
                                                 </li>
                                             </div>
                                             :
@@ -292,43 +294,43 @@ export default function Post() {
                             <div className="fw-light fs-4">
                                 {post.description}
                             </div>
-                            
+
                             <h4 className="mt-2">By<button
                                 className="border-0 bg-transparent"
-                                 onClick={() => navigate(`/profile/${post.own ? post.own : post.artist}`)}
-                                >
+                                onClick={() => navigate(`/profile/${post.own ? post.own : post.artist}`)}
+                            >
                                 <p className="text-primary"> {post.own ? post.own : post.artist}</p>
-                                </button></h4>
+                            </button></h4>
                             <div className="fw-light mt-2">
                                 #{post.tag}
                             </div>
-                            
-                            {(user && post.typepost !== "normal" )?( post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open" && post.artist !== user.username )?(
+
+                            {(user && post.typepost !== "normal") ? (post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open" && post.artist !== user.username) ? (
                                 <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                     <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
-                                ):( post.typepost === "ordinary" && post.artist !== user.username && post.amount!==0 )?( <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
+                            ) : (post.typepost === "ordinary" && post.artist !== user.username && post.amount !== 0) ? (<><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                 <h6 className="text-primary fw-bold fs-2 mt-4">amount : {post.amount}</h6>
-                                    <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
-                                ):( ((user.username !== (post.own?post.own:post.artist)&& post.selltype==="Bid (Sell to the most expensive)")||(user.username !== (post.own?post.own:post.artist)&&post.selltype=="Bid (sell to the first person)"))?(<h6>
-                                    <button
-                                        type="button"
-                                        className="btn btn-primary btn-lg rounded-pill w-100 text-white"
-                                        onClick={() => {
-                                            if (!user?.username) {
-                                                alert("Please Login");
-                                                navigate("/signin");
-                                            } else {
-                                                setbidsection(true);
-                                            }
-                                        }}
-                                    >
-                                        Bid Now
-                                    </button>
-                                    <Bidsectionopen 
-                                        isOpen={bidsection} onClose={() => setbidsection(false)} post={post} user={user} isBlind={post.BlindP}/>
-                                    </h6>
-                                    ):(<> </>)
-                                ):( <></> )
+                                <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
+                            ) : (((user.username !== (post.own ? post.own : post.artist) && post.selltype === "Bid (Sell to the most expensive)") || (user.username !== (post.own ? post.own : post.artist) && post.selltype == "Bid (sell to the first person)")) ? (<h6>
+                                <button
+                                    type="button"
+                                    className="btn btn-primary btn-lg rounded-pill w-100 text-white"
+                                    onClick={() => {
+                                        if (!user?.username) {
+                                            alert("Please Login");
+                                            navigate("/signin");
+                                        } else {
+                                            setbidsection(true);
+                                        }
+                                    }}
+                                >
+                                    Bid Now
+                                </button>
+                                <Bidsectionopen
+                                    isOpen={bidsection} onClose={() => setbidsection(false)} post={post} user={user} isBlind={post.BlindP} />
+                            </h6>
+                            ) : (<> </>)
+                            ) : (<></>)
                             }
                             <div className="p-1 mt-4 text-center cs-bg-comment mb-0">
                                 Comment

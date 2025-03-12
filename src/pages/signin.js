@@ -71,6 +71,7 @@ export default function Signin() {
             <hr className="w-50 bg-primary" />
             <p>Don’t have an account? </p>
             <a className="text-pink fw-bold" onClick={signupclick}>Sign up</a>
+            <a className="text-pink fw-bold" onClick={()=>navigate("/forgetpassword")}>Forget Password</a>
         </div>
     );
 }

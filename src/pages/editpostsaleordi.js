@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from '../component/navbar';
 import Showimg from '../component/showimg';
 import axios from 'axios';
@@ -12,6 +12,7 @@ export default function Editpostsaleordi() {
     const [type, settype] = useState();
     const [size, setsize] = useState();
     const [post, setPost] = useState(null);
+    const [clickpost, setclickpost] = useState(false);
     const Title = useRef();
     const Tag = useRef();
     const Price = useRef();
@@ -19,7 +20,7 @@ export default function Editpostsaleordi() {
     const Description = useRef();
     const navigate = useNavigate();
     const API_URL = process.env.REACT_APP_API_URL;
-    
+
     useEffect(() => {
 
         axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
@@ -37,26 +38,26 @@ export default function Editpostsaleordi() {
             console.error("postid is undefined");
             return;
         }
-    
+
         axios.get(`${API_URL}/post/${postid}`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         })
-        .then(response => {
-            const data = response.data;
-            setPost(data);
-            setBase64List(data.img);
-            settype(data.type);
-            setsize(data.size);
-            Title.current.value = data.name;
-            Tag.current.value = data.tag;
-            Price.current.value = data.price;
-            Amount.current.value = data.amount;
-            Description.current.value = data.description;
-        })
-        .catch(error => {
-            console.error("Error fetching post data:", error.response ? error.response.data : error.message);
-            alert("Error fetching post data");
-        });
+            .then(response => {
+                const data = response.data;
+                setPost(data);
+                setBase64List(data.img);
+                settype(data.type);
+                setsize(data.size);
+                Title.current.value = data.name;
+                Tag.current.value = data.tag;
+                Price.current.value = data.price;
+                Amount.current.value = data.amount;
+                Description.current.value = data.description;
+            })
+            .catch(error => {
+                console.error("Error fetching post data:", error.response ? error.response.data : error.message);
+                alert("Error fetching post data");
+            });
     }, [postid, API_URL]);
 
     const handleFileChange = (e) => {
@@ -74,26 +75,27 @@ export default function Editpostsaleordi() {
             setBase64List(results);
         });
     };
-    const handleclick =()=>{
+    const handleclick = () => {
+        setclickpost(true);
         const data = {
-            artist : user.username,
-            name : Title.current.value,
-            tag : Tag.current.value,
-            type : type,
-            typepost : "ordinary",
-            size : size,
-            description : Description.current.value,
-            img:base64List,
-            price : Price.current.value,
-            amount : Amount.current.value
+            artist: user.username,
+            name: Title.current.value,
+            tag: Tag.current.value,
+            type: type,
+            typepost: "ordinary",
+            size: size,
+            description: Description.current.value,
+            img: base64List,
+            price: Price.current.value,
+            amount: Amount.current.value
         }
 
         axios.put(`${API_URL}/post/${postid}`, data)
-                .then(() => {
-                    alert("Post updated successfully!");
-                    navigate('/');
-                })
-                .catch(() => alert("Failed to update post"));
+            .then(() => {
+                alert("Post updated successfully!");
+                navigate('/');
+            })
+            .catch(() => alert("Failed to update post"));
     }
     return (<>
         <div className="container-fluid p-0 bg-secondary min-vh-100 min-vw-100">
@@ -144,7 +146,7 @@ export default function Editpostsaleordi() {
                             <input ref={Tag} type="text" id="tag" name="Tag" className='cs-color-Search w-100 border-0' />
                         </div>
                         <div className='d-flex flex-row justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
-                            <div class= "d-flex flex-row">
+                            <div class="d-flex flex-row">
                                 <label for="Arttype" className='text-primary me-2 fs-5'>Art type</label>
                                 <div class="dropdown" id='Arttype'>
                                     <button class="btn cs-btn-Postsaleordinary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -159,7 +161,7 @@ export default function Editpostsaleordi() {
                                     </ul>
                                 </div>
                             </div>
-                            <div class= "ms-5 d-flex flex-row">
+                            <div class="ms-5 d-flex flex-row">
                                 <label for="Sizetype" className='text-primary me-2 fs-5'>Size</label>
                                 <div class="dropdown" id='Sizetype'>
                                     <button class="btn cs-btn-Postsaleordinary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -178,7 +180,7 @@ export default function Editpostsaleordi() {
                                             placeholder="Custom size(w x h )"
                                             value={size}
                                             onClick={(e) => e.stopPropagation()}
-                                            onChange={(e) => setsize(e.target.value)}/>
+                                            onChange={(e) => setsize(e.target.value)} />
                                     </ul>
                                 </div>
                             </div>
@@ -189,8 +191,10 @@ export default function Editpostsaleordi() {
                         </div>
                     </div>
                     <div className='d-flex justify-content-center align-items-start row me-5'>
-                        <button onClick={handleclick} className="btn cs-btn-Postsaleordinary2 rounded-pill w-25 mt-5" type="button">Post</button>
-                    </div>
+                        {!clickpost ?
+                            <button onClick={handleclick} className="btn cs-btn-Postnotsale2 rounded-pill w-25 mt-5" type="button">Post</button>
+                            : <div className="cs-btn-Postnotsale2 rounded-pill w-25 mt-5">Posting.....</div>
+                        }                       </div>
                 </div>
                 <div className="col-12 col-md-1"></div>
             </div>

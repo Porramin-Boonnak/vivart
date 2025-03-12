@@ -1,27 +1,52 @@
 import Navbar from "../component/navbar"
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { useEffect,useRef,useState} from "react";
 export default function ForgetPass() {
     const navigate = useNavigate();
+    const email = useRef();
+    const otp = useRef();
+    const newpassword = useRef();
+    const confirmpassword = useRef();
+    const API_URL = process.env.REACT_APP_API_URL;
     const signupclick = () => {
         navigate("/signup");
     }
-    const Forgotclick = () => {
-        axios.post("http://127.0.0.1:8000/Forgetpassword", {
-            email: "pattamachat.c@ku.th",
-            OTP : "1234",
-            password: "1234",
-            com_password : "1234"
-        }).then(v => {
-            if (v.data.status === "ok") {
-                navigate("/login");
-            } else {
-                alert("Failed");
+    const otpclick = () => {
+        axios.post(`${API_URL}/send-otp`, {
+            email: email.current.value
+        })
+    };
+    const hendleclick = () => {
+        if(newpassword.current.value && confirmpassword.current.value !== null)
+        {
+            if(newpassword.current.value === confirmpassword.current.value)
+            {
+                axios.get(`${API_URL}/get_email/${email.current.value}`).then(
+                    response => {
+                        console.log(response.data.otp)
+                        console.log(otp.current.value)
+                        if(response.data.otp == otp.current.value)
+                        {
+                            axios.put(`${API_URL}/change_password/${email.current.value}`,{password : newpassword.current.value}).then(response => navigate("/signin"))
+                        }
+                        else
+                        {
+                            alert("otp ไม่ถูกต้อง")
+                        }
+                    }
+                )
             }
-        }).catch(err => {
-            console.error(err);
-            alert("Error");
-        });
+            else
+            {
+                alert("รหัสผ่านไม่ตรงกัน")
+            }
+        }
+        else
+        {
+            alert("กรอกข้อมูลให้ครบ")
+        }
+        
     };
 
     return (
@@ -36,6 +61,7 @@ export default function ForgetPass() {
                     className="form-control bg-secondary border border-dark"
                     id="floatingInput"
                     placeholder="name@example.com"
+                    ref={email}
                 />
                 <label htmlFor="floatingInput" className="ms-2">
                     <i className="bi bi-envelope me-2"></i>Email
@@ -50,11 +76,12 @@ export default function ForgetPass() {
                         id="floatingOTP"
                         placeholder="OTP"
                         style={{ width: "80%" }}
+                        ref={otp}
                     />
                     <label htmlFor="floatingOTP" className="ms-2">
                         Confirm OTP in email
                     </label>
-                    <button className="btn cs-color ms-2 bg-primary" style={{ height: 55, width: 200}} type="button">
+                    <button className="btn cs-color ms-2 bg-primary" style={{ height: 55, width: 200}} type="button" onClick={otpclick}>
                         Send OTP
                     </button>
                 </div>
@@ -66,6 +93,7 @@ export default function ForgetPass() {
                     className="form-control bg-secondary border border-dark"
                     id="floatingNewPassword"
                     placeholder="New Password"
+                    ref={newpassword}
                 />
                 <label htmlFor="floatingNewPassword" className="ms-2">
                     <i className="bi bi-lock-fill"></i>New Password
@@ -78,6 +106,7 @@ export default function ForgetPass() {
                     className="form-control bg-secondary border border-dark"
                     id="floatingConfirmPassword"
                     placeholder="Confirm Password"
+                    ref={confirmpassword}
                 />
                 <label htmlFor="floatingConfirmPassword" className="ms-2">
                     <i className="bi bi-lock-fill"></i>Confirm Password
@@ -85,7 +114,7 @@ export default function ForgetPass() {
             </div>
 
             <div className="d-grid col-3 ">
-                <button className="btn cs-color rounded-pill" type="button" onClick={Forgotclick}>
+                <button className="btn cs-color rounded-pill" type="button" onClick={hendleclick}>
                     Submit
                 </button>
             </div>

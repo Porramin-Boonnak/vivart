@@ -10,6 +10,7 @@ export default function Editpostnotsale() {
     const [user, setUser] = useState();
     const [type, setType] = useState();
     const [postData, setPostData] = useState(null);
+    const [clickpost, setclickpost] = useState(false);
     const Title = useRef();
     const Tag = useRef();
     const Description = useRef();
@@ -76,7 +77,7 @@ export default function Editpostnotsale() {
             alert("API_URL หรือ postid ไม่มีค่า กรุณาตรวจสอบโค้ด");
             return;
         }
-
+        setclickpost(true);
         const data = {
             artist: user?.username,
             name: Title.current?.value,
@@ -162,8 +163,10 @@ export default function Editpostnotsale() {
                         </div>
                     </div>
                     <div className='d-flex justify-content-center align-items-start row me-5'>
-                        <button onClick={handleUpdate} className="btn cs-btn-Postnotsale2 rounded-pill w-25 mt-5">Update</button>
-                    </div>
+                    {!clickpost ?
+                            <button onClick={handleUpdate} className="btn cs-btn-Postnotsale2 rounded-pill w-25 mt-5" type="button">Post</button>
+                            : <div className="cs-btn-Postnotsale2 rounded-pill w-25 mt-5">Posting.....</div>
+                        }                       </div>
                 </div>
                 <div className="col-12 col-md-1"></div>
             </div>

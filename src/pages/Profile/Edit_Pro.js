@@ -3,6 +3,8 @@ import { Container, Card, Button, Form } from "react-bootstrap";
 import Searchbar from "../../component/searchbar";
 import Navbar from "../../component/navbar"
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 const EditProfile = () => {
   const [bio, setBio] = useState("");
   const [base64List, setBase64List] = useState([]);
@@ -16,7 +18,7 @@ const EditProfile = () => {
 
   const [message, setMessage] = useState("");
   const API_URL = process.env.REACT_APP_API_URL;
-
+  const navigate = useNavigate();
 
   const fetchUserInfo = async () => {
     try {
@@ -116,7 +118,7 @@ const EditProfile = () => {
         </Card>
         <div style={{ display: "flex", justifyContent: "space-around ", width: "25%" }}>
           <Button variant="danger" className="mt-2"
-
+            onClick={() => navigate(`/profile/${loginUser}`)}
           >
             ← Back
           </Button>

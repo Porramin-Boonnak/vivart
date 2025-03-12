@@ -9,8 +9,11 @@ import uniq from "../pictures/uniq.png"
 import view from "../pictures/view.png"
 import { useParams } from "react-router-dom";
 export default function Home() {
+    const [followings, setFollowings] = useState([]);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
     const { filter } = useParams();
+    const { id } = useParams();
     const [post, setpost] = useState([]);
     const [user, setuser] = useState();
     const API_URL = process.env.REACT_APP_API_URL;
@@ -25,7 +28,34 @@ export default function Home() {
             console.log(error)
         });
     }, []);
-
+    useEffect(() => {
+        axios
+            .get(API_URL + `/following/${id}`)
+            .then((response) => {
+                console.log(response.data)
+                setFollowings(response.data);
+            })
+            .catch((err) => {
+                setError("ไม่พบข้อมูล หรือ ผู้ใช้ไม่มี Following");
+            });
+    }, [id]);
+    // สร้างฟังก์ชันเพื่อจับคู่ artist กับ username
+    const MatchArtistsToUsername = (post, followings) => {
+        // ทำการกรองเพื่อแสดงเฉพาะที่ตรงกัน
+        const matchedData = post
+          .map((artist) => {
+            const matchedUser = followings.find(follow=> follow.username.toLowerCase() === artist.artist.toLowerCase());
+            return matchedUser ? { artistName: artist.artist, username: matchedUser.username } : null;
+          })
+          .filter(item => item !== null);  // กรองค่า null ออก
+      
+        // ส่งคืนค่า true ถ้ามีการจับคู่ที่ตรงกัน
+        return matchedData.length > 0;
+      };
+      const filteredByArtistMatch = post.filter(item => {
+        // ตรวจสอบการจับคู่ artist กับ username โดยใช้ MatchArtistsToUsername
+        return MatchArtistsToUsername([item], followings);  // ตรวจสอบว่า artist ตรงกับ username หรือไม่
+    });   
     const filteredPosts = post.filter(item => {
 
         if (!filter) return true;
@@ -34,19 +64,19 @@ export default function Home() {
             if (!value) return false;
             return value.toLowerCase().includes(filter.toLowerCase()); // Case insensitive substring match
         };
-    
+
         // กรองตาม filter ที่ตรงกับ type หรือ typepost ต้องตรง 100%
         if (filter === item.type || filter === item.typepost) return true;
-    
+
         // กรองตาม filter ที่ตรงหรือใกล้เคียง
         if (isCloseMatch(item.name) || isCloseMatch(item.tag) || isCloseMatch(item.own)) {
             return true;
         }
-    
+
         return false; // ถ้าไม่ตรงกับ filter หรือไม่ใกล้เคียง จะไม่แสดง
     });
-    
-    
+
+
     const handleclick = (id) => {
         navigate(`/post/${id}`);
     }
@@ -166,7 +196,7 @@ export default function Home() {
                 <Searchbar />
             </div>
             <div className="row bg-secondary p-3">
-                {post && user ? <Allpictures items={filteredPosts} username={user.username} /> : post ? <Allpictures items={post} /> : <div>Loading...</div>}
+            {filter ? <Allpictures items={filteredPosts} username={user.username} /> : id ? <Allpictures items={filteredByArtistMatch} /> : post && user ? <Allpictures items={post} />: <>Loading...</>}
             </div>
         </div>
     </>)

@@ -10,6 +10,8 @@ import { Form } from "react-bootstrap";
 export default function Editpostsaleuniq() {
     const { postid } = useParams();
     const [base64List, setBase64List] = useState([]);
+    const [base64ListB, setBase64ListB] = useState([]);
+    const [img, setimg] = useState([]);
     const [user, setUser] = useState(null);
     const [post, setPost] = useState(null);
     const [type, settype] = useState('');
@@ -47,7 +49,8 @@ export default function Editpostsaleuniq() {
             .then(response => {
                 const data = response.data;
                 setPost(data);
-                setBase64List(data.img);
+                setBase64ListB(data.img);
+                setBase64List(data.originalimg);
                 settype(data.type);
                 setsize(data.size);
                 setDateTimeS(data.startbid)
@@ -93,7 +96,7 @@ export default function Editpostsaleuniq() {
             BlindP: isCheckedBlindP,
             BlindA: isCheckedBlindA,
             description: Description.current.value,
-            img: base64List,
+            img: img,
             price: Price.current.value,
             status: "open",
             startbid: dateTimeS,
@@ -111,6 +114,13 @@ export default function Editpostsaleuniq() {
             navigate("/blindart", { state: { Data: data } });
         }
     }
+    useEffect(() => {
+        if (isCheckedBlindA) {
+          setimg(base64ListB);
+        } else {
+          setimg(base64List);
+        }
+      }, [isCheckedBlindA, base64List, base64ListB]);
 
     return (<>
         <div className="container-fluid p-0 bg-secondary min-vh-100 min-vw-100">
@@ -121,13 +131,10 @@ export default function Editpostsaleuniq() {
                 <div className="col-12 col-md-6">
                     <div className='row'>
                         <div className='d-flex justify-content-center align-items-center mt-5'>
-                            <input type="file" multiple onChange={handleFileChange} />
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='d-flex justify-content-center align-items-center mt-5'>
                             <div className='mb-5'>
-                                <Showimg items={base64List} />
+                                {isCheckedBlindA ?  <Showimg items={base64ListB} /> :  <Showimg items={base64List} />}
+
+                               
                             </div>
                         </div>
                     </div>

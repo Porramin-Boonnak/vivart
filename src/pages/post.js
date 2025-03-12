@@ -6,6 +6,8 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Navbar from "../component/navbar"
 import Showimg from "../component/showimg"
+import uniq from "../pictures/uniq.png"
+import view from "../pictures/view.png"
 import Bidsectionopen from "../component/bidsection";
 import Blindbidopen from "../component/bidblind";
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +26,7 @@ export default function Post() {
             axios.get(`${API_URL}/post/${postid}`)
                 .then(response => {
                     setpost(response.data);
+
                 })
                 .catch(error => console.error("Error fetching data:", error));
         }
@@ -41,29 +44,29 @@ export default function Post() {
     }, [postid]);
 
     const addToCart = () => {
-        if(user){
-        
-        axios.post(`${API_URL}/cart`, {
-            _id_post: post._id,
-            _id_customer: user._id,
-            name: post.name,
-            price: post.price,
-            quantity: 1,
-            img: post.img,
-            typepost : post.typepost,
-            type : post.type,
-            own : post.own ? post.own : post.artist,
-            img : post.img
-        })
-        .then(response => {
-            console.log(response.data);
-            navigate('/cart');
-        })
-        .catch(error => {
-            console.error("Error fetching cart data:", error)
-            }
-            );
-        }else{
+        if (user) {
+
+            axios.post(`${API_URL}/cart`, {
+                _id_post: post._id,
+                _id_customer: user.username,
+                name: post.name,
+                price: post.price,
+                quantity: 1,
+                img: post.img,
+                typepost: post.typepost,
+                type: post.type,
+                own: post.own ? post.own : post.artist,
+                img: post.img
+            })
+                .then(response => {
+                    console.log(response.data);
+                    navigate('/cart');
+                })
+                .catch(error => {
+                    console.error("Error fetching cart data:", error)
+                }
+                );
+        } else {
             alert("Please login");
             navigate('/signin');
         }
@@ -97,13 +100,13 @@ export default function Post() {
             comment: ncomment.current.value,
             img: user.img
         };
-    
+
         try {
             await axios.post(`${API_URL}/comment/${postid}`, newComment);
-    
+
             // อัปเดต state คอมเมนต์ทันที ไม่ต้องโหลดใหม่
             setcomment(prevComments => [...prevComments, newComment]);
-    
+
             // ล้าง input หลังส่งคอมเมนต์
             ncomment.current.value = "";
         } catch (error) {
@@ -219,7 +222,31 @@ export default function Post() {
                 <div className="row bg-secondary p-3 ">
                     <div className="row ">
                         <div className="col-12 col-sm-7 bg-secondary p-0 mx-auto">
-                            {post && post.img && post.img.length ? (<Showimg items={post.img} like={post.like} />) : <div>Loading...</div>}
+                            <div className="position-relative">
+                                {post && post.img && post.img.length ? (
+                                    <>
+                                        <Showimg items={post.img} like={post.like} />
+                                        <div
+                                            className="position-absolute top-0 end-0 d-flex gap-3 p-1 rounded"
+                                            style={{ backgroundColor: "rgba(255, 255, 255, 0.23)", borderRadius: "20px" }}
+                                        >
+                                            <div style={{ color: "#E91E63", fontWeight: "bold" }}>
+                                                {post.like?.length || 0}
+                                                <i className="bi bi-heart-fill" style={{ color: "#E91E63", marginLeft: "5px" }}></i>
+                                            </div>
+
+                                            <div style={{ color: "#FFA000", fontWeight: "bold" }}>
+                                                {post.visit || 0}
+                                                <img src={view} alt="view" className="view-icon" />
+                                            </div>
+                                        </div>
+
+                                    </>
+                                ) : (
+                                    <div>Loading...</div>
+                                )}
+                            </div>
+
                             <div className="bg-primary-lighter p-2">
                                 <div className="d-flex align-items-center justify-content-center">
                                     {post && user && (user.username) ? <Showicon post={post} /> : <i className="bi bi-heart me-2"></i>}
@@ -228,21 +255,32 @@ export default function Post() {
                                     <button className="fw-bold bg-primary-lighter border-0" onClick={() => handleCopy()}>SHARE</button>
                                 </div>
                             </div>
-
                             <div className="text-decoration-underline mt-3 mb-2">
                                 About the work
                             </div>
 
                             <div className="p-4 border border-dark">
-
-                                <div className="m-2">
-                                    Size <div className="d-inline ms-3">{post.size}</div>
+                                {/* Uniq/จำนวนชิ้น */}
+                                <div className="d-flex justify-content-between align-items-center m-2">
+                                    <div>
+                                        <span>Size</span>
+                                        <div className="d-inline ms-3">{post.size}</div>
+                                    </div>
+                                    <div>
+                                        {post.typepost === "uniq" ? (
+                                           <span style={{ color: "#DE5499" }}> <img src={uniq} alt="uniq" className="uniq-image uniq-image w-25 h-25" /> Unique</span>
+                                        ) : (
+                                            <span style={{ color: "#DE5499" }}>{post.amount} pieces remaining</span>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="m-2">
-                                    Rarity <div className="d-inline ms-3">{post.typepost}</div>
+                                    <span>Rarity</span>
+                                    <div className="d-inline ms-3">{post.typepost}</div>
                                 </div>
                                 <div className="m-2">
-                                    Type <div className="d-inline ms-3">{post.type}</div>
+                                    <span>Type</span>
+                                    <div className="d-inline ms-3">{post.type}</div>
                                 </div>
                             </div>
                         </div>
@@ -292,21 +330,21 @@ export default function Post() {
                             <div className="fw-light fs-4">
                                 {post.description}
                             </div>
-                            
+
                             <h4 className="mt-2">By<button
                                 className="border-0 bg-transparent"
-                                 onClick={() => navigate(`/profile/${post.own ? post.own : post.artist}`)}
-                                >
+                                onClick={() => navigate(`/profile/${post.own ? post.own : post.artist}`)}
+                            >
                                 <p className="text-primary"> {post.own ? post.own : post.artist}</p>
-                                </button></h4>
+                            </button></h4>
                             <div className="fw-light mt-2">
                                 #{post.tag}
                             </div>
-                            
-                            {(user && post.typepost !== "normal" )?( post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open" && post.artist !== user.username )?(
+
+                            {(user && post.typepost !== "normal") ? (post.typepost === "uniq" && post.selltype === "Normal Sell" && post.status === "open" && post.artist !== user.username) ? (
                                 <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                     <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
-                                ):( post.typepost === "ordinary" && post.artist !== user.username && post.amount!==0 )?( <><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
+                            ) : (post.typepost === "ordinary" && post.artist !== user.username && post.amount !== 0) ? (<><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                 <h6 className="text-primary fw-bold fs-2 mt-4">amount : {post.amount}</h6>
                                     <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
                                 ):( ((user.username !== (post.own?post.own:post.artist)&& post.selltype==="Bid (Sell to the most expensive)")||(user.username !== (post.own?post.own:post.artist)&&post.selltype=="Bid (sell to the first person)"))?(<h6>

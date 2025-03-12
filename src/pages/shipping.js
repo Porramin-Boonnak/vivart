@@ -52,7 +52,7 @@ export default function Shipping() {
     useEffect(() => {
         if (user && user._id && !hasFetched.current) {
             hasFetched.current = true;
-            axios.get(`${API_URL}/cart/${user._id}`)
+            axios.get(`${API_URL}/cart/${user.username}`)
                 .then(response => {
                     setCart(response.data);
                     response.data.map(item => {
@@ -156,7 +156,8 @@ export default function Shipping() {
         await Promise.allSettled(requests);
         if (!hasError && check) {
             setProgress(prev => Math.min(prev + 37.5, 100));
-            axios.post(`${API_URL}/proxy`, { url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&amount=${totalPrice}&ref1=${user.username}&con_id=106728&method=create_pay` })
+            console.log(user.username)
+            axios.post(`${API_URL}/proxy`, { url: `https://tmwallet.thaighost.net/apipp.php?username=porramin&password=mos25437&amount=${totalPrice}&ref1=${user.email}&con_id=106728&method=create_pay` })
                 .then(response => {
                     console.log(response.data)
                     if (response.data.status === 1) {
@@ -290,7 +291,7 @@ export default function Shipping() {
                         }
                         await axios.post(`${API_URL}/history`, sellandbuy);
                         await axios.post(`${API_URL}/success`, data);
-                        await axios.delete(`${API_URL}/cart/${user._id}/${item._id_post}`);
+                        await axios.delete(`${API_URL}/cart/${user.username}/${item._id_post}`);
                     });
                     Promise.all(cartRequests)
                         .then(() => {

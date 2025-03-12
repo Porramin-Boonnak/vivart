@@ -104,6 +104,16 @@ export default function ForSeller() {
     const totalsells = history  ? history.reduce((sum, item) => sum + item.quantity, 0) : 0;
     const totalAges = history  ? history.reduce((sum, item) => sum + item.age, 0) : 0;
     const averageAge = history  ? totalAges / history.length : 0;
+
+    const calculateRepeatPurchaseRate = (repeatCustomers, totalCustomers) => {
+        if (totalCustomers === 0) return 0; // ป้องกันหารด้วยศูนย์
+        return ((repeatCustomers / totalCustomers) * 100).toFixed(2);
+      };
+      
+      const totalCustomers = 500;  // จำนวนลูกค้าทั้งหมด
+      const repeatCustomers = 120; // จำนวนลูกค้าที่ซื้อซ้ำ
+      
+      const repeatPurchaseRate = calculateRepeatPurchaseRate(repeatCustomers, totalCustomers);
     
     return (
 
@@ -123,7 +133,7 @@ export default function ForSeller() {
 
                 {/* Stats */}
                 <div className="stats">
-                    <div className="stat-card"><span className="highlight2">0.5%</span> Customer Royalty</div>
+                    <div className="stat-card"><span className="highlight2">{repeatPurchaseRate}%</span> Customer Royalty</div>
                     <div className="stat-card"><span className="highlight2">{total_likes}</span> Total Likes</div>
                     <div className="stat-card"><span className="highlight2">{totalsells}</span> Total Sells</div>
                     <div className="stat-card"><span className="highlight2">{totalprice}</span> Total Income</div>

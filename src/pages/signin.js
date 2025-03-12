@@ -56,7 +56,9 @@ export default function Signin() {
                     <i class="bi bi-lock-fill"></i>Password
                 </label>
             </div>
-
+            <div className="d-grid gap-2 col-2 my-2 bg-secondary ">
+                <button onClick={handleclick} className="btn cs-color rounded-pill" type="button">Sign in</button>
+            </div>
             <button className="btn col-3 bg-secondary my-4 p-0">
                 <GoogleOAuthProvider clientId={clientId} className="Google">
                     <div>
@@ -64,10 +66,6 @@ export default function Signin() {
                     </div>
                 </GoogleOAuthProvider>
             </button>
-
-            <div className="d-grid gap-2 col-2 my-2 bg-secondary ">
-                <button onClick={handleclick} className="btn cs-color rounded-pill" type="button">Sign in</button>
-            </div>
             <hr className="w-50 bg-primary" />
             <p>Don’t have an account? </p>
             <a className="text-pink fw-bold" onClick={signupclick}>Sign up</a>

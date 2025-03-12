@@ -30,7 +30,7 @@ const Cart = () => {
   useEffect(() => {
     if (user && user._id && !hasFetched.current) {
       hasFetched.current = true;
-      axios.get(`${API_URL}/cart/${user._id}`)
+      axios.get(`${API_URL}/cart/${user.username}`)
         .then(response => {
           const newCart = response.data.map(item => ({
             id: item._id_post,
@@ -60,13 +60,13 @@ const Cart = () => {
           : item
       )
     );
-    axios.put(`${API_URL}/cart/${user._id}/${id}`, { quantity: newQuantity })
+    axios.put(`${API_URL}/cart/${user.username}/${id}`, { quantity: newQuantity })
       .catch(error => console.error("Error updating quantity:", error));
   };
 
   const removeItem = (id) => {
     setCart(cart.filter((item) => item.id !== id));
-    axios.delete(`${API_URL}/cart/${user._id}/${id}`)
+    axios.delete(`${API_URL}/cart/${user.username}/${id}`)
       .then(response => {
           console.log(response.data);
       })

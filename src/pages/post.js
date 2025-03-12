@@ -45,7 +45,7 @@ export default function Post() {
         
         axios.post(`${API_URL}/cart`, {
             _id_post: post._id,
-            _id_customer: user._id,
+            _id_customer: user.username,
             name: post.name,
             price: post.price,
             quantity: 1,

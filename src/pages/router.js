@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { Helmet } from "react-helmet"; //npm install react-helmet
 import Signup from '../pages/signup';
 import Home from '../pages/home'
 import Signin from "../pages/signin";
@@ -38,9 +39,18 @@ import Toship from "../pages/BuyHistory/Toship";
 import PaidHistory from "../pages/BuyHistory/paidHistory";
 import BidHistory from "../pages/BuyHistory/BidHistory";
 
+function DynamicTitle() {
+  return (
+    <Helmet>
+      <title>Vivart</title>
+    </Helmet>
+  );
+}
+
 export default function Router(){
     return (
         <BrowserRouter>
+         <DynamicTitle />
           <Routes>
             <Route path="/" element={<Home />}/>
             <Route path="/search/:filter" element={<Home />}/>

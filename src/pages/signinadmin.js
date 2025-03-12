@@ -13,10 +13,11 @@ const SignInForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-
+        console.log(username)
+        console.log(password)
         try {
             const response = await axios.post(API_URL + "/signinadmin", { username, password });
-            if (response.data.success) {
+            if (response.status == 200) {
                 navigate("/reportmanagement");
             } else {
                 setError("Invalid username or password");

@@ -325,7 +325,7 @@ export default function Post() {
                                         Bid Now
                                     </button>
                                     <Bidsectionopen 
-                                        isOpen={bidsection} onClose={() => setbidsection(false)} post={post} user={user} isBlind={post.BlindP}/>
+                                        isOpen={bidsection} onClose={() => setbidsection(false)} post={post} user={user} isBlind={post.BlindP} selltype={post.selltype}/>
                                     </h6>
                                     ):(<> </>)
                                 ):( <></> )

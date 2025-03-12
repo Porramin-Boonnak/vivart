@@ -40,9 +40,10 @@ export default function Selling() {
         navigate("/forseller");
     };
 
-    const selectclick = () => {
-        navigate("/choose");
+    const selectclick = (idpost) => {
+        navigate(`/choose/${idpost}`);
     };
+    
 
     const sellProduct = async (id) => {
         if (!loginUser || !loginUser.username) {
@@ -116,9 +117,9 @@ export default function Selling() {
                                     <div className="text-dark">
                                         Sell to user
                                         <span className="text-primary">
-                                            <button className="btn btn-dark text-white" style={{ width: 150 }} onClick={selectclick}>
-                                                Select
-                                            </button>
+                                        <button className="btn btn-dark text-white" style={{ width: 150 }} onClick={() => selectclick(post._id)}>
+                                            Select
+                                        </button>
                                         </span>
                                     </div>
                                     <button className="btn btn-primary text-white" style={{ width: 150 }} onClick={() => sellProduct(post._id)}>

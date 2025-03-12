@@ -10,12 +10,13 @@ import { useParams } from 'react-router-dom';
 import eyesOff from "../pictures/weui_eyes-off-filled.png";
 const API_URL = process.env.REACT_APP_API_URL;
 
-export default function BidSection({ isOpen, onClose, post, user,isBlind}) {
+export default function BidSection({ isOpen, onClose, post, user,isBlind,selltype}) {
   const [currentTime, setCurrentTime] = useState("");
   const [price, setPrice] = useState("");  
   const navigate = useNavigate();
   const { postid } = useParams();
   const [allBids, setAllBids] = useState([]);
+  const [candidate, setcandidate] = useState([]);
   const [currentBid, setCurrentBid] = useState(null);
   const [now, setNow] = useState(new Date());
   const bidStartTime = new Date(post.startbid);
@@ -88,14 +89,79 @@ export default function BidSection({ isOpen, onClose, post, user,isBlind}) {
           console.log("Bid placed successfully:", response.data);
           setCurrentBid(parseInt(price)); // อัปเดตราคาบิดของผู้ใช้
           getbid();
+          placeBid(); 
         })
         .catch(error => {
           console.error("Error placing bid:", error);
         });
-    
+        
   };
   
-
+  const placeBid = () => {
+    const bidData = {
+      post_id: post._id,
+      user: user.username,
+      price: parseInt(price)
+    };
+  
+    // Handle "Bid (sell to the first person)"
+    if (selltype === "Bid (sell to the first person)") {
+      axios.get(`http://127.0.0.1:5000/candidate/${post._id}`)
+        .then((response) => {
+          const sortedBids = response.data.sort((a, b) => b.price - a.price);
+          setcandidate(sortedBids);
+  
+          // ถ้ายังไม่มีบิดในระบบ -> ทำการเสนอราคาใหม่
+          if (sortedBids.length === 0) {
+            axios.post(`http://127.0.0.1:5000/candidate`, bidData)
+              .then((response) => {
+                console.log("Bid placed successfully:", response.data);
+                getbid();
+              })
+              .catch((error) => {
+                console.error("Error placing bid:", error);
+              });
+          } else {
+            console.log("Existing bids found, bid not placed.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching bids:", error);
+        });
+    }
+  
+    // Handle "Bid (Sell to the most expensive)"
+    if (selltype === "Bid (Sell to the most expensive)") {
+      axios.get(`http://127.0.0.1:5000/candidate/${post._id}`)
+        .then((response) => {
+          const sortedBids = response.data.sort((a, b) => b.price - a.price);
+          setcandidate(sortedBids);
+  
+          const highestBid = sortedBids.length > 0 ? sortedBids[0].price : 0;
+  
+          // Check if the proposed price is higher than the highest bid
+          if (sortedBids.length === 0 || parseInt(price) > highestBid) {
+            axios.post(`http://127.0.0.1:5000/candidate`, bidData)
+              .then((response) => {
+                console.log("Bid placed successfully:", response.data);
+  
+                // Update the list of bids with the new bid
+                setcandidate([...sortedBids, bidData]); // Add the new bid to the list
+  
+                getbid(); 
+              })
+              .catch((error) => {
+                console.error("Error placing bid:", error);
+              });
+          } else {
+            console.log(`Bid not placed. Your bid (${price}) is lower than the highest bid (${highestBid}).`);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching bids:", error);
+        });
+    }
+  };
 
   useEffect(() => {
     const now = new Date().toLocaleString("en-GB", {

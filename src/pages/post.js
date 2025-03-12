@@ -267,11 +267,16 @@ export default function Post() {
                                         <div className="d-inline ms-3">{post.size}</div>
                                     </div>
                                     <div>
-                                        {post.typepost === "uniq" ? (
-                                           <span style={{ color: "#DE5499" }}> <img src={uniq} alt="uniq" className="uniq-image uniq-image w-25 h-25" /> Unique</span>
-                                        ) : (
-                                            <span style={{ color: "#DE5499" }}>{post.amount} pieces remaining</span>
+                                        {post.typepost !== "normal" && (
+                                            post.typepost === "uniq" ? (
+                                                <span style={{ color: "#DE5499" }}>
+                                                    <img src={uniq} alt="uniq" className="uniq-image w-25 h-25" /> Unique
+                                                </span>
+                                            ) : (
+                                                <span style={{ color: "#DE5499" }}>{post.amount} pieces remaining</span>
+                                            )
                                         )}
+
                                     </div>
                                 </div>
                                 <div className="m-2">

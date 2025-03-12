@@ -38,6 +38,7 @@ import ForSeller from "../pages/Forseller";
 import Toship from "../pages/BuyHistory/Toship";
 import PaidHistory from "../pages/BuyHistory/paidHistory";
 import BidHistory from "../pages/BuyHistory/BidHistory";
+import Signinadmin from "../pages/signinadmin.js";
 
 function DynamicTitle() {
   return (
@@ -91,6 +92,7 @@ export default function Router(){
             <Route path="/Toship" element={<Toship/>}/>
             <Route path="/paidHistory" element={<PaidHistory/>}/>
             <Route path="/bidHistory" element={<BidHistory/>}/>
+            <Route path="/signinadmin" element={<Signinadmin/>}/>
           </Routes>
         </BrowserRouter>
       );

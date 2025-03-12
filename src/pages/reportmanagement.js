@@ -91,26 +91,38 @@ export default function ReportManagement() {
                                 {report.description}
                             </p>
                         </div>
-                        <div>
-                            <button
-                                className="btn btn-primary text-white fw-bold py-2 px-4 mb-2"
-                                style={{ width: '120px', fontSize: '16px' }}
-                                onClick={() => navigate(`/post/${report.postid}`)}
-                            >
-                                View Detail
-                            </button>
+                        <div className="justify-content-between align-items-center">
                             {report.artist && (
                                 <button
-                                    className="btn btn-secondary text-white fw-bold py-2 px-4"
-                                    style={{ width: '120px', fontSize: '16px' }}
+                                    className="btn fw-bold py-2 px-4 me-2"
+                                    style={{
+                                        width: '120px', fontSize: '16px',
+                                        backgroundColor: '#FFB636',
+                                        borderColor: '#000000'
+                                    }}
                                     onClick={() => navigate(`/profile/${report.artist}`)}
                                 >
                                     {report.artist}
                                 </button>
                             )}
                             <button
-                                className="btn btn-danger text-white fw-bold py-2 px-4 ms-2"
-                                style={{ width: '120px', fontSize: '16px' }}
+                                className="btn text-white fw-bold py-2 px-4 mb-2"
+                                style={{
+                                    width: '120px', fontSize: '16px',
+                                    backgroundColor: '#DE5499',
+                                    borderColor: '#000000'
+                                }}
+                                onClick={() => navigate(`/post/${report.postid}`)}
+                            >
+                                View Detail
+                            </button>
+                            <button
+                                className="btn text-white fw-bold py-2 px-4 ms-2"
+                                style={{
+                                    width: '120px', fontSize: '16px',
+                                    backgroundColor: 'RED',
+                                    borderColor: '#000000'
+                                }}
                                 onClick={() => handleDeleteReport(report._id)} // ✅ เรียกใช้ฟังก์ชันแบบถูกต้อง
                             >
                                 Delete Report

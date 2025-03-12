@@ -69,46 +69,46 @@ const messageFromEachStage = ( data , stage_noti) => {
 const PathFromEachStage = (data , stage_noti) =>{
 
   if (stage_noti == "11") {
-        return "post/"+data.post_id
+        return "/post/"+data.post_id
   }
   if (stage_noti == "12") {
-        return "post/"+data.post_id
+        return "/post/"+data.post_id
   }
   if (stage_noti == "21") {
-    return data.descript + " Your payment for order " + data.post_msg + "is complete."
+    return "/paidHistory"
   }
   if (stage_noti == "22") {
-    return data.descript + " Your artist is packing your order " + data.post_msg + "."
+    return "/Toship"
   }
   if (stage_noti == "23") {
-    return data.descript + " Your order " + data.post_msg + "is shipping."
+    return "/Toship"
   }
   if (stage_noti == "24") {
-    return data.descript + " Your shipment for order " + data.post_msg + "has arrived." + "\n\"" + "at" + data.time
+    return "/Toship"
   }
   if (stage_noti == "25") {
-    return data.descript + " Please pay your order" + data.post_msg + "within 24 hours or it will be canceled."
+    return "/shipping"
   }
   if (stage_noti == "26") {
-    return data.descript + " Your order" + data.post_msg + "has been canceled." + "\n\"" + "due to your late payment."
+    return "/cart"
   }
   if (stage_noti == "27") {
-    return data.sender + " Congratulation! you won the bid." + "\n\"" + "Please check your cart to continue payment."
+    return "/cart"
   }
   if (stage_noti == "31") {
-    return data.descript + " Your product has been sold."
+    return "/salehistory"
   }
   if (stage_noti == "32") {
-    return data.sender + " bid your post to" + data.descript + "Baht." //descript = ราคา
+    return "/selling"
   }
   if (stage_noti == "33") {
-    return data.descript + " Your bid post timeout in 1 hour."
+    return "/choose"
   }
   if (stage_noti == "34") {
-    return data.descript + " Your bid post is timeout." + "\n\"" + "Please select the person to sell."
+    return ""
   }
   if (stage_noti == "35") {
-    return data.descript + " The buyer has succesfully paid."
+    return "/salehistory"
   }
 
 }
@@ -133,28 +133,28 @@ const IconFromEachStage = (data , stage_noti) =>{
         return "📦✔"
       }
       if (stage_noti == "25") {
-        return "⚠"
+        return "⚠️"
       }
       if (stage_noti == "26") {
-        return data.descript + " Your order" + data.post_msg + "has been canceled." + "\n\"" + "due to your late payment."
+        return "❌"
       }
       if (stage_noti == "27") {
-        return data.sender + " Congratulation! you won the bid." + "\n\"" + "Please check your cart to continue payment."
+        return "🍀"
       }
       if (stage_noti == "31") {
-        return data.descript + " Your product has been sold."
+        return "🏷️"
       }
       if (stage_noti == "32") {
-        return data.sender + " bid your post to" + data.descript + "Baht." //descript = ราคา
+        return "🙋"
       }
       if (stage_noti == "33") {
-        return data.descript + " Your bid post timeout in 1 hour."
+        return "⌛"
       }
       if (stage_noti == "34") {
-        return data.descript + " Your bid post is timeout." + "\n\"" + "Please select the person to sell."
+        return "🕑"
       }
       if (stage_noti == "35") {
-        return data.descript + " The buyer has succesfully paid."
+        return "✅"
       }
 }
 /* 

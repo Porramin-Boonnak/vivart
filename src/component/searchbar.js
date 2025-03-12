@@ -66,7 +66,7 @@ export default function Searchbar() {
 
                 <button className="btn cs-color-btn rounded-pill border border-dark px-2 py-1 d-flex align-items-center" style={{ fontSize: "15px", height: "38px" }}>
                     <i className="bi bi-star-fill me-2"></i>
-                    <span className="d-none d-lg-inline-block">Recommend</span>
+                    <span className="d-none d-lg-inline-block" onClick={()=>navigate("/")}>Recommend</span>
                 </button>
 
                 <button className="btn cs-color-btn rounded-pill border border-dark px-2 py-1 d-flex align-items-center" style={{ fontSize: "15px", height: "38px" }}>

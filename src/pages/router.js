@@ -54,6 +54,7 @@ export default function Router(){
          <DynamicTitle />
           <Routes>
             <Route path="/" element={<Home />}/>
+            <Route path="/follow/:id" element={<Home />}/>
             <Route path="/search/:filter" element={<Home />}/>
             <Route path="/signup" element={<Signup />}/>
             <Route path="/signin" element={<Signin />}/>

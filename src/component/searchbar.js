@@ -1,20 +1,51 @@
 import { Dropdown } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 export default function Searchbar() {
     const navigate = useNavigate();
     const { filter } = useParams(); // ดึงค่า filter จาก URL
+    const API_URL = process.env.REACT_APP_API_URL;
+    const [username, setUsername] = useState(""); // เพิ่ม useState เพื่อเก็บค่า username
 
     const handleFilterSelect = (filter) => {
         navigate(`/search/${filter}`); // เปลี่ยนเส้นทางไปยัง URL ที่กรองประเภทนั้นๆ
     };
-    
+
+    const handleFollow = (followid) => {
+        navigate(`/follow/${followid}`); // เปลี่ยนเส้นทางไปยัง URL ที่กรองประเภทนั้นๆ
+    };
+
     const handleSearch = () => {
         const searchValue = document.getElementById("searchInput").value;
         if (searchValue) {
             navigate(`/search/${searchValue}`); // นำทางไปยังหน้าค้นหาพร้อมคำค้นหา
         }
     };
+
+    useEffect(() => {
+        const fetchFollow = async () => {
+            if (!API_URL) {
+                console.error("API_URL is undefined");
+                return;
+            }
+
+            try {
+                const statusRes = await axios.post(API_URL + "/status", { token: localStorage.getItem("token") });
+                const username = statusRes.data.username;
+
+                if (username) {
+                    setUsername(username); // เก็บค่า username ลงใน state
+                } else {
+                    console.error("Username not found");
+                }
+            } catch (error) {
+                console.error("Error fetching username:", error);
+            }
+        };
+        fetchFollow();
+    }, [API_URL]); // เพิ่ม dependency ให้ useEffect
 
     return (
         <div className="d-flex align-items-center bg-secondary py-2 px-4 position-relative">
@@ -69,7 +100,7 @@ export default function Searchbar() {
                     <span className="d-none d-lg-inline-block" onClick={()=>navigate("/")}>Recommend</span>
                 </button>
 
-                <button className="btn cs-color-btn rounded-pill border border-dark px-2 py-1 d-flex align-items-center" style={{ fontSize: "15px", height: "38px" }}>
+                <button className="btn cs-color-btn rounded-pill border border-dark px-2 py-1 d-flex align-items-center" onClick={() => handleFollow(username)} style={{ fontSize: "15px", height: "38px" }}>
                     <i className="bi bi-person-check me-2"></i>
                     <span className="d-none d-lg-inline-block">Following</span>
                 </button>

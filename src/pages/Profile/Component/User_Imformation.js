@@ -17,15 +17,14 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
     // Track whether the user is following
     const [isFollowing, setIsFollowing] = useState(false);
     const API_URL = process.env.REACT_APP_API_URL;
-    // **1. Ensure followers and followings update when `follow` changes (e.g., after API fetch)**
+
     useEffect(() => {
         if (follow && follow.followers && follow.followings) {
             setFollower(follow.followers);
             setFollowing(follow.followings);
         }
-    }, [follow]); // 🔥 Runs whenever `follow` updates
+    }, [follow]);
 
-    // **2. Check if logged-in user is following**
     useEffect(() => {
         if (followers.length > 0 && loginUser) {
             const found = followers.some(user => user.username === loginUser);
@@ -33,13 +32,11 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
         } else {
             setIsFollowing(false);
         }
-    }, [followers, loginUser]); // 🔥 Runs when `followers` updates
+    }, [followers, loginUser]);
 
-    // **3. Handle Follow/Unfollow Button Click**
     const handleFollowToggle = async () => {
         try {
             if (isFollowing) {
-                // Unfollow: Remove from followers
                 const response = await axios.put(`${API_URL}/unfollow`, {
                     this_user: this_username.username,
                     user_login: loginUser,
@@ -50,7 +47,6 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
                 setFollower(prevFollowers => prevFollowers.filter(follower => follower.username !== loginUser));
                 setIsFollowing(false);
             } else {
-                // Follow: Add to followers
                 const response = await axios.post(`${API_URL}/follow`, {
                     this_user: this_username.username,
                     user_login: loginUser,
@@ -69,7 +65,6 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
         }
     };
 
-
     return (
         <div className="container mt-5">
             <div className="row align-items-center">
@@ -84,7 +79,7 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
                 </div>
 
                 {/* Text Column */}
-                <div className="col-md-9">
+                <div className="col-md-9" >
                     <h2>{this_username.username}</h2>
                     <p>{this_username.user_bio}</p>
 

@@ -106,62 +106,36 @@ export default function BidSection({ isOpen, onClose, post, user,isBlind,selltyp
   
     // Handle "Bid (sell to the first person)"
     if (selltype === "Bid (sell to the first person)") {
-      axios.get(`http://127.0.0.1:5000/candidate/${post._id}`)
+        axios.post(`http://127.0.0.1:5000/candidate/bidfirst`, bidData)
         .then((response) => {
-          const sortedBids = response.data.sort((a, b) => b.price - a.price);
-          setcandidate(sortedBids);
-  
-          // ถ้ายังไม่มีบิดในระบบ -> ทำการเสนอราคาใหม่
-          if (sortedBids.length === 0) {
-            axios.post(`http://127.0.0.1:5000/candidate`, bidData)
-              .then((response) => {
-                console.log("Bid placed successfully:", response.data);
-                getbid();
-              })
-              .catch((error) => {
-                console.error("Error placing bid:", error);
-              });
+          if (response.data.message === "No existing bid from this user. No bid placed.") {
+              console.log("No bid placed, user has not placed a bid yet.");
           } else {
-            console.log("Existing bids found, bid not placed.");
+              console.log("Bid placed successfully:", response.data);
+              getbid();  // ฟังก์ชันที่ดึงข้อมูล bid หลังจากการโพสต์สำเร็จ
           }
         })
         .catch((error) => {
-          console.error("Error fetching bids:", error);
+          console.error("Error placing bid:", error);
         });
     }
   
     // Handle "Bid (Sell to the most expensive)"
     if (selltype === "Bid (Sell to the most expensive)") {
-      axios.get(`http://127.0.0.1:5000/candidate/${post._id}`)
+      axios.post(`http://127.0.0.1:5000/candidate/bidmost`, bidData)
         .then((response) => {
-          const sortedBids = response.data.sort((a, b) => b.price - a.price);
-          setcandidate(sortedBids);
-  
-          const highestBid = sortedBids.length > 0 ? sortedBids[0].price : 0;
-  
-          // Check if the proposed price is higher than the highest bid
-          if (sortedBids.length === 0 || parseInt(price) > highestBid) {
-            axios.post(`http://127.0.0.1:5000/candidate`, bidData)
-              .then((response) => {
-                console.log("Bid placed successfully:", response.data);
-  
-                // Update the list of bids with the new bid
-                setcandidate([...sortedBids, bidData]); // Add the new bid to the list
-  
-                getbid(); 
-              })
-              .catch((error) => {
-                console.error("Error placing bid:", error);
-              });
+          if (response.data.message === "No existing bid from this user. No bid placed.") {
+              console.log("No bid placed, user has not placed a bid yet.");
           } else {
-            console.log(`Bid not placed. Your bid (${price}) is lower than the highest bid (${highestBid}).`);
+              console.log("Bid placed successfully:", response.data);
+              getbid();  // ฟังก์ชันที่ดึงข้อมูล bid หลังจากการโพสต์สำเร็จ
           }
         })
         .catch((error) => {
-          console.error("Error fetching bids:", error);
+          console.error("Error placing bid:", error);
         });
     }
-  };
+};
 
   useEffect(() => {
     const now = new Date().toLocaleString("en-GB", {

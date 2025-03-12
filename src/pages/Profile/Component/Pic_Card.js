@@ -1,5 +1,6 @@
 import "../../../pagescss/Home.css";
 import { FaBahtSign } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 import uniq from "../../../pictures/uniq.png";
 import view from "../../../pictures/view.png";
 
@@ -7,9 +8,10 @@ export default function Pic_Card({
     posts = [],
     likedItems = {},
     username,
-    toggleLike,
-    handleClick
+    toggleLike
 }) {
+    const navigate = useNavigate();
+
     return (
         <div className="masonry-layout">
             {posts.map((item) => {
@@ -19,17 +21,18 @@ export default function Pic_Card({
 
                 return (
                     <div className="masonry-item" key={item._id}>
-                        <div className="card">
+                        <div className="card" onClick={() => navigate(`/post/${item._id}`)}>
                             <div>
                                 <i
                                     className={`bi ${isLiked ? "bi-heart-fill" : "bi-heart"} text-primary c-card-icon`}
                                     style={{ fontSize: "1.2rem" }} // ลดขนาดไอคอน
-                                    onDoubleClick={() => toggleLike(item._id, isLiked)}
+                                    onDoubleClick={(e) => {
+                                        e.stopPropagation(); // ป้องกันการนำทางเมื่อกด Like
+                                        toggleLike(item._id, isLiked);
+                                    }}
                                 ></i>
-
                             </div>
                             <img
-                                onClick={() => handleClick(item._id)}
                                 src={!Array.isArray(item.img) ? item.img : item.img[0]}
                                 className="card-img-top"
                                 alt={item.name || "Image"}
@@ -38,7 +41,7 @@ export default function Pic_Card({
                                 <div className="like-number">{item.like?.length || 0}</div>
                                 <div className="like-text">Likes</div>
                             </div>
-                            <div className="card-body" onClick={() => handleClick(item._id)}>
+                            <div className="card-body">
                                 <h2 className="card-title">{item.name}</h2>
                                 <div className="card-details">
                                     <div className="card-user">

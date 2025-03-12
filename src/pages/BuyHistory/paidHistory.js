@@ -28,7 +28,6 @@ export default function PaidHistory() {
             </>
         );
     };
-
     useEffect(() => {
         const fetchPaidHistory = async () => {
             try {
@@ -62,9 +61,6 @@ export default function PaidHistory() {
 
         fetchPaidHistory();
     }, []);
-
-
-
     return (
         <>
             <Navbar />
@@ -85,11 +81,12 @@ export default function PaidHistory() {
                 {/* Order List */}
                 <div className="order-list">
                     {items.map((item) => (
-                        <div key={item.id} className="order-item">
+                        <div key={item.id} className="order-item ">
                             <img src={item.img} alt={item.name} className="order-image" />
                             <div className="order-info">
-                                <h3>{item.name}</h3>
-                                <p className="price">Price : {item.price.toLocaleString()} </p>
+                                <h3 className="mt-2">{item.name}</h3>
+                                <h5 className="price mt-2">Price : {item.price.toLocaleString()} </h5>
+                                <h5 className="price">Owner : {item.own.toLocaleString()} </h5>
                             </div>
                             <div className="order-summary">
                                 <p>Piece (s) x {item.quantity}</p>

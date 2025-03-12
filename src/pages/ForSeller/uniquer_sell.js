@@ -12,6 +12,9 @@ export default function Selling() {
     const [posts, setPosts] = useState([]); // ใช้ posts สำหรับเก็บโพสต์จาก API
     const [loading, setLoading] = useState(true); // เช็คการโหลดข้อมูล
     const [error, setError] = useState(""); // เก็บข้อผิดพลาดหากมี
+    const [candidate, setCandidate] = useState({});
+    const [candidates, setCandidates] = useState({}); // เก็บข้อมูลผู้สมัคร
+
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -38,27 +41,55 @@ export default function Selling() {
     const forsellerclick = () => {
         navigate("/forseller");
     };
-
-    const selectclick = () => {
-        navigate("/choose");
-    };
-
-    const sellProduct = async (id) => {
-        if (!loginUser || !loginUser.username) {
-            alert("User not logged in");
-            return;
-        }
-
-        try {
-            const response = await axios.post("http://localhost:5000/sell", {
-                id,
-                loginUser: loginUser.username,  // ส่งเฉพาะ username ไป
+    useEffect(() => {
+        if (posts.length > 0) {
+            posts.forEach(post => {
+                fetchCandidate(post._id); // เรียกฟังก์ชัน fetch สำหรับแต่ละโพสต์
             });
+        }
+    }, [posts]);
 
-            alert(`Product ${id} sold successfully!`);
+    // ฟังก์ชันดึงข้อมูลผู้สมัคร
+    const fetchCandidate = async (idpost) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/candidate/${idpost}`);
+            setCandidates(prevState => ({
+                ...prevState,
+                [idpost]: response.data, // เก็บข้อมูลผู้สมัครตาม postId
+            }));
         } catch (error) {
-            console.error("Error selling product:", error);
-            alert(`Error: ${error.response?.data?.error || "Failed to sell the product"}`);
+            console.error(`Error fetching candidate for post ${idpost}:`, error);
+        }
+    };
+    
+    const selectclick = (idpost) => {
+        navigate(`/choose/${idpost}`);
+    };
+    
+    const sellProduct = async (id) => {
+        const candidate = candidates[id];
+        // if (!candidate || !candidate.price) {
+        //     alert("No candidate or price found for this post!");
+        //     return;
+        // }
+        console.log(id)
+        console.log(candidate)
+        const date = new Date();
+        const formattedDate = date.toLocaleString('sv-SE', { timeZone: 'Asia/Bangkok' }).replace(' ', 'T').slice(0, 16);
+        try {
+            const response = await axios.put('http://localhost:5000/chagedete', {
+                _id_post: id,
+                time: formattedDate,
+                price: candidate.price
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            alert(response.data.message);
+        } catch (error) {
+            console.error('Error updating bid:', error.response?.data?.error || error.message);
+            alert('Error updating bid: ' + (error.response?.data?.error || error.message));
         }
     };
 
@@ -128,16 +159,21 @@ export default function Selling() {
                                     <div className="text-dark">
                                         Sell to user
                                         <span className="text-primary">
-                                            <button className="btn btn-dark text-white" style={{ width: 150, marginLeft: '10px' }} onClick={selectclick}>
-                                                Select
-                                            </button>
+                                        <button className="btn btn-dark text-white" style={{ width: 150, marginLeft: '10px' }} 
+                                            onClick={() => selectclick(post._id)}>
+                                            Select
+                                        </button>
+
                                         </span>
                                     </div>
                                     <div className="d-flex align-items-center text-dark">
-                                        <div className="Candidate me-2">Candidate:</div>
-                                        <button className="btn btn-primary text-white" style={{ width: 150 }} onClick={() => sellProduct(post._id)}>
-                                            Sell now
-                                        </button>
+                                    <div className="Candidate me-2">
+                                        Candidate: {candidates[post._id]?.user || "None"}
+                                    </div>
+
+                                    <button className="btn btn-primary text-white" style={{ width: 150 }} onClick={() => sellProduct(post._id)}>
+                                        Sell now
+                                    </button>
                                     </div>
                                 </div>
                             </div>

@@ -87,7 +87,7 @@ export default function Router(){
             <Route path="/blindart" element={<Blindart/>}/>
             <Route path="/product" element={<Product/>}/>
             <Route path="/selling" element={<Selling/>}/>
-            <Route path="/choose" element={<Choose/>}/>
+            <Route path="/choose/:idpost" element={<Choose />} />
             <Route path="/salehistory" element={<Salehistory/>}/>
             <Route path="/forseller" element={<ForSeller/>}/>
             <Route path="/Toship" element={<Toship/>}/>

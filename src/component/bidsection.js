@@ -10,12 +10,13 @@ import { useParams } from 'react-router-dom';
 import eyesOff from "../pictures/weui_eyes-off-filled.png";
 const API_URL = process.env.REACT_APP_API_URL;
 
-export default function BidSection({ isOpen, onClose, post, user,isBlind}) {
+export default function BidSection({ isOpen, onClose, post, user,isBlind,selltype}) {
   const [currentTime, setCurrentTime] = useState("");
   const [price, setPrice] = useState("");  
   const navigate = useNavigate();
   const { postid } = useParams();
   const [allBids, setAllBids] = useState([]);
+  const [candidate, setcandidate] = useState([]);
   const [currentBid, setCurrentBid] = useState(null);
   const [now, setNow] = useState(new Date());
   const bidStartTime = new Date(post.startbid);
@@ -88,14 +89,53 @@ export default function BidSection({ isOpen, onClose, post, user,isBlind}) {
           console.log("Bid placed successfully:", response.data);
           setCurrentBid(parseInt(price)); // อัปเดตราคาบิดของผู้ใช้
           getbid();
+          placeBid(); 
         })
         .catch(error => {
           console.error("Error placing bid:", error);
         });
-    
+        
   };
   
-
+  const placeBid = () => {
+    const bidData = {
+      post_id: post._id,
+      user: user.username,
+      price: parseInt(price)
+    };
+  
+    // Handle "Bid (sell to the first person)"
+    if (selltype === "Bid (sell to the first person)") {
+        axios.post(`http://127.0.0.1:5000/candidate/bidfirst`, bidData)
+        .then((response) => {
+          if (response.data.message === "No existing bid from this user. No bid placed.") {
+              console.log("No bid placed, user has not placed a bid yet.");
+          } else {
+              console.log("Bid placed successfully:", response.data);
+              getbid();  // ฟังก์ชันที่ดึงข้อมูล bid หลังจากการโพสต์สำเร็จ
+          }
+        })
+        .catch((error) => {
+          console.error("Error placing bid:", error);
+        });
+    }
+  
+    // Handle "Bid (Sell to the most expensive)"
+    if (selltype === "Bid (Sell to the most expensive)") {
+      axios.post(`http://127.0.0.1:5000/candidate/bidmost`, bidData)
+        .then((response) => {
+          if (response.data.message === "No existing bid from this user. No bid placed.") {
+              console.log("No bid placed, user has not placed a bid yet.");
+          } else {
+              console.log("Bid placed successfully:", response.data);
+              getbid();  // ฟังก์ชันที่ดึงข้อมูล bid หลังจากการโพสต์สำเร็จ
+          }
+        })
+        .catch((error) => {
+          console.error("Error placing bid:", error);
+        });
+    }
+};
 
   useEffect(() => {
     const now = new Date().toLocaleString("en-GB", {

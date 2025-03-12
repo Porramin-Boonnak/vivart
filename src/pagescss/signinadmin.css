@@ -1,32 +1,31 @@
-body {
+.container1 {
+    display: flex;
+    background: #f0dfda;
+    border-radius: 10px;
     font-family: Arial, sans-serif;
     background-color: #f0dfda;
-    display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  
-  .container {
-    background: #f0dfda;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-  }
-  
-  .title {
+    align-items: center; 
+    height: 100vh; 
+    margin: 0;               
+    padding: 0;              
+}
+
+.title1 {
     color: #2d3e3f;
     font-size: 24px;
     margin-bottom: 15px;
-  }
-  
-  .form {
+    text-align: center; 
+    justify-content: flex-start;
+}
+
+.form1 {
+    width: 300px;
     display: flex;
     flex-direction: column;
-  }
-  
-  .input-group {
+}
+
+.input-group {
     display: flex;
     align-items: center;
     background: white;
@@ -34,19 +33,23 @@ body {
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
-  }
-  
-  .icon {
+}
+
+.iconuser {
     margin-right: 10px;
-  }
-  
-  .input {
+}
+
+.iconpass {
+    margin-right: 10px;
+}
+
+.input1 {
     border: none;
     outline: none;
     flex: 1;
-  }
-  
-  .button {
+}
+
+.buttonsign {
     background: #2d3e3f;
     color: white;
     padding: 10px;
@@ -54,9 +57,8 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-  }
-  
-  .button:hover {
+}
+
+.button:hover {
     background: #1f2b2c;
-  }
-  
+}

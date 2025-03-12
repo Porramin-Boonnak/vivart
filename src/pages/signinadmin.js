@@ -27,33 +27,33 @@ const SignInForm = () => {
     };
 
   return (
-    <div className="container">
-            <h2 className="title">Sign in [Admin]</h2>
-            {error && <p className="error">{error}</p>}
-            <form className="form" onSubmit={handleSubmit}>
-                <div className="input-group">
-                    <span className="icon">👤</span>
-                    <input 
-                        type="text" 
-                        placeholder="Username" 
-                        className="input" 
-                        value={username} 
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </div>
-                <div className="input-group">
-                    <span className="icon">🔒</span>
-                    <input 
-                        type="password" 
-                        placeholder="Password" 
-                        className="input" 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <button type="submit" className="button">Sign in</button>
-            </form>
-        </div>
+    <div className="container1">
+        <div className="title1">Sign in [Admin]</div>
+        {error && <p className="error">{error}</p>}
+        <form className="form1" onSubmit={handleSubmit}>
+            <div className="input-group">
+                <span className="iconuser">👤</span>
+                <input 
+                    type="text" 
+                    placeholder="Username" 
+                    className="input1" 
+                    value={username} 
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+            </div>
+            <div className="input-group">
+                <span className="iconpass">🔒</span>
+                <input 
+                    type="password" 
+                    placeholder="Password" 
+                    className="input1" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            </div>
+            <button type="submit" className="buttonsign">Sign in</button>
+        </form>
+    </div>
   );
 };
 

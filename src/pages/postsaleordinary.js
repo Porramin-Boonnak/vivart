@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from '../component/navbar';
 import Showimg from '../component/showimg';
 import axios from 'axios';
@@ -9,6 +9,7 @@ export default function Postsaleordinary() {
     const [user, setuser] = useState();
     const [type, settype] = useState();
     const [size, setsize] = useState();
+    const [clickpost,setclickpost] = useState(false);
     const Title = useRef();
     const Tag = useRef();
     const Price = useRef();
@@ -23,13 +24,13 @@ export default function Postsaleordinary() {
             setuser(response.data);
             axios.get(`${API_URL}/bank/${response.data.username}`).catch(error => {
                 navigate('/createpost');
-              });
+            });
         }).catch(error => {
             alert("please login ");
             navigate('/signin');
 
         });
-        
+
     }, [API_URL, navigate])
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files); // แปลงเป็น array
@@ -48,18 +49,19 @@ export default function Postsaleordinary() {
     };
     const date = new Date();
     const formattedDate = date.toLocaleString('sv-SE', { timeZone: 'Asia/Bangkok' }).replace(' ', 'T').slice(0, 16);
-    const handleclick =()=>{
+    const handleclick = () => {
+        setclickpost(true);
         const data = {
-            artist : user.username,
-            name : Title.current.value,
-            tag : Tag.current.value,
-            type : type,
-            typepost : "ordinary",
-            size : size,
-            description : Description.current.value,
-            img:base64List,
-            price : Price.current.value,
-            amount : Amount.current.value,
+            artist: user.username,
+            name: Title.current.value,
+            tag: Tag.current.value,
+            type: type,
+            typepost: "ordinary",
+            size: size,
+            description: Description.current.value,
+            img: base64List,
+            price: Price.current.value,
+            amount: Amount.current.value,
             date: formattedDate
         }
 
@@ -119,7 +121,7 @@ export default function Postsaleordinary() {
                             <input ref={Tag} type="text" id="tag" name="Tag" className='cs-color-Search w-100 border-0' />
                         </div>
                         <div className='d-flex flex-row justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
-                            <div class= "d-flex flex-row">
+                            <div class="d-flex flex-row">
                                 <label for="Arttype" className='text-primary me-2 fs-5'>Art type</label>
                                 <div class="dropdown" id='Arttype'>
                                     <button class="btn cs-btn-Postsaleordinary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -132,7 +134,7 @@ export default function Postsaleordinary() {
                                     </ul>
                                 </div>
                             </div>
-                            <div class= "ms-5 d-flex flex-row">
+                            <div class="ms-5 d-flex flex-row">
                                 <label for="Sizetype" className='text-primary me-2 fs-5'>Size</label>
                                 <div class="dropdown" id='Sizetype'>
                                     <button class="btn cs-btn-Postsaleordinary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -151,7 +153,7 @@ export default function Postsaleordinary() {
                                             placeholder="Custom size(w x h )"
                                             value={size}
                                             onClick={(e) => e.stopPropagation()}
-                                            onChange={(e) => setsize(e.target.value)}/>
+                                            onChange={(e) => setsize(e.target.value)} />
                                     </ul>
                                 </div>
                             </div>
@@ -162,8 +164,10 @@ export default function Postsaleordinary() {
                         </div>
                     </div>
                     <div className='d-flex justify-content-center align-items-start row me-5'>
-                        <button onClick={handleclick} className="btn cs-btn-Postsaleordinary2 rounded-pill w-25 mt-5" type="button">Post</button>
-                    </div>
+                        {!clickpost ?
+                            <button onClick={handleclick} className="btn cs-btn-Postnotsale2 rounded-pill w-25 mt-5" type="button">Post</button>
+                            : <div className="cs-btn-Postnotsale2 rounded-pill w-25 mt-5">Posting.....</div>
+                        }                    </div>
                 </div>
                 <div className="col-12 col-md-1"></div>
             </div>

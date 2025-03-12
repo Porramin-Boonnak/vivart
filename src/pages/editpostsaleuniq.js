@@ -17,6 +17,7 @@ export default function Editpostsaleuniq() {
     const [selltype, setsell] = useState('Normal Sell');
     const [isCheckedBlindP, setCheckedBlindP] = useState(false);
     const [isCheckedBlindA, setCheckedBlindA] = useState(false);
+    const [clickpost, setclickpost] = useState(false);
     const Title = useRef();
     const Tag = useRef();
     const Price = useRef();
@@ -79,6 +80,7 @@ export default function Editpostsaleuniq() {
     };
 
     const handleclick = () => {
+        setclickpost(true);
         const data = {
             artist: user.username,
             name: Title.current.value,
@@ -265,8 +267,10 @@ export default function Editpostsaleuniq() {
                         )}
                     </div>
                     <div className='d-flex justify-content-center align-items-start row me-5'>
-                        <button onClick={handleclick} className="btn cs-btn-Postsaleuniq2 rounded-pill w-25 mt-5" type="button">Post</button>
-                    </div>
+                    {!clickpost ?
+                            <button onClick={handleclick} className="btn cs-btn-Postnotsale2 rounded-pill w-25 mt-5" type="button">Post</button>
+                            : <div className="cs-btn-Postnotsale2 rounded-pill w-25 mt-5">Posting.....</div>
+                        }                       </div>
                 </div>
                 <div className="col-12 col-md-1"></div>
             </div>

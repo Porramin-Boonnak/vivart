@@ -315,10 +315,12 @@ export default function Post() {
                                                 </a>
                                                 </li>
                                                 <li>
-                                                    <a className="dropdown-item d-flex align-items-center justify-content-between"
-                                                        onClick={deletePost}>
-                                                        Delete<i className="bi bi-trash3-fill"></i>
-                                                    </a>
+                                                    {post.typepost === "normal" ?
+                                                        <a className="dropdown-item d-flex align-items-center justify-content-between"
+                                                            onClick={deletePost}>
+                                                            Delete<i className="bi bi-trash3-fill"></i>
+                                                        </a>
+                                                    : <></>}
                                                 </li>
                                             </div>
                                             :

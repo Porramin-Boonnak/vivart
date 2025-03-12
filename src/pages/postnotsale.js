@@ -8,6 +8,7 @@ export default function Postnotsale() {
     const [base64List, setBase64List] = useState([]);
     const [user, setuser] = useState();
     const [type, settype] = useState();
+    const [clickpost,setclickpost] = useState(false);
     const Title = useRef();
     const Tag = useRef();
     const Description = useRef();
@@ -42,6 +43,7 @@ export default function Postnotsale() {
     const date = new Date();
     const formattedDate = date.toLocaleString('sv-SE', { timeZone: 'Asia/Bangkok' }).replace(' ', 'T').slice(0, 16);
     const handleclick =()=>{
+        setclickpost(true);
         const data = {
             artist : user.username,
             name : Title.current.value,
@@ -124,7 +126,10 @@ export default function Postnotsale() {
                         </div>
                     </div>
                     <div className='d-flex justify-content-center align-items-start row me-5'>
-                        <button onClick={handleclick} className="btn cs-btn-Postnotsale2 rounded-pill w-25 mt-5" type="button">Post</button>
+                        {!clickpost ?
+                            <button onClick={handleclick} className="btn cs-btn-Postnotsale2 rounded-pill w-25 mt-5" type="button">Post</button>
+                            : <div className="cs-btn-Postnotsale2 rounded-pill w-25 mt-5">Posting.....</div>
+                        }
                     </div>
                 </div>
                 <div className="col-12 col-md-1"></div>

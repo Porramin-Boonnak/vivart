@@ -31,7 +31,7 @@ export default function Salehistory() {
                     return;
                 }
 
-                const historyRes = await axios.get(`${API_URL}/salehistory/${username}`);
+                const historyRes = await axios.get(`${API_URL}/salehistory/${username}`)
                 
                 const formattedItems = historyRes.data.map(item => ({
                     ...item,
@@ -40,7 +40,7 @@ export default function Salehistory() {
                 
                 setItems(formattedItems);
             } catch (error) {
-                console.error("Error fetching paid history:", error);
+                console.error("Error fetching sale history:", error);
             }
         };
 
@@ -75,17 +75,16 @@ export default function Salehistory() {
                                     />
                                     <div className="fs-4 fw-bold">{item.name}</div>
                                 </div>
-                                <div className="text-muted">Buyer : {item.buyer}</div>
+                                <div className="text-muted">Buyer : {item.customer}</div>
                             </div>
 
                             <div className="d-flex flex-column me-3">
                                 <div>Sold date: {item.time ? item.time.toLocaleDateString() : "N/A"}</div>
-                                <div>Pieces: {item.pieces}</div>
+                                <div>Pieces: {item.quantity}</div>
                             </div>
 
                             <div className="d-flex flex-column ms-3">
-                                <div className="text-muted">Price</div>
-                                <div className="fw-bold text-primary">{item.price.toLocaleString()} baht</div>
+                                <div className="text-muted">Price {item.price.toLocaleString()} baht</div>
                             </div>
                         </div>
                     ))}

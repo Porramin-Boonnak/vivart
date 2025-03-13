@@ -26,7 +26,7 @@ const Cart = () => {
         navigate('/signin');
       });
   }, [API_URL, navigate]);
-  
+
   useEffect(() => {
     if (user && user._id && !hasFetched.current) {
       hasFetched.current = true;
@@ -38,10 +38,10 @@ const Cart = () => {
             price: Number(item.price),
             quantity: item.quantity,
             image: item.img?.[0] || bird,
-            typepost : item.typepost,
-            type : item.type,
-            own : item.own ? item.own : item.artist,
-            img : item.img, // Ensure 'bird' is defined and imported
+            typepost: item.typepost,
+            type: item.type,
+            own: item.own ? item.own : item.artist,
+            img: item.img, // Ensure 'bird' is defined and imported
             selltype: item.selltype
           }));
           setCart(newCart);
@@ -69,24 +69,24 @@ const Cart = () => {
     setCart(cart.filter((item) => item.id !== id));
     axios.delete(`${API_URL}/cart/${user.username}/${id}`)
       .then(response => {
-          console.log(response.data);
+        console.log(response.data);
       })
       .catch(error => console.error("Error removing item:", error));
-};
+  };
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <>
 
-        <Navbar />
-        <Searchbar />
+      <Navbar />
+      <Searchbar />
 
       <div className="cart-layout">
         {/* Cart Section */}   <h2>Your Cart</h2>      <h2 style={{}}>Order Summary</h2>
         <div className="cart-section-wrapper">
 
           <div className="cart-section">
- 
+
             <div className="cart-header-wrapper">
 
               <div className="cart-header">
@@ -107,20 +107,20 @@ const Cart = () => {
                   <span className="item-price">{item.price.toLocaleString()} THB</span>
                 </div>
                 <div className="cart-cell quantity-cell">
-                  {item.typepost === "uniq" ? <></>:<div className="quantity-controls">
+                  {item.typepost === "uniq" ? <></> : <div className="quantity-controls">
                     <button onClick={() => updateQuantity(item.id, -1)}>-</button>
                     <span>{item.quantity}</span>
                     <button onClick={() => updateQuantity(item.id, 1)}>+</button>
                   </div>}
                 </div>
                 <div className="cart-cell subtotal-remove-cell">
-                      <span className="subtotal">{(item.price * item.quantity).toLocaleString()} THB</span>
-                   
+                  <span className="subtotal">{(item.price * item.quantity).toLocaleString()} THB</span>
+
                 </div>
-                {item.selltype === "Normal Sell" ? <div className="cart-cell subtotal-remove-cell">
+                {item.selltype ? <></> :
+                  <div className="cart-cell subtotal-remove-cell">
                     <button onClick={() => removeItem(item.id)} className="remove-btn" >X</button>
-                </div>:
-                <></>}
+                  </div>}
               </div>
             ))}
           </div>
@@ -138,9 +138,9 @@ const Cart = () => {
             <div className="total">
               <strong>Total:</strong> <span>{totalPrice.toLocaleString()} THB</span>
             </div>
-        
+
           </div>
-          <button className="checkout-btn mt-3" onClick={()=>navigate("/shipping")}>Check Out</button>
+          <button className="checkout-btn mt-3" onClick={() => navigate("/shipping")}>Check Out</button>
         </div>
       </div>
     </>

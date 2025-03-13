@@ -82,27 +82,7 @@ export default function Post() {
             navigate('/signin');
         }
     };
-    const examplecomment = [
-        { name: "Naruto", comment: "So interesting.", img: "https://www.beartai.com/wp-content/uploads/2024/02/Naruto-1600x840.jpg" },
-        { name: "Sasuke", comment: "Beautiful as hellll!", img: "https://pm1.aminoapps.com/6493/8e7caf892a720f98952caf5f589e2c265458a291_hq.jpg" },
-        { name: "Sakura", comment: "Your idea is fantastic.", img: "https://i.pinimg.com/736x/8a/0e/8d/8a0e8d8762e8790a788d0c84a68f650a.jpg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that avciejawo ivjoriae joiawj;ogi jroaijgar ehguegij sziovfjowie heasuilli.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" },
-        { name: "Kakashi", comment: "My next homework gonnabe like that.", img: "https://i.redd.it/54lk9zp713kc1.jpeg" }
 
-
-    ];
 
     const sendcomment = async () => {
         const newComment = {

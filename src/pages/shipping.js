@@ -274,7 +274,7 @@ export default function Shipping() {
                                 nameaccount: res.data.nameaccount,
                                 bank: res.data.bank,
                                 number: res.data.number,
-                                totalPrice: totalPrice,
+                                totalPrice: item.price * item.quantity,
                                 status: "waiting"
                             }
                             await axios.post(`${API_URL}/payout`, data);
@@ -288,6 +288,10 @@ export default function Shipping() {
                         }
                         if(item.type!=="Digital"){
                             await axios.post(`${API_URL}/filltracking`, filltracking);
+                        }
+                        if(item.selltype && item.selltype !== "Normal Sell")
+                        {
+                            await axios.delete(`${API_URL}/deletecandidate/${item._id_post}`)
                         }
                         await axios.post(`${API_URL}/history`, sellandbuy);
                         await axios.post(`${API_URL}/success`, data);

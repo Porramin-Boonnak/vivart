@@ -46,6 +46,9 @@ export default function Pic_Card({
                                 <div className="card-details">
                                     <div className="card-user">
                                         <h5>{item.artist}</h5>
+                                        {item.tag && (
+                                            <h7>#{item.tag}</h7>
+                                        )}
                                         <div className="card-view-container">
                                             {item.visit ? (
                                                 <div className="c-card-view">

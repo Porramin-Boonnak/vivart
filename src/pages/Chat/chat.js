@@ -160,7 +160,6 @@ const Chat = ({ photo }) => {
 
     <div className="body">
       <Navbar />
-      <div>{this_user_img}</div>
       <div className="chat-container">
         <Chat_List users />
         <div className="chat-window">
@@ -194,7 +193,6 @@ const Chat = ({ photo }) => {
               onChange={(e) => setMessageText(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
             />
-            <img src={photo} alt="User" />
             <img src={send} alt="Send" onClick={handleSendMessage} />
           </div>
         </div>

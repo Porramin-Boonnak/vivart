@@ -39,13 +39,17 @@ const NotificationModal = ({ isOpen, onClose }) => {
           const newData = [...notiRes.data, ...bidNotifications].filter(item => !existingIds.has(item.id));
           return [...prev, ...newData];
         });
-
-        for (const bid of bidNotifications) {
-          await axios.post(`${API_URL}/wonbid/adtocart`, {
-            _id_post: bid._id_post,
-            _id_customer: loginUser,
-            price: bid.price
-          });
+        console.log(bidNotifications)
+        for (const bid of bidsRes.data) {
+          console.log(bid)
+          if(new Date(bid.endbid).getTime() < Date.now()){
+            await axios.post(`${API_URL}/wonbid/adtocart`, {
+              _id_post: bid._id_post,
+              _id_customer: loginUser,
+              price: bid.price
+            });
+          }
+      
         }
       } catch (error) {
         console.error("Error fetching notifications/bids:", error);

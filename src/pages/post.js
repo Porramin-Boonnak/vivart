@@ -57,7 +57,8 @@ export default function Post() {
                 typepost: post.typepost,
                 type: post.type,
                 own: post.own ? post.own : post.artist,
-                img: post.img
+                img: post.img,
+                selltype: post.selltype
             })
                 .then(response => {
                     console.log(response.data);

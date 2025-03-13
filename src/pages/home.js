@@ -199,7 +199,7 @@ export default function Home() {
                 <Searchbar />
             </div>
             <div className="row bg-secondary p-3">
-            {filter ? <Allpictures items={filteredPosts} username={user.username} /> : id ? <Allpictures items={filteredByArtistMatch} /> : post ? <Allpictures items={post} />: <>Loading...</>}
+            {filter ? <Allpictures items={filteredPosts} username={user.username} /> : id ? <Allpictures items={filteredByArtistMatch} username={user.username}/> : post && user ? <Allpictures items={post} username={user.username}/>: post ? <Allpictures items={post} /> : <>Loading....</>}
             </div>
         </div>
     </>)

@@ -78,7 +78,7 @@ export default function Editpostsaleuniq() {
     const handleclick = () => {
         setclickpost(true);
         const data = {
-            artist: user.username,
+            artist: post.artist,
             name: Title.current.value,
             own: user.username,
             tag: Tag.current.value,

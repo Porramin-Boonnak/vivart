@@ -43,7 +43,7 @@ export default function BidSection({ isOpen, onClose, post, user,isBlind,selltyp
 
 
   const getbid = () =>{
-    axios.get(`http://127.0.0.1:5000/bid/${post._id}`)
+    axios.get(`${API_URL}/bid/${post._id}`)
         .then(response => {
           setAllBids(response.data.sort((a, b) => b.price - a.price));
           if (user) {
@@ -89,7 +89,7 @@ export default function BidSection({ isOpen, onClose, post, user,isBlind,selltyp
   
     
       // ถ้ายังไม่เคยบิด ให้ใช้ POST เพื่อเพิ่มบิดใหม่
-      axios.post(`http://127.0.0.1:5000/bid`, bidData)
+      axios.post(`${API_URL}/bid`, bidData)
         .then(response => {
           console.log("Bid placed successfully:", response.data);
           setCurrentBid(parseInt(price)); // อัปเดตราคาบิดของผู้ใช้
@@ -111,7 +111,7 @@ export default function BidSection({ isOpen, onClose, post, user,isBlind,selltyp
   
     // Handle "Bid (sell to the first person)"
     if (selltype === "Bid (sell to the first person)") {
-        axios.post(`http://127.0.0.1:5000/candidate/bidfirst`, bidData)
+        axios.post(`${API_URL}/candidate/bidfirst`, bidData)
         .then((response) => {
           if (response.data.message === "No existing bid from this user. No bid placed.") {
               console.log("No bid placed, user has not placed a bid yet.");
@@ -127,7 +127,7 @@ export default function BidSection({ isOpen, onClose, post, user,isBlind,selltyp
   
     // Handle "Bid (Sell to the most expensive)"
     if (selltype === "Bid (Sell to the most expensive)") {
-      axios.post(`http://127.0.0.1:5000/candidate/bidmost`, bidData)
+      axios.post(`${API_URL}/candidate/bidmost`, bidData)
         .then((response) => {
           if (response.data.message === "No existing bid from this user. No bid placed.") {
               console.log("No bid placed, user has not placed a bid yet.");

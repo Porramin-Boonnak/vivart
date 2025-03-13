@@ -1,9 +1,9 @@
-
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
+const API_URL = process.env.REACT_APP_API_URL;
 const post_notificate = async (post_id, sender , receiver, stage_noti, post_msg, descript) => {
-    const API_URL = process.env.REACT_APP_API_URL;
+  console.log(post_id, sender , receiver, stage_noti, post_msg, descript)
     const date = new Date();
     const formattedDate = date.toLocaleString('sv-SE', { timeZone: 'Asia/Bangkok' }).replace(' ', 'T').slice(0, 16);
     try {
@@ -22,12 +22,15 @@ const post_notificate = async (post_id, sender , receiver, stage_noti, post_msg,
 };
 
 const messageFromEachStage = ( data , stage_noti) => {
-      console.log(data)
+   
       if (stage_noti == "11") {
         return data.sender + " Like Your Post" + data.post_msg
       }
       if (stage_noti == "12") {
         return data.sender + " comment on your post \"" + data.post_msg + "\" \n\"" + data.descript + "\""
+      }
+      if (stage_noti == "13") {
+        return data.sender + " is Followed you "
       }
       if (stage_noti == "21") {
         return data.descript + " Your payment for order " + data.post_msg + "is complete."
@@ -51,10 +54,10 @@ const messageFromEachStage = ( data , stage_noti) => {
         return data.sender + " Congratulation! you won the bid." + "\n\"" + "Please check your cart to continue payment."
       }
       if (stage_noti == "31") {
-        return data.descript + " Your product has been sold."
+        return data.sender + " Buy your Product " + data.post_msg
       }
       if (stage_noti == "32") {
-        return data.sender + " bid your post to" + data.descript + "Baht." //descript = ราคา
+        return data.sender + " bid your post to " + data.descript + " Baht." //descript = ราคา
       }
       if (stage_noti == "33") {
         return data.descript + " Your bid post timeout in 1 hour."
@@ -76,6 +79,9 @@ const PathFromEachStage = (data , stage_noti) =>{
   if (stage_noti == "12") {
         return "/post/"+data.post_id
   }
+  if (stage_noti == "12") {
+    return "/profile/"+data.sender
+}
   if (stage_noti == "21") {
     return "/paidHistory"
   }
@@ -122,6 +128,9 @@ const IconFromEachStage = (data , stage_noti) =>{
       if (stage_noti == "12") {
         return "💬"
       }
+      if (stage_noti == "13") {
+        return "💞"
+      }
       if (stage_noti == "21") {
         return "💸"
       }
@@ -159,42 +168,28 @@ const IconFromEachStage = (data , stage_noti) =>{
         return "✅"
       }
 }
-/* 
-call
-import { post_notificate } from './path_to_your_file';
 
-//Like post
-post_notificate(
-    "post_id", 
-    "login_user",
-    "receiver",
-    "11":,
-    "post.msg",
-    "Like your post"
-);
+const LikeFromHomePage = ({ post_id, loginUser }) => {
+  useEffect(() => {
+    console.log(post_id)
+    axios.get(`${API_URL}/post/${post_id}`)
+      .then(response => {
+        console.log(response.data)
+        post_notificate(
+          response.data._id,
+          loginUser,
+          response.data.own,
+          "11",
+          response.data.name,
+          ""
+        );
+      })
+      .catch(error => console.error("Error fetching data:", error));
+  }, [post_id, loginUser]);
 
-//Comment
-post_notificate(
-    "post_id", 
-    "login_user",
-    "receiver",
-    "11":,
-    "post.msg",
-    "Comment on your post"
-);
-
-//Comment
-post_notificate(
-    "post_id", 
-    "login_user",
-    "receiver",
-    "11":,
-    "post.msg",
-    "Comment on your post"
-);
+  return null; // or some JSX component
+};
 
 
-*/
 
-
-export { post_notificate , messageFromEachStage , PathFromEachStage , IconFromEachStage};
+export { post_notificate , messageFromEachStage , PathFromEachStage , IconFromEachStage , LikeFromHomePage};

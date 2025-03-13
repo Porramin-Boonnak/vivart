@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import axios from "axios";
-
+import {post_notificate} from "../../../component/notificate_func"
 export default function User_Impormation({ this_username, follow, post_qty }) {
     const navigate = useNavigate();
 
@@ -52,7 +52,14 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
                     user_login: loginUser,
                     img: "ABC",
                 });
-
+                post_notificate(
+                    "",
+                    loginUser,
+                    this_username.username,
+                    "13",
+                    "",
+                    "",
+                )
                 console.log(response.data);
                 setFollower(prevFollowers => [
                     ...prevFollowers,
@@ -82,9 +89,6 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
                 <div className="col-md-9" >
                     <h2>{this_username.username}</h2>
                     <p>{this_username.user_bio}</p>
-
-                  
-         
 
                     <p>{post_qty} posts | {followers.length} followers | {followings.length} following</p>
 

@@ -5,6 +5,7 @@ import Navbar from "../component/navbar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../pagescss/F2EBE9.css";
+import { post_notificate } from "../component/notificate_func"
 
 export default function Shipping() {
     const [progress, setProgress] = useState(25);
@@ -28,6 +29,7 @@ export default function Shipping() {
     const [ip, setip] = useState(null);
     const hasFetched = useRef(false);
     const navigate = useNavigate();
+    
     const API_URL = process.env.REACT_APP_API_URL;
     const accode = "tmpwoktXABBQMDi[pl]FTaDTwuvkLUJ2czfvioLzqjybewpMLYgtis[sa]HHaFkJjhD2x8GUOET6w6NlNCs5zm9vsExf9ZyyTg[tr][tr]";
     useEffect(() => {
@@ -296,6 +298,26 @@ export default function Shipping() {
                         await axios.post(`${API_URL}/history`, sellandbuy);
                         await axios.post(`${API_URL}/success`, data);
                         await axios.delete(`${API_URL}/cart/${user.username}/${item._id_post}`);
+
+                        //Send To Buyer that Payment success
+                        post_notificate(
+                            item._id,
+                            item.own,
+                            user.username,
+                            "21",
+                            item.name,
+                            "",
+                        )
+
+                        //Send to Owner that post is SOLD
+                        post_notificate(
+                            item._id,
+                            user.username,
+                            item.own,
+                            "31",
+                            item.name,
+                            "",
+                        )
                     });
                     Promise.all(cartRequests)
                         .then(() => {

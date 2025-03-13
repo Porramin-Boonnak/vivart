@@ -8,6 +8,9 @@ import { Modal, Button, Tabs, Tab, Container, Row, Col } from 'react-bootstrap';
 import '@fontsource/fredoka';
 import { useParams } from 'react-router-dom';
 import eyesOff from "../pictures/weui_eyes-off-filled.png";
+import { post_notificate } from "./notificate_func"
+
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 export default function BidSection({ isOpen, onClose, post, user,isBlind,selltype}) {
@@ -95,6 +98,14 @@ export default function BidSection({ isOpen, onClose, post, user,isBlind,selltyp
           setCurrentBid(parseInt(price)); // อัปเดตราคาบิดของผู้ใช้
           getbid();
           placeBid(); 
+          post_notificate(
+            post._id,
+            user.username,
+            post.artist,
+            "32",
+            post.name,
+            price,
+          )
         })
         .catch(error => {
           console.error("Error placing bid:", error);

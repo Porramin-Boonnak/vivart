@@ -144,8 +144,18 @@ export default function Post() {
         axios.put(API_URL + "/update/like/" + id, { username: user.username })
             .then(response => {
                 console.log(response.data)
+                post_notificate(
+                    postid,
+                    user.username,
+                    post.own || post.artist,
+                    "11",
+                    post.name,
+                    ncomment.current.value,
+                )
             })
             .catch(error => console.error("There was an error!", error));
+            
+        
     }
     const unlike = (id) => {
         console.log("unlike");
@@ -290,6 +300,10 @@ export default function Post() {
                                 <div className="m-2">
                                     <span>Type</span>
                                     <div className="d-inline ms-3">{post.type}</div>
+                                </div>
+                                <div className="m-2">
+                                    <span>Date</span>
+                                    <div className="d-inline ms-3">{post.date}</div>
                                 </div>
                             </div>
                         </div>

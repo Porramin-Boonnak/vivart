@@ -42,14 +42,14 @@ const NotificationModal = ({ isOpen, onClose }) => {
         console.log(bidNotifications)
         for (const bid of bidsRes.data) {
           console.log(bid)
-          if(new Date(bid.endbid).getTime() < Date.now()){
+          if (new Date(bid.endbid).getTime() < Date.now()) {
             await axios.post(`${API_URL}/wonbid/adtocart`, {
               _id_post: bid._id_post,
               _id_customer: loginUser,
               price: bid.price
             });
           }
-      
+
         }
       } catch (error) {
         console.error("Error fetching notifications/bids:", error);
@@ -92,15 +92,22 @@ const NotificationModal = ({ isOpen, onClose }) => {
             <Col xs={12}>
               <ul className="list-group">
                 {notifications[activeTab]?.length > 0 ? (
-                  notifications[activeTab].map(({ icon, label, path, time }, index) => (
-                    <li key={index} className="list-group-item d-flex justify-content-between align-items-center cursor-pointer" onClick={() => navigate(path)}>
-                      <span>{icon} {label}</span>
-                      <small>{time}</small>
-                    </li>
-                  ))
+                  [...notifications[activeTab]]
+                  .sort((a, b) => new Date(b.time) - new Date(a.time))
+                    .map(({ icon, label, path, time }, index) => (
+                      <li
+                        key={index}
+                        className="list-group-item d-flex justify-content-between align-items-center cursor-pointer"
+                        onClick={() => navigate(path)}
+                      >
+                        <span>{icon} {label}</span>
+                        <small>{time}</small>
+                      </li>
+                    ))
                 ) : (
                   <li className="list-group-item text-center">No content available</li>
                 )}
+
               </ul>
             </Col>
           </Row>

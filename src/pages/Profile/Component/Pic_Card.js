@@ -3,15 +3,15 @@ import { FaBahtSign } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import uniq from "../../../pictures/uniq.png";
 import view from "../../../pictures/view.png";
-
+import { useParams } from "react-router-dom";
 export default function Pic_Card({
     posts = [],
     likedItems = {},
     username,
-    toggleLike
+    toggleLike,
 }) {
+    const { this_username } = useParams();
     const navigate = useNavigate();
-
     return (
         <div className="masonry-layout">
             {posts.map((item) => {
@@ -64,6 +64,7 @@ export default function Pic_Card({
                                                 {item.typepost === "uniq" && (
                                                     <img src={uniq} alt="uniq" className="uniq-image" />
                                                 )}
+                                                   {this_username !== item.own ? <> SOLD</> : <></>}
                                             </h5>
                                         )}
                                     </div>

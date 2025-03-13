@@ -188,7 +188,7 @@ export default function Selling() {
                                     <div className="text-dark">
                                         Sell to user
                                         <span className="text-primary">
-                                            {!isExpired(post.endbid) ? (
+                                            { new Date(post.endbid).getTime() > Date.now()  ? (
                                                 <button className="btn btn-dark text-white" style={{ width: 150, marginLeft: '10px' }} 
                                                     onClick={() => selectclick(post._id)}>
                                                     Select
@@ -200,7 +200,7 @@ export default function Selling() {
                                         <div className="Candidate me-2">
                                             Candidate: {candidates[post._id]?.user || "None"}
                                         </div>
-                                        {!isExpired(post.endbid) ? (
+                                        {new Date(post.endbid).getTime() > Date.now() ? (
                                             <button className="btn btn-primary text-white" style={{ width: 150 }}
                                                 onClick={(e) => {
                                                     sellProduct(post._id);

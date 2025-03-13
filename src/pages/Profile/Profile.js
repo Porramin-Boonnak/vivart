@@ -19,7 +19,7 @@ export default function Profile() {
     const tabs = [
         { name: "All Post", action: () => setShowData(rawUserPost) },
         { name: "My Art(s)", action: () => setShowData(rawUserPost.filter(post => post.artist === this_username)) },
-        { name: "My Purchase Art(s)", action: () => setShowData(rawUserPost.filter(post => post.own === this_username)) },
+        { name: "My Purchase Art(s)", action: () => setShowData(rawUserPost.filter(post => post.artist != this_username)) },
     ];
     const [activeTab, setActiveTab] = useState("All Post");
     const [modalOpen, setModalOpen] = useState(false);
@@ -90,7 +90,8 @@ export default function Profile() {
 
             {/* Render Posts */}
 
-            <Piccard posts={Array.isArray(showData) ? showData : []} />
+            <Piccard posts={Array.isArray(showData) ? showData : []} this_username={this_username.username} />
+
         </>
     );
 }

@@ -126,11 +126,11 @@ export default function Editpostsaleordi() {
                     <div className='row ms-2'>
                         <div className='d-flex mt-4 justify-content-center align-items-start justify-content-md-start align-items-md-start'>
                             <label for="Title" className='text-primary me-2 fs-5'>Title:</label>
-                            <input ref={Title} type="text" id="Title" name="Title" className='cs-color-Search w-100 border-0' />
+                            <input ref={Title} type="text" id="Title" name="Title" className='cs-color-Search w-100 border-0' readOnly/>
                         </div>
                         <div className='mt-4 text-center text-md-start'>
                             <label for="Description" className='text-primary me-2 fs-5'>Description :</label><br />
-                            <textarea ref={Description} type="text" id="Description" name="Description" className='cs-color-Search border-0 mt-1' rows="5" />
+                            <textarea ref={Description} type="text" id="Description" name="Description" className='cs-color-Search border-0 mt-1' rows="5" readOnly/>
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <label for="price" className='text-primary me-2 fs-5'>Price:</label>
@@ -143,9 +143,9 @@ export default function Editpostsaleordi() {
                                 min="0"  // Prevents negative values
                             />
                         </div>
-                        <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
+                        <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4' >
                             <label for="tag" className='text-primary me-2 fs-5'>#tag:</label>
-                            <input ref={Tag} type="text" id="tag" name="Tag" className='cs-color-Search w-100 border-0' />
+                            <input ref={Tag} type="text" id="tag" name="Tag" className='cs-color-Search w-100 border-0' readOnly/>
                         </div>
                         <div className='d-flex flex-row justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <div class="d-flex flex-row">

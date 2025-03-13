@@ -31,7 +31,7 @@ export default function Blindart() {
             BlindA: location.state.Data.BlindA,
             description: location.state.Data.description,
             img: [newbase64],
-            originalimg: location.state.Data.img,
+            originalimg: location.state.Data.originalimg,
             price: location.state.Data.price,
             status: "open"
         }
@@ -56,7 +56,7 @@ export default function Blindart() {
                     <div className='row bg-secondary'>
                         <div className='d-flex justify-content-center align-items-center mt-5'>
                             <div className='mb-5 c-img'>
-                                {location.state.Data.img ? <Draw base64List={location.state.Data.img} onSave={(base64) => { setnewBase64(base64) }} clearCanvas={clearCanvas} onClear={() => setClearCanvas(false)} /> : <></>}
+                                {location.state.Data.img ? <Draw base64List={location.state.Data.originalimg} onSave={(base64) => { setnewBase64(base64) }} clearCanvas={clearCanvas} onClear={() => setClearCanvas(false)} /> : <></>}
                             </div>
                         </div>
                     </div>

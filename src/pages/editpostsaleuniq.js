@@ -12,6 +12,7 @@ export default function Editpostsaleuniq() {
     const [base64List, setBase64List] = useState([]);
     const [base64ListB, setBase64ListB] = useState([]);
     const [img, setimg] = useState([]);
+    const [img2, setimg2] = useState([]);
     const [user, setUser] = useState(null);
     const [post, setPost] = useState(null);
     const [type, settype] = useState('');
@@ -49,6 +50,7 @@ export default function Editpostsaleuniq() {
             .then(response => {
                 const data = response.data;
                 setPost(data);
+                setimg(data.img);
                 setBase64ListB(data.img);
                 setBase64List(data.originalimg);
                 settype(data.type);
@@ -70,18 +72,6 @@ export default function Editpostsaleuniq() {
             });
     }, [postid, API_URL]);
 
-    const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
-        const promises = files.map(file => new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        }));
-
-        Promise.all(promises).then(results => setBase64List(results));
-    };
-
     const handleclick = () => {
         setclickpost(true);
         const data = {
@@ -97,6 +87,7 @@ export default function Editpostsaleuniq() {
             BlindA: isCheckedBlindA,
             description: Description.current.value,
             img: img,
+            originalimg: base64List,
             price: Price.current.value,
             status: "open",
             startbid: dateTimeS,
@@ -116,11 +107,11 @@ export default function Editpostsaleuniq() {
     }
     useEffect(() => {
         if (isCheckedBlindA) {
-          setimg(base64ListB);
+            setimg(base64ListB);
         } else {
-          setimg(base64List);
+            setimg(base64List);
         }
-      }, [isCheckedBlindA, base64List, base64ListB]);
+    }, [isCheckedBlindA, base64List, base64ListB]);
 
     return (<>
         <div className="container-fluid p-0 bg-secondary min-vh-100 min-vw-100">
@@ -132,9 +123,9 @@ export default function Editpostsaleuniq() {
                     <div className='row'>
                         <div className='d-flex justify-content-center align-items-center mt-5'>
                             <div className='mb-5'>
-                                {isCheckedBlindA ?  <Showimg items={base64ListB} /> :  <Showimg items={base64List} />}
+                                {isCheckedBlindA ? <Showimg items={base64ListB} /> : <Showimg items={base64List} />}
 
-                               
+
                             </div>
                         </div>
                     </div>
@@ -161,7 +152,14 @@ export default function Editpostsaleuniq() {
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <label for="price" className='text-primary me-2 fs-5'>Price:</label>
-                            <input ref={Price} type="number" id="Price" name="Price" className='cs-color-Search w-100 border-0' />
+                            <input
+                                ref={Price}
+                                type="number"
+                                id="Price"
+                                name="Price"
+                                className='cs-color-Search w-100 border-0'
+                                min="0"  // Prevents negative values
+                            />
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <label for="tag" className='text-primary me-2 fs-5'>#tag:</label>
@@ -171,7 +169,7 @@ export default function Editpostsaleuniq() {
                             <div class="d-flex flex-row">
                                 <label for="Arttype" className='text-primary me-2 fs-5'>Art type:</label>
                                 <div class="dropdown" id='Arttype'>
-                                    <button class="btn cs-btn-Postsaleuniq dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn cs-btn-Postsaleuniq dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" disabled>
                                         {type ? <div>{type}</div> : <div>Select Type</div>}
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -186,20 +184,20 @@ export default function Editpostsaleuniq() {
                             <div class="ms-5 d-flex flex-row">
                                 <label for="Sizetype" className='text-primary me-2 fs-5'>Size:</label>
                                 <div class="dropdown" id='Sizetype'>
-                                    <button class="btn cs-btn-Postsaleuniq dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn cs-btn-Postsaleuniq dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" disabled>
                                         {size ? <div>{size}</div> : <div>Select Type</div>}
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("14.8 x 21")}>A5 - 14.8 x 21 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("21 x 29.7")}>A4 - 21 x 29.7 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("29.7 x 42")}>A3 - 29.7 x 42 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("42 x 59.4")}>A2 - 42 x 59.4 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("59.4 x 84.1")}>A1 - 59.4 x 84.1 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("59.4 x 84.1")}>A0 - 59.4 x 84.1 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("A5 1748 x 2480 px")}>A5 - 1748 x 2480 px<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("A4 2480 x 3508 px")}>A4 - 2480 x 3508 px<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("A3 3508 x 4961 px")}>A3 - 3508 x 4961 px<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("A2 4961 x 7016 px")}>A2 - 4961 x 7016 px<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("A1 7016 x 9933 px")}>A1 - 7016 x 9933 px<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("A0 9933 x 14016 px")}>A0 - 9933 x 14016 px<i class="ms-1 bi bi-image-fill"></i></a></li>
                                         <input
                                             type="text"
                                             className="form-control"
-                                            placeholder="Custom size(w x h )"
+                                            placeholder="Custom size(w x h unit)"
                                             value={size}
                                             onClick={(e) => e.stopPropagation()}
                                             onChange={(e) => setsize(e.target.value)} />
@@ -210,7 +208,7 @@ export default function Editpostsaleuniq() {
                         <div class="d-flex flex-row mt-4">
                             <label for="Selltype" className='text-primary me-2 fs-5'>Sell type:</label>
                             <div class="dropdown w-75" id='Selltype'>
-                                <button class="btn cs-btn-Postsaleuniq dropdown-toggle w-100 ms-auto" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn cs-btn-Postsaleuniq dropdown-toggle w-100 ms-auto" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" >
                                     {selltype ? <div>{selltype}</div> : <div>{setsell("Normal Sell")}</div>}
                                 </button>
                                 <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
@@ -274,7 +272,7 @@ export default function Editpostsaleuniq() {
                         )}
                     </div>
                     <div className='d-flex justify-content-center align-items-start row me-5'>
-                    {!clickpost ?
+                        {!clickpost ?
                             <button onClick={handleclick} className="btn cs-btn-Postnotsale2 rounded-pill w-25 mt-5" type="button">Post</button>
                             : <div className="cs-btn-Postnotsale2 rounded-pill w-25 mt-5">Posting.....</div>
                         }                       </div>

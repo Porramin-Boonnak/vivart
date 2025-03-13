@@ -106,11 +106,6 @@ export default function Editpostsaleordi() {
                 <div className="col-12 col-md-6">
                     <div className='row'>
                         <div className='d-flex justify-content-center align-items-center mt-5'>
-                            <input type="file" multiple onChange={handleFileChange} />
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='d-flex justify-content-center align-items-center mt-5'>
                             <div className='mb-5'>
                                 <Showimg items={base64List} />
                             </div>
@@ -139,7 +134,14 @@ export default function Editpostsaleordi() {
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <label for="price" className='text-primary me-2 fs-5'>Price:</label>
-                            <input ref={Price} type="number" id="Price" name="Price" className='cs-color-Search w-100 border-0' />
+                            <input
+                                ref={Price}
+                                type="number"
+                                id="Price"
+                                name="Price"
+                                className='cs-color-Search w-100 border-0'
+                                min="0"  // Prevents negative values
+                            />
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <label for="tag" className='text-primary me-2 fs-5'>#tag:</label>
@@ -149,7 +151,7 @@ export default function Editpostsaleordi() {
                             <div class="d-flex flex-row">
                                 <label for="Arttype" className='text-primary me-2 fs-5'>Art type</label>
                                 <div class="dropdown" id='Arttype'>
-                                    <button class="btn cs-btn-Postsaleordinary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn cs-btn-Postsaleordinary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" disabled>
                                         {type ? <div>{type}</div> : <div>Select Type</div>}
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -164,20 +166,20 @@ export default function Editpostsaleordi() {
                             <div class="ms-5 d-flex flex-row">
                                 <label for="Sizetype" className='text-primary me-2 fs-5'>Size</label>
                                 <div class="dropdown" id='Sizetype'>
-                                    <button class="btn cs-btn-Postsaleordinary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn cs-btn-Postsaleordinary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" disabled>
                                         {size ? <div>{size}</div> : <div>Select Type</div>}
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("14.8 x 21")}>A5 - 14.8 x 21 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("21 x 29.7")}>A4 - 21 x 29.7 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("29.7 x 42")}>A3 - 29.7 x 42 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("42 x 59.4")}>A2 - 42 x 59.4 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("59.4 x 84.1")}>A1 - 59.4 x 84.1 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
-                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("59.4 x 84.1")}>A0 - 59.4 x 84.1 cm<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("A5 1748 x 2480 px")}>A5 - 1748 x 2480 px<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("A4 2480 x 3508 px")}>A4 - 2480 x 3508 px<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("A3 3508 x 4961 px")}>A3 - 3508 x 4961 px<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("A2 4961 x 7016 px")}>A2 - 4961 x 7016 px<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("A1 7016 x 9933 px")}>A1 - 7016 x 9933 px<i class="ms-1 bi bi-image-fill"></i></a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center justify-content-between" onClick={() => setsize("A0 9933 x 14016 px")}>A0 - 9933 x 14016 px<i class="ms-1 bi bi-image-fill"></i></a></li>
                                         <input
                                             type="text"
                                             className="form-control"
-                                            placeholder="Custom size(w x h )"
+                                            placeholder="Custom size(w x h unit)"
                                             value={size}
                                             onClick={(e) => e.stopPropagation()}
                                             onChange={(e) => setsize(e.target.value)} />

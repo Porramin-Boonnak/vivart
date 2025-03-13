@@ -67,18 +67,6 @@ export default function Editowner() {
             });
     }, [postid, API_URL]);
 
-    const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
-        const promises = files.map(file => new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        }));
-
-        Promise.all(promises).then(results => setBase64List(results));
-    };
-
     const handleclick = () => {
         setclickpost(true);
         const data = {
@@ -149,7 +137,14 @@ export default function Editowner() {
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <label for="price" className='text-primary me-2 fs-5'>Price:</label>
-                            <input ref={Price} type="number" id="Price" name="Price" className='cs-color-Search w-100 border-0' />
+                            <input
+                                ref={Price}
+                                type="number"
+                                id="Price"
+                                name="Price"
+                                className='cs-color-Search w-100 border-0'
+                                min="0"  // Prevents negative values
+                            />
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <label for="tag" className='text-primary me-2 fs-5'>#tag:</label>

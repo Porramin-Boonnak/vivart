@@ -55,21 +55,6 @@ export default function Editpostnotsale() {
         });
     }, [API_URL, postid]);
 
-    const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
-        const promises = files.map((file) => {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        });
-
-        Promise.all(promises).then((results) => {
-            setBase64List(results);
-        });
-    };
 
     const handleUpdate = () => {
         if (!API_URL || !postid) {
@@ -111,11 +96,6 @@ export default function Editpostnotsale() {
                 <div className="col-12 col-md-6">
                     <div className='row'>
                         <div className='d-flex justify-content-center align-items-center mt-5'>
-                            <input type="file" multiple onChange={handleFileChange} />
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='d-flex justify-content-center align-items-center mt-5'>
                             <div className='mb-5'>
                                 <Showimg items={base64List} />
                             </div>
@@ -153,7 +133,7 @@ export default function Editpostnotsale() {
                                     <button className="btn cs-btn-Postnotsale dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                         {type ? type : "Select Type"}
                                     </button>
-                                    <ul className="dropdown-menu">
+                                    <ul className="dropdown-menu" disable>
                                         {['Digital', 'Hand draw', 'Sculpture', 'Painting', 'Photography'].map(t => (
                                             <li key={t}><a className="dropdown-item" onClick={() => setType(t)}>{t}</a></li>
                                         ))}

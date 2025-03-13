@@ -41,7 +41,8 @@ const Cart = () => {
             typepost : item.typepost,
             type : item.type,
             own : item.own ? item.own : item.artist,
-            img : item.img // Ensure 'bird' is defined and imported
+            img : item.img, // Ensure 'bird' is defined and imported
+            selltype: item.selltype
           }));
           setCart(newCart);
         })
@@ -116,9 +117,10 @@ const Cart = () => {
                       <span className="subtotal">{(item.price * item.quantity).toLocaleString()} THB</span>
                    
                 </div>
-                <div className="cart-cell subtotal-remove-cell">
+                {item.selltype === "Normal Sell" ? <div className="cart-cell subtotal-remove-cell">
                     <button onClick={() => removeItem(item.id)} className="remove-btn" >X</button>
-                </div>
+                </div>:
+                <></>}
               </div>
             ))}
           </div>

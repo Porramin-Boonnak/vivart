@@ -11,6 +11,7 @@ import view from "../pictures/view.png"
 import Bidsectionopen from "../component/bidsection";
 import Blindbidopen from "../component/bidblind";
 import { useNavigate } from 'react-router-dom';
+import { post_notificate } from "../component/notificate_func"
 export default function Post() {
     const [bidsection, setbidsection] = useState(false);
     const { postid } = useParams();
@@ -56,7 +57,8 @@ export default function Post() {
                 typepost: post.typepost,
                 type: post.type,
                 own: post.own ? post.own : post.artist,
-                img: post.img
+                img: post.img,
+                selltype: post.selltype
             })
                 .then(response => {
                     console.log(response.data);
@@ -103,7 +105,14 @@ export default function Post() {
 
         try {
             await axios.post(`${API_URL}/comment/${postid}`, newComment);
-
+            post_notificate(
+                postid,
+                user.username,
+                post.own || post.artist,
+                "12",
+                post.name,
+                ncomment.current.value,
+            )
             // อัปเดต state คอมเมนต์ทันที ไม่ต้องโหลดใหม่
             setcomment(prevComments => [...prevComments, newComment]);
 
@@ -225,27 +234,33 @@ export default function Post() {
                             <div className="position-relative">
                                 {post && post.img && post.img.length ? (
                                     <>
-                                        <Showimg items={post.img} like={post.like} />
-                                        <div
-                                            className="position-absolute top-0 end-0 d-flex gap-3 p-1 rounded"
-                                            style={{ backgroundColor: "rgba(255, 255, 255, 0.23)", borderRadius: "20px" }}
-                                        >
-                                            <div style={{ color: "#E91E63", fontWeight: "bold" }}>
-                                                {post.like?.length || 0}
-                                                <i className="bi bi-heart-fill" style={{ color: "#E91E63", marginLeft: "5px" }}></i>
-                                            </div>
+                                        <div style={{ zIndex: 1 }}>
+                                            <Showimg items={post.img} like={post.like} />
+                                        </div>
 
-                                            <div style={{ color: "#FFA000", fontWeight: "bold" }}>
+                                        <div
+                                            className="position-absolute top-0 end-0 d-flex gap-3 p-1"
+                                            style={{
+                                                backgroundColor: "rgba(255, 255, 255, 0.28)",
+                                                borderRadius: "10px",
+                                                zIndex: 10,
+                                            }}
+                                        >
+                                            <div style={{ color: "#E91E63" }}>
+                                                {post.like?.length || 0}
+                                                <i className="bi bi-heart-fill" style={{ color: "#E91E63", marginLeft: "4px" }}></i>
+                                            </div>
+                                            <div style={{ color: "#FFA000" }}>
                                                 {post.visit || 0}
                                                 <img src={view} alt="view" className="view-icon" />
                                             </div>
                                         </div>
-
                                     </>
                                 ) : (
                                     <div>Loading...</div>
                                 )}
                             </div>
+
 
                             <div className="bg-primary-lighter p-2">
                                 <div className="d-flex align-items-center justify-content-center">
@@ -325,7 +340,7 @@ export default function Post() {
                                                             onClick={deletePost}>
                                                             Delete<i className="bi bi-trash3-fill"></i>
                                                         </a>
-                                                    : <></>}
+                                                        : <></>}
                                                 </li>
                                             </div>
                                             :

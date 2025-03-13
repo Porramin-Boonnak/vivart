@@ -43,19 +43,19 @@ export default function Home() {
     const MatchArtistsToUsername = (post, followings) => {
         // ทำการกรองเพื่อแสดงเฉพาะที่ตรงกัน
         const matchedData = post
-          .map((artist) => {
-            const matchedUser = followings.find(follow=> follow.username.toLowerCase() === artist.artist.toLowerCase());
-            return matchedUser ? { artistName: artist.artist, username: matchedUser.username } : null;
-          })
-          .filter(item => item !== null);  // กรองค่า null ออก
-      
+            .map((artist) => {
+                const matchedUser = followings.find(follow => follow.username.toLowerCase() === artist.artist.toLowerCase());
+                return matchedUser ? { artistName: artist.artist, username: matchedUser.username } : null;
+            })
+            .filter(item => item !== null);  // กรองค่า null ออก
+
         // ส่งคืนค่า true ถ้ามีการจับคู่ที่ตรงกัน
         return matchedData.length > 0;
-      };
-      const filteredByArtistMatch = post.filter(item => {
+    };
+    const filteredByArtistMatch = post.filter(item => {
         // ตรวจสอบการจับคู่ artist กับ username โดยใช้ MatchArtistsToUsername
         return MatchArtistsToUsername([item], followings);  // ตรวจสอบว่า artist ตรงกับ username หรือไม่
-    });   
+    });
     const filteredPosts = post.filter(item => {
 
         if (!filter) return true;
@@ -158,6 +158,9 @@ export default function Home() {
                                     <div className="card-details">
                                         <div className="card-user">
                                             <h5>{item.artist}</h5>
+                                            {item.tag && (
+                                                <h7>#{item.tag}</h7>
+                                            )}
                                             <div className="card-view-container">
                                                 {item.visit ? (
                                                     <div className="c-card-view">
@@ -196,7 +199,7 @@ export default function Home() {
                 <Searchbar />
             </div>
             <div className="row bg-secondary p-3">
-            {filter ? <Allpictures items={filteredPosts} username={user.username} /> : id ? <Allpictures items={filteredByArtistMatch} /> : post && user ? <Allpictures items={post} />: <>Loading...</>}
+            {filter ? <Allpictures items={filteredPosts} username={user.username} /> : id ? <Allpictures items={filteredByArtistMatch} /> : post ? <Allpictures items={post} />: <>Loading...</>}
             </div>
         </div>
     </>)

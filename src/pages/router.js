@@ -11,6 +11,7 @@ import Tracking  from "../pages/tracking";
 import Createpost from "../pages/createpost";
 import Postnotsale from "../pages/postnotsale";
 import Editpostnotsale from "../pages/editpostnotsale";
+import Editowner from "../pages/editowner.js";
 import Editpostsaleuniq from "../pages/editpostsaleuniq";
 import Editpostsaleordi from "../pages/editpostsaleordi";
 import Postsaleordinary from "../pages/postsaleordinary";
@@ -64,6 +65,7 @@ export default function Router(){
             <Route path="/post/:postid" element={<Post/>}/>
             <Route path="/createpost" element={<Createpost/>}/>
             <Route path="/editpostnotsale/:postid" element={<Editpostnotsale/>}/>
+            <Route path="/editowner/:postid" element={<Editowner/>}/>
             <Route path="/editpostsaleuniq/:postid" element={<Editpostsaleuniq/>}/>
             <Route path="/editpostsaleordi/:postid" element={<Editpostsaleordi/>}/>
             <Route path="/postnotsale" element={<Postnotsale/>}/>

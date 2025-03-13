@@ -4,6 +4,8 @@ import axios from 'axios';
 
 const post_notificate = async (post_id, sender , receiver, stage_noti, post_msg, descript) => {
     const API_URL = process.env.REACT_APP_API_URL;
+    const date = new Date();
+    const formattedDate = date.toLocaleString('sv-SE', { timeZone: 'Asia/Bangkok' }).replace(' ', 'T').slice(0, 16);
     try {
         const response = await axios.post(`${API_URL}/notificate`, {
             post_id,
@@ -12,7 +14,7 @@ const post_notificate = async (post_id, sender , receiver, stage_noti, post_msg,
             stage_noti,
             post_msg,
             descript,
-            time: new Date().toISOString()
+            time:  formattedDate
         });
     } catch (error) {
         // setMessage("Error: " + (error.response ? error.response.data.message : "Unable to connect to the server"));
@@ -25,7 +27,7 @@ const messageFromEachStage = ( data , stage_noti) => {
         return data.sender + " Like Your Post" + data.post_msg
       }
       if (stage_noti == "12") {
-        return data.sender + " comment on your post" + data.post_msg + "\n\"" + data.descript
+        return data.sender + " comment on your post \"" + data.post_msg + "\" \n\"" + data.descript + "\""
       }
       if (stage_noti == "21") {
         return data.descript + " Your payment for order " + data.post_msg + "is complete."

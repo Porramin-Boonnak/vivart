@@ -1,136 +1,81 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Tabs, Tab, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import "../pagescss/notification.css";
-import { post_notificate, messageFromEachStage } from './notificate_func';
+import { messageFromEachStage, PathFromEachStage, IconFromEachStage } from './notificate_func';
 import axios from 'axios';
 
 const NotificationModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('post');
-  const hasFetched = useRef(false);
-  const hasFetched2 = useRef(false);
   const storedUser = localStorage.getItem("user_login");
-  const [loginUser, setLoginUser] = useState(storedUser ? JSON.parse(storedUser) : null);
-  const [bids, setBids] = useState([]);
-  const [database, setDataBase] = useState([]);
+  const [loginUser] = useState(storedUser ? JSON.parse(storedUser) : null);
+  const [database, setDatabase] = useState([]);
   const API_URL = process.env.REACT_APP_API_URL;
 
-  const fetchNotifications = async () => {
-      const response = await axios.get(`${API_URL}/notificate/${loginUser}`);
-      setDataBase((prev) => [...prev, ...response.data]);
-      console.log(response.data)
-  };
-
-  const [notifications, setNotifications] = useState({
-    post: [],
-    buy: [],
-    sell: [],
-  });
-
-  const categoryMap = {
-    "1": "post",
-    "2": "buy",
-    "3": "sell",
-  };
+  const categoryMap = { "1": "post", "2": "buy", "3": "sell" };
 
   useEffect(() => {
     if (!loginUser) return;
-    if (hasFetched2.current) return;
-    hasFetched2.current = true;
-    fetchNotifications()
-    const fetchBids = async () => {
+
+    const fetchData = async () => {
       try {
-        console.log("Fetching bids...");
-        const response = await axios.get(`${API_URL}/check_bid_end/${loginUser}`);
-        setBids(response.data);
-        console.log("Fetched bids:", response.data);
+        const [bidsRes, notiRes] = await Promise.all([
+          axios.get(`${API_URL}/check_bid_end/${loginUser}`),
+          axios.get(`${API_URL}/notificate/${loginUser}`)
+        ]);
 
-        const now = Date.now();
-        let newNotifications = [];
+        const bidNotifications = bidsRes.data
+          .filter(bid => new Date(bid.endbid).getTime() < Date.now())
+          .map(bid => ({
+            sender: bid.artist,
+            receiver: bid.user,
+            stage_noti: "27",
+            time: bid.endbid
+          }));
 
-        for (const bid of response.data) {
-          const endBidTime = new Date(bid.endbid).getTime();
-          if (endBidTime < now) {
-            console.log(bid.endbid)
-            newNotifications.push({
-              sender: bid.artist,
-              receiver: bid.user,
-              stage_noti: "27",
-              time: bid.endbid,
-            });
+        setDatabase(prev => {
+          const existingIds = new Set(prev.map(item => item.id));
+          const newData = [...notiRes.data, ...bidNotifications].filter(item => !existingIds.has(item.id));
+          return [...prev, ...newData];
+        });
 
-            await axios.post(`${API_URL}/wonbid/adtocart`, {
-              _id_post: bid._id_post,
-              _id_customer: loginUser,
-              price: bid.price,
-            });
-          }
-        }
-
-        if (newNotifications.length > 0) {
-          setDataBase((prev) => [...prev, ...newNotifications]);
+        for (const bid of bidNotifications) {
+          await axios.post(`${API_URL}/wonbid/adtocart`, {
+            _id_post: bid._id_post,
+            _id_customer: loginUser,
+            price: bid.price
+          });
         }
       } catch (error) {
-        console.error("Error fetching bids:", error);
+        console.error("Error fetching notifications/bids:", error);
       }
     };
 
-    
-    fetchBids();
-    console.log(database)
-  }, [loginUser]);
+    fetchData();
+  }, [loginUser, API_URL]);
 
-  useEffect(() => {
-    if (!database.length) return;
-  
-    setNotifications((prevNotifications) => {
-      const updatedNotifications = { ...prevNotifications };
-      
-      database.forEach(data => {
-        console.log(data.sender)
-        const stageCategory = categoryMap[data.stage_noti[0]];
-        if (stageCategory) {
-          updatedNotifications[stageCategory] = [
-            ...updatedNotifications[stageCategory],
-            {
-              icon: "🔔",
-              label: messageFromEachStage(data, data.stage_noti),
-              path: `/notification/${data.post_id}`,
-              time: data.time,
-              // date: data.time.toISOString().split("T")[0],
-            }
-          ];
-        }
-      });
-      
-      return updatedNotifications;
+  const notifications = database.reduce((acc, data) => {
+    const category = categoryMap[data.stage_noti[0]];
+    if (!category) return acc;
+
+    if (!acc[category]) acc[category] = [];
+    acc[category].push({
+      icon: IconFromEachStage(data, data.stage_noti),
+      label: messageFromEachStage(data, data.stage_noti),
+      path: PathFromEachStage(data, data.stage_noti),
+      time: data.time
     });
-  }, [database]);
-  
-  // New useEffect to log the updated state
-  useEffect(() => {
-    console.log("Updated Notifications:", notifications);
-  }, [notifications]);
-  
+
+    return acc;
+  }, { post: [], buy: [], sell: [] });
 
   return (
     <Modal show={isOpen} onHide={onClose} centered>
       <Modal.Header className="modal-title-custom flex-column">
         <Modal.Title className="modal-title-custom">Notifications</Modal.Title>
-        <Button
-          variant="close"
-          onClick={onClose}
-          aria-label="Close"
-          className="fixed-button position-absolute top-0 end-0 m-2"
-        />
-        <Tabs
-          defaultActiveKey="post"
-          id="notification-custom-tabs"
-          className="custom-tab-colors notifications-nav"
-          fill
-          onSelect={(k) => setActiveTab(k)}
-        >
+        <Button variant="close" onClick={onClose} aria-label="Close" className="fixed-button position-absolute top-0 end-0 m-2" />
+        <Tabs defaultActiveKey="post" className="custom-tab-colors notifications-nav" fill onSelect={setActiveTab}>
           <Tab eventKey="post" title="Post"></Tab>
           <Tab eventKey="buy" title="Buy"></Tab>
           <Tab eventKey="sell" title="Sell"></Tab>
@@ -142,15 +87,11 @@ const NotificationModal = ({ isOpen, onClose }) => {
           <Row className="justify-content-center">
             <Col xs={12}>
               <ul className="list-group">
-                {Array.isArray(notifications[activeTab]) && notifications[activeTab].length > 0 ? (
-                  notifications[activeTab].map(({ icon, label, path, time, date }, index) => (
-                    <li
-                      key={index}
-                      className="list-group-item d-flex justify-content-between align-items-center cursor-pointer"
-                      onClick={() => navigate(path)}
-                    >
+                {notifications[activeTab]?.length > 0 ? (
+                  notifications[activeTab].map(({ icon, label, path, time }, index) => (
+                    <li key={index} className="list-group-item d-flex justify-content-between align-items-center cursor-pointer" onClick={() => navigate(path)}>
                       <span>{icon} {label}</span>
-                      <small>{time} - {date}</small>
+                      <small>{time}</small>
                     </li>
                   ))
                 ) : (

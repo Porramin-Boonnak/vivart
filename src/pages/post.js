@@ -11,6 +11,7 @@ import view from "../pictures/view.png"
 import Bidsectionopen from "../component/bidsection";
 import Blindbidopen from "../component/bidblind";
 import { useNavigate } from 'react-router-dom';
+import { post_notificate} from "../component/notificate_func"
 export default function Post() {
     const [bidsection, setbidsection] = useState(false);
     const { postid } = useParams();
@@ -103,7 +104,14 @@ export default function Post() {
 
         try {
             await axios.post(`${API_URL}/comment/${postid}`, newComment);
-
+            post_notificate(
+                postid,
+                user.username,
+                post.own || post.artist,
+                "12",
+                post.name,
+                ncomment.current.value,
+            )
             // อัปเดต state คอมเมนต์ทันที ไม่ต้องโหลดใหม่
             setcomment(prevComments => [...prevComments, newComment]);
 

@@ -62,9 +62,10 @@ export default function BidHistory() {
                             className="order-item"
                             onClick={() => handleItemClick(item._id_post)} // Call handleItemClick with item._id
                         >
-                            <img src={item.img} alt={item.name} className="order-image" />
+                            <img src={item.img_post} alt={item.name} className="order-image" />
                             <div className="order-info">
-                                <h3>Name: {item.name}</h3>
+                                <h2>{item.name}</h2>
+                                <p>{item.bidDate}</p>
                             </div>
                             <div className="order-summary">
                                 <p className="price">Price : {item.price.toLocaleString()} Baht</p>

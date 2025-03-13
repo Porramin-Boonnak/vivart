@@ -6,6 +6,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 export default function Selling() {
+    const [soldPosts, setSoldPosts] = useState(new Set());
     const navigate = useNavigate();
     const storedUser = localStorage.getItem("user_login");
     const [loginUser, setLoginUser] = useState(storedUser ? JSON.parse(storedUser) : null);
@@ -15,7 +16,7 @@ export default function Selling() {
     const [candidate, setCandidate] = useState({});
     const [candidates, setCandidates] = useState({}); // เก็บข้อมูลผู้สมัคร
 
-
+    
     useEffect(() => {
         const fetchPosts = async () => {
             try {
@@ -101,6 +102,7 @@ export default function Selling() {
         //     alert("No candidate or price found for this post!");
         //     return;
         // }
+        if (soldPosts.has(id)) return; 
         console.log(id)
         console.log(candidate)
       
@@ -114,7 +116,7 @@ export default function Selling() {
                     'Content-Type': 'application/json'
                 }
             });
-            
+            setSoldPosts(prev => new Set(prev).add(id));
         } catch (error) {
             console.error('Error updating bid:', error.response?.data?.error || error.message);
             alert('Error updating bid: ' + (error.response?.data?.error || error.message));
@@ -186,7 +188,7 @@ export default function Selling() {
                                     <div className="text-dark">
                                         Sell to user
                                         <span className="text-primary">
-                                            {isExpired(post.endbid) ? (
+                                            {!isExpired(post.endbid) ? (
                                                 <button className="btn btn-dark text-white" style={{ width: 150, marginLeft: '10px' }} 
                                                     onClick={() => selectclick(post._id)}>
                                                     Select
@@ -198,13 +200,15 @@ export default function Selling() {
                                         <div className="Candidate me-2">
                                             Candidate: {candidates[post._id]?.user || "None"}
                                         </div>
-                                        {isExpired(post.endbid) ? (
+                                        {!isExpired(post.endbid) ? (
                                             <button className="btn btn-primary text-white" style={{ width: 150 }}
                                                 onClick={(e) => {
                                                     sellProduct(post._id);
                                                     e.preventDefault();
-                                                }}>
-                                                Sell now
+                                                }}
+                                                disabled={soldPosts.has(post._id)} 
+                                                >
+                                                {soldPosts.has(post._id) ? "Sold" : "Sell now"}
                                             </button>
                                         ) : null}
                                     </div>

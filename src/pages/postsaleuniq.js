@@ -20,6 +20,7 @@ export default function Postsaleuniq() {
     const API_URL = process.env.REACT_APP_API_URL;
     const [isCheckedBlindP, setCheckedBlindP] = useState(false);
     const [isCheckedBlindA, setCheckedBlindA] = useState(false);
+    const [isCheckedBlindAF, setCheckedBlindAF] = useState(false);
     const [dateTimeE, setDateTimeE] = useState("");
     const [dateTimeS, setDateTimeS] = useState("");
     useEffect(() => {
@@ -83,13 +84,16 @@ export default function Postsaleuniq() {
             BlindA: isCheckedBlindA,
             description: Description.current.value,
             img: base64List,
+            blindimg: base64List,
             originalimg: base64List,
             price: Price.current.value,
             status: "open",
             startbid: dateTimeS,
             endbid: dateTimeE,
-            date: formattedDate
+            date: formattedDate,
+            BlindAFirst: isCheckedBlindA
         }
+        
         console.log(data)
         if (!isCheckedBlindA) {
             axios.post(API_URL + '/post', data).then(response => {

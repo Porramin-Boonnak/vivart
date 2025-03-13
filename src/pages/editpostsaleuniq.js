@@ -29,6 +29,7 @@ export default function Editpostsaleuniq() {
     const API_URL = process.env.REACT_APP_API_URL;
     const [dateTimeE, setDateTimeE] = useState("");
     const [dateTimeS, setDateTimeS] = useState("");
+    const [isCheckedBlindAF, setCheckedBlindAF] = useState(false);
     useEffect(() => {
         axios.post(`${API_URL}/status`, { token: localStorage.getItem('token') })
             .then(response => setUser(response.data))
@@ -51,7 +52,7 @@ export default function Editpostsaleuniq() {
                 const data = response.data;
                 setPost(data);
                 setimg(data.img);
-                setBase64ListB(data.img);
+                setBase64ListB(data.blindimg);
                 setBase64List(data.originalimg);
                 settype(data.type);
                 setsize(data.size);
@@ -60,10 +61,12 @@ export default function Editpostsaleuniq() {
                 setsell(data.selltype);
                 setCheckedBlindP(data.BlindP);
                 setCheckedBlindA(data.BlindA);
+                setCheckedBlindAF(data.BlindAFirst);
                 Title.current.value = data.name;
                 Tag.current.value = data.tag;
                 Price.current.value = data.price;
                 Description.current.value = data.description;
+
 
             })
             .catch(error => {
@@ -85,31 +88,31 @@ export default function Editpostsaleuniq() {
             size: size,
             BlindP: isCheckedBlindP,
             BlindA: isCheckedBlindA,
+            BlindAFirst: isCheckedBlindAF,
             description: Description.current.value,
             img: img,
+            blindimg: base64ListB,
             originalimg: base64List,
             price: Price.current.value,
             status: "open",
             startbid: dateTimeS,
             endbid: dateTimeE
         };
-        if (!isCheckedBlindA) {
-            axios.put(`${API_URL}/post/${postid}`, data)
-                .then(() => {
-                    alert("Post updated successfully!");
-                    navigate('/');
-                })
-                .catch(() => alert("Failed to update post"));
-        }
-        else {
-            navigate("/blindart", { state: { Data: data } });
-        }
+        axios.put(`${API_URL}/post/${postid}`, data)
+            .then(() => {
+                alert("Post updated successfully!");
+                navigate('/');
+            })
+            .catch(() => alert("Failed to update post"));
     }
     useEffect(() => {
         if (isCheckedBlindA) {
-            setimg(base64ListB);
-        } else {
-            setimg(base64List);
+            const blindart = base64ListB;
+            setimg(blindart);
+        }
+        else {
+            const art = base64List;
+            setimg(art);
         }
     }, [isCheckedBlindA, base64List, base64ListB]);
 
@@ -123,7 +126,7 @@ export default function Editpostsaleuniq() {
                     <div className='row'>
                         <div className='d-flex justify-content-center align-items-center mt-5'>
                             <div className='mb-5'>
-                                {isCheckedBlindA ? <Showimg items={base64ListB} /> : <Showimg items={base64List} />}
+                                <Showimg items={img} />
 
 
                             </div>
@@ -144,11 +147,11 @@ export default function Editpostsaleuniq() {
                     <div className='row ms-2'>
                         <div className='d-flex mt-4 justify-content-center align-items-start justify-content-md-start align-items-md-start'>
                             <label for="Title" className='text-primary me-2 fs-5'>Title:</label>
-                            <input ref={Title} type="text" id="Title" name="Title" className='cs-color-Search w-100 border-0' />
+                            <input ref={Title} type="text" id="Title" name="Title" className='cs-color-Search w-100 border-0 text-muted'  readOnly />
                         </div>
                         <div className='mt-4 text-center text-md-start'>
                             <label for="Description" className='text-primary me-2 fs-5'>Description :</label><br />
-                            <textarea ref={Description} type="text" id="Description" name="Description" className='cs-color-Search border-0 mt-1' rows="5" />
+                            <textarea ref={Description} type="text" id="Description" name="Description" className='cs-color-Search border-0 mt-1 text-muted' rows="5" readOnly />
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <label for="price" className='text-primary me-2 fs-5'>Price:</label>
@@ -163,7 +166,7 @@ export default function Editpostsaleuniq() {
                         </div>
                         <div className='d-flex justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <label for="tag" className='text-primary me-2 fs-5'>#tag:</label>
-                            <input ref={Tag} type="text" id="tag" name="Tag" className='cs-color-Search w-100 border-0' />
+                            <input ref={Tag} type="text" id="tag" name="Tag" className='cs-color-Search w-100 border-0 text-muted' readOnly/>
                         </div>
                         <div className='d-flex flex-row justify-content-center align-items-start justify-content-md-start align-items-md-start mt-4'>
                             <div class="d-flex flex-row">
@@ -208,7 +211,7 @@ export default function Editpostsaleuniq() {
                         <div class="d-flex flex-row mt-4">
                             <label for="Selltype" className='text-primary me-2 fs-5'>Sell type:</label>
                             <div class="dropdown w-75" id='Selltype'>
-                                <button class="btn cs-btn-Postsaleuniq dropdown-toggle w-100 ms-auto" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" >
+                                <button class="btn cs-btn-Postsaleuniq dropdown-toggle w-100 ms-auto" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" disabled >
                                     {selltype ? <div>{selltype}</div> : <div>{setsell("Normal Sell")}</div>}
                                 </button>
                                 <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
@@ -219,8 +222,8 @@ export default function Editpostsaleuniq() {
                             </div>
                         </div>
                         <div className='d-flex flex-row mt-4 w-100'>
-                            {(type === "Digital" || type === "Photography") && (
-                                <div className="d-flex flex-row me-auto ">
+                            {(["Digital", "Photography"].includes(type) && isCheckedBlindAF) && (
+                                <div className="d-flex flex-row me-auto">
                                     <input
                                         type="checkbox"
                                         className='ms-auto me-2'

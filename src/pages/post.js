@@ -18,6 +18,7 @@ export default function Post() {
     const [post, setpost] = useState(null);
     const [user, setuser] = useState();
     const [comment, setcomment] = useState([]);
+    const [havecandidate, sethavecandidate] = useState(false)
     const hasFetched = useRef(false);
     const API_URL = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
@@ -36,7 +37,15 @@ export default function Post() {
         }).catch(error => {
             console.log(error);
         });
-
+        axios.get(`${API_URL}/candidate/${postid}`).then(response => {
+            if (response.data.message === "Candidate not found") {
+                sethavecandidate(false)
+            }
+            else
+            {
+                sethavecandidate(true)
+            }
+        })
         axios.get(`${API_URL}/comment/${postid}`)
             .then(response => {
                 setcomment(response.data);
@@ -313,26 +322,48 @@ export default function Post() {
                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li><a className="dropdown-item d-flex align-items-center justify-content-between" >Report<i className="bi bi-flag-fill"></i></a></li>
 
-                                        {user && (user.username === post.artist) ?
+                                        {user && (user.username === post.own) ?
                                             <div>
-                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between"
-                                                    onClick={() => {
-                                                        const paths = {
-                                                            normal: `/editpostnotsale/${postid}`,
-                                                            uniq: `/editpostsaleuniq/${postid}`,
-                                                            ordinary: `/editpostsaleordi/${postid}`,
-                                                        };
+                                                {post.selltype !== "Normal Sell" && (new Date() > new Date(post.endbid) && !havecandidate) ?
+                                                    < li >
+                                                        <a className="dropdown-item d-flex align-items-center justify-content-between"
+                                                            onClick={() => {
+                                                                const paths = {
+                                                                    normal: `/editpostnotsale/${postid}`,
+                                                                    uniq: `/editpostsaleuniq/${postid}`,
+                                                                    ordinary: `/editpostsaleordi/${postid}`,
+                                                                };
 
-                                                        if (paths[post.typepost]) {
-                                                            navigate(paths[post.typepost]);
+                                                                if (paths[post.typepost]) {
+                                                                    navigate(paths[post.typepost]);
+                                                                }
+                                                            }
+                                                            }>
+                                                            Edit
+                                                            <i className="bi bi-pencil-square">
+                                                            </i>
+                                                        </a>
+                                                    </li>
+                                                    : post.selltype === "Normal Sell" ? 
+                                                    < li >
+                                                    <a className="dropdown-item d-flex align-items-center justify-content-between"
+                                                        onClick={() => {
+                                                            const paths = {
+                                                                normal: `/editpostnotsale/${postid}`,
+                                                                uniq: `/editpostsaleuniq/${postid}`,
+                                                                ordinary: `/editpostsaleordi/${postid}`,
+                                                            };
+
+                                                            if (paths[post.typepost]) {
+                                                                navigate(paths[post.typepost]);
+                                                            }
                                                         }
-                                                    }
-                                                    }>
-                                                    Edit
-                                                    <i className="bi bi-pencil-square">
-                                                    </i>
-                                                </a>
-                                                </li>
+                                                        }>
+                                                        Edit
+                                                        <i className="bi bi-pencil-square">
+                                                        </i>
+                                                    </a>
+                                                </li> :<></>}
                                                 <li>
                                                     {post.typepost === "normal" ?
                                                         <a className="dropdown-item d-flex align-items-center justify-content-between"
@@ -343,7 +374,56 @@ export default function Post() {
                                                 </li>
                                             </div>
                                             :
-                                            <div className="d-none"></div>
+                                            (user && user.username === post.artist && !post.own) ?
+                                                <div>
+                                                    {post.selltype !== "Normal Sell" && (new Date() > new Date(post.endbid) && !havecandidate) ?
+                                                        <li><a className="dropdown-item d-flex align-items-center justify-content-between"
+                                                            onClick={() => {
+                                                                const paths = {
+                                                                    normal: `/editpostnotsale/${postid}`,
+                                                                    uniq: `/editpostsaleuniq/${postid}`,
+                                                                    ordinary: `/editpostsaleordi/${postid}`,
+                                                                };
+
+                                                                if (paths[post.typepost]) {
+                                                                    navigate(paths[post.typepost]);
+                                                                }
+                                                            }
+                                                            }>
+                                                            Edit
+                                                            <i className="bi bi-pencil-square">
+                                                            </i>
+                                                        </a>
+                                                        </li> : post.selltype === "Normal Sell" ? 
+                                                    < li >
+                                                    <a className="dropdown-item d-flex align-items-center justify-content-between"
+                                                        onClick={() => {
+                                                            const paths = {
+                                                                normal: `/editpostnotsale/${postid}`,
+                                                                uniq: `/editpostsaleuniq/${postid}`,
+                                                                ordinary: `/editpostsaleordi/${postid}`,
+                                                            };
+
+                                                            if (paths[post.typepost]) {
+                                                                navigate(paths[post.typepost]);
+                                                            }
+                                                        }
+                                                        }>
+                                                        Edit
+                                                        <i className="bi bi-pencil-square">
+                                                        </i>
+                                                    </a>
+                                                </li> :<></>}
+                                                    <li>
+                                                        {post.typepost === "normal" ?
+                                                            <a className="dropdown-item d-flex align-items-center justify-content-between"
+                                                                onClick={deletePost}>
+                                                                Delete<i className="bi bi-trash3-fill"></i>
+                                                            </a>
+                                                            : <></>}
+                                                    </li>
+                                                </div> :
+                                                <></>
                                         }
                                     </ul>
                                 </div>
@@ -354,9 +434,9 @@ export default function Post() {
 
                             <h4 className="mt-2">By<button
                                 className="border-0 bg-transparent"
-                                onClick={() => navigate(`/profile/${post.own ? post.own : post.artist}`)}
+                                onClick={() => navigate(`/profile/${post.artist ? post.artist : post.artist}`)}
                             >
-                                <p className="text-primary"> {post.own ? post.own : post.artist}</p>
+                                <p className="text-primary"> {post.artist ? post.artist : <>Loading...</>}</p>
                             </button></h4>
                             <div className="fw-light mt-2">
                                 #{post.tag}
@@ -405,8 +485,9 @@ export default function Post() {
                         </div>
                     </div>
 
-                </div>
-            </div> : <div>Loading...</div>}
+                </div >
+            </div > : <div>Loading...</div>
+        }
         </>
     )
 }

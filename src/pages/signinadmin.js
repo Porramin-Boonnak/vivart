@@ -16,7 +16,7 @@ const SignInForm = () => {
         try {
             const response = await axios.post(API_URL + "/signinadmin", { username, password });
             if (response.status === 200) {
-                navigate("/reportmanagement");
+                navigate("/reportmanagement", { state: { message: "successfully!" } });
             } else {
                 setError("Invalid username or password");
             }

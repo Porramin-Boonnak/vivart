@@ -1,13 +1,18 @@
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { useEffect, useState } from 'react';
 
 export default function ReportManagement() {
     const [reports, setReports] = useState([]);
+    const location = useLocation();
     const navigate = useNavigate();
     const API_URL = process.env.REACT_APP_API_URL;
     const [inputValue, setInputValue] = useState('');
-
+    useEffect(() => {
+        if (!location.state) {
+            navigate("/signinadmin");
+        }
+    }, [location, navigate]);
     const handleChange = (event) => {
         setInputValue(event.target.value);
     };

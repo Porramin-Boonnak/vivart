@@ -71,7 +71,11 @@ const ChatList = () => {
 
     <div className="chat-list">
       <div className="chat-header" style={{ justifyContent: "space-between" }}>
-        <h2 style={{ fontSize: "35px" }}>Chat List</h2>
+        <h2>Chat</h2>
+        <div className="chat-actions">
+          <img src={newchat} alt="New Chat" />
+          <img src={chatworld} alt="Chat World" onClick={() => navigate("/chatworld")} />
+        </div>
       </div>
 
       {/* No need to sort here, as we already sorted inside useEffect */}
@@ -83,32 +87,7 @@ const ChatList = () => {
         >
           <img src={item.img?.[0] || "default_profile.png"} alt={item.username} />
           <span>{item.username}</span>
-          <span style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            position: "relative",
-            width: "100%"
-          }}>
-            {item.qty_msg > 0 && (
-              <span style={{
-                backgroundColor: "red", // สีพื้นหลังของวงกลม
-                color: "white", // สีข้อความ
-                borderRadius: "50%",
-                minWidth: "24px",
-                height: "24px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: "14px",
-                fontWeight: "bold",
-                padding: "0 6px" // เผื่อพื้นที่ให้ตัวเลขหลายหลัก
-              }}>
-                {item.qty_msg}
-              </span>
-            )}
-          </span>
-          {/* Show message count */}
+          <span>{item.qty_msg} </span> {/* Show message count */}
         </div>
       ))}
     </div>

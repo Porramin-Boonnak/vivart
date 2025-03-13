@@ -70,6 +70,13 @@ export default function Profile() {
             {/* User Information Section */}
             <User_Impormation this_username={userInfo} follow={follow} post_qty={rawUserPost?.length ?? 0} />
 
+            {/* Debugging Display */}
+            {/* <div>Login user == {loginUser}</div> */}
+            <div>This profile user == {this_username}</div>
+            {/* <div>{JSON.stringify(userInfo, null, 2)}</div> */}
+            <div>{JSON.stringify(follow, null, 2)}</div>
+            {/* Sorting Tabs */}
+
             <ul className="nav nav-tabs justify-content-center">
                 {tabs.map((tab) => (
                     <li className="nav-item" key={tab.name}>

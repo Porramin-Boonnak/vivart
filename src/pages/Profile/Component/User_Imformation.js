@@ -83,6 +83,9 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
                     <h2>{this_username.username}</h2>
                     <p>{this_username.user_bio}</p>
 
+                  
+         
+
                     <p>{post_qty} posts | {followers.length} followers | {followings.length} following</p>
 
                     {this_username.username === loginUser ? (
@@ -104,7 +107,7 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
                             </Button>
                             <Button
                                 variant="secondary"
-                                onClick={() => navigate("/chat")}
+                                onClick={() => navigate("/chat/" + this_username.username)}
                                 style={{ cursor: "pointer", color: "light" }}
                             >
                                 Message

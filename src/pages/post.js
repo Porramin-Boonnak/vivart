@@ -354,7 +354,10 @@ export default function Post() {
                             ) : (post.typepost === "ordinary" && post.artist !== user.username && post.amount !== 0) ? (<><h5 className="text-primary fw-bold fs-2 mt-4"><FaBahtSign />{post.price}</h5>
                                 <h6 className="text-primary fw-bold fs-2 mt-4">amount : {post.amount}</h6>
                                     <button type="button" className="btn btn-primary btn-lg rounded-pill w-100 text-white" onClick={addToCart}>Add to cart</button></>
-                                ):( ((user.username !== (post.own?post.own:post.artist)&& post.selltype==="Bid (Sell to the most expensive)")||(user.username !== (post.own?post.own:post.artist)&&post.selltype=="Bid (sell to the first person)"))?(<h6>
+                                ):( ((user.username !== (post.own?post.own:post.artist)&& post.selltype==="Bid (Sell to the most expensive)")||(user.username !== (post.own?post.own:post.artist)&&post.selltype=="Bid (sell to the first person)"))?(
+                                
+                                <h6>
+                                <h6 className="text-primary fw-bold fs-2 mt-4">lowest bid : {post.price}</h6>
                                     <button
                                         type="button"
                                         className="btn btn-primary btn-lg rounded-pill w-100 text-white"

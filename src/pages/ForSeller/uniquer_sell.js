@@ -65,7 +65,36 @@ export default function Selling() {
     const selectclick = (idpost) => {
         navigate(`/choose/${idpost}`);
     };
+    const date = new Date();
+    const formattedDate = date.toLocaleString('sv-SE', { timeZone: 'Asia/Bangkok' }).replace(' ', 'T').slice(0, 16);
     
+    const getTimeRemaining = (endTime) => {
+        const endDate = new Date(endTime);
+        const now = new Date();
+        const diffMs = endDate - now;
+    
+        if (diffMs <= 0) {
+            return "time Out";
+        }
+    
+        const seconds = Math.floor((diffMs / 1000) % 60);
+        const minutes = Math.floor((diffMs / 1000 / 60) % 60);
+        const hours = Math.floor((diffMs / 1000 / 60 / 60) % 24);
+        const days = Math.floor(diffMs / 1000 / 60 / 60 / 24);
+    
+        let timeString = "";
+        if (days > 0) timeString += `${days} Day `;
+        if (hours > 0) timeString += `${hours} hour `;
+        if (minutes > 0) timeString += `${minutes} minute `;
+        if (seconds > 0 && days === 0) timeString += `${seconds} second`;
+    
+        return timeString.trim();
+    };
+    
+    const isExpired = (endTime) => {
+        const endDate = new Date(endTime);
+        return isNaN(endDate.getTime()) || endDate.toISOString().slice(0, 16) < formattedDate;
+    };
     const sellProduct = async (id) => {
         const candidate = candidates[id];
         // if (!candidate || !candidate.price) {
@@ -74,8 +103,7 @@ export default function Selling() {
         // }
         console.log(id)
         console.log(candidate)
-        const date = new Date();
-        const formattedDate = date.toLocaleString('sv-SE', { timeZone: 'Asia/Bangkok' }).replace(' ', 'T').slice(0, 16);
+      
         try {
             const response = await axios.put('http://localhost:5000/chagedete', {
                 _id_post: id,
@@ -86,7 +114,7 @@ export default function Selling() {
                     'Content-Type': 'application/json'
                 }
             });
-            alert(response.data.message);
+            
         } catch (error) {
             console.error('Error updating bid:', error.response?.data?.error || error.message);
             alert('Error updating bid: ' + (error.response?.data?.error || error.message));
@@ -133,11 +161,13 @@ export default function Selling() {
                     {posts.length === 0 ? (
                         <div>No posts found</div>
                     ) : (
-                        posts.map((post) => (
+                        posts
+                        .filter(post => post.selltype === "Bid (Sell to the most expensive)" || post.selltype === "Bid (sell to the first person)")
+                        .map((post) => (
                             <div key={post._id} className="d-flex flex-wrap align-items-center bg-white p-3 my-2 rounded">
                                 {/* รูปภาพ */}
                                 <img
-                                    src={post.img || TuuImage} // ใช้ภาพจากโพสต์ ถ้าไม่มีให้ใช้ TuuImage
+                                    src={post.img || TuuImage}
                                     alt={post.name}
                                     className="me-3"
                                     style={{ width: "50px", height: "50px" }}
@@ -145,35 +175,38 @@ export default function Selling() {
 
                                 {/* โซนข้อความ */}
                                 <div className="flex-grow-1">
-                                    {/* ชื่อโพสต์ */}
                                     <span className="fs-4 d-block">{post.name}</span>
-
                                     <div className="Countdown">
-                                        Time Countdown:{post.endbid}
+                                        Remaining time: {post.endbid && !isNaN(new Date(post.endbid)) ? getTimeRemaining(post.endbid) : "Invalid Date"}
                                     </div>
                                 </div>
 
                                 {/* โซนปุ่ม */}
                                 <div className="d-flex flex-column align-items-end gap-2">
-                                    {/* Sell to user */}
                                     <div className="text-dark">
                                         Sell to user
                                         <span className="text-primary">
-                                        <button className="btn btn-dark text-white" style={{ width: 150, marginLeft: '10px' }} 
-                                            onClick={() => selectclick(post._id)}>
-                                            Select
-                                        </button>
-
+                                            {isExpired(post.endbid) ? (
+                                                <button className="btn btn-dark text-white" style={{ width: 150, marginLeft: '10px' }} 
+                                                    onClick={() => selectclick(post._id)}>
+                                                    Select
+                                                </button>
+                                            ) : null}
                                         </span>
                                     </div>
                                     <div className="d-flex align-items-center text-dark">
-                                    <div className="Candidate me-2">
-                                        Candidate: {candidates[post._id]?.user || "None"}
-                                    </div>
-
-                                    <button className="btn btn-primary text-white" style={{ width: 150 }} onClick={() => sellProduct(post._id)}>
-                                        Sell now
-                                    </button>
+                                        <div className="Candidate me-2">
+                                            Candidate: {candidates[post._id]?.user || "None"}
+                                        </div>
+                                        {isExpired(post.endbid) ? (
+                                            <button className="btn btn-primary text-white" style={{ width: 150 }}
+                                                onClick={(e) => {
+                                                    sellProduct(post._id);
+                                                    e.preventDefault();
+                                                }}>
+                                                Sell now
+                                            </button>
+                                        ) : null}
                                     </div>
                                 </div>
                             </div>

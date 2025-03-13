@@ -67,7 +67,11 @@ export default function BidSection({ isOpen, onClose, post, user,isBlind,selltyp
       alert("Please enter a valid bid price.");
       return;
     }
-  
+    if (parseInt(price) < parseInt(post.price)) {
+      alert(`Your new bid must be greater than your previous bid of ${parseInt(price)} ฿`);
+      return;
+    }
+    
     if (currentBid !== null && parseInt(price) <= currentBid) {
       alert(`Your new bid must be greater than your previous bid of ${currentBid} ฿`);
       return;
@@ -77,6 +81,7 @@ export default function BidSection({ isOpen, onClose, post, user,isBlind,selltyp
       _id_post: post._id,
       artist: post.artist,
       user: user.username,
+      name: post.name,
       price: parseInt(price), // แปลงเป็นตัวเลข
       img_user: user.img,
       img_post: Array.isArray(post.img) ? post.img[0] : post.img  

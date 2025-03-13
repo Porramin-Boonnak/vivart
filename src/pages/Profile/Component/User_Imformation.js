@@ -83,8 +83,6 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
                     <h2>{this_username.username}</h2>
                     <p>{this_username.user_bio}</p>
 
-                    <p>{JSON.stringify(followers, null, 2)}</p>
-                    <p>{isFollowing ? "Following" : "Not Following"}</p>
 
                     <p>{post_qty} posts | {followers.length} followers | {followings.length} following</p>
 
@@ -107,7 +105,7 @@ export default function User_Impormation({ this_username, follow, post_qty }) {
                             </Button>
                             <Button
                                 variant="secondary"
-                                onClick={() => navigate("/chat")}
+                                onClick={() => navigate("/chat/"+this_username.username)}
                                 style={{ cursor: "pointer", color: "light" }}
                             >
                                 Message

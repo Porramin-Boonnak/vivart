@@ -39,6 +39,8 @@ import Toship from "../pages/BuyHistory/Toship";
 import PaidHistory from "../pages/BuyHistory/paidHistory";
 import BidHistory from "../pages/BuyHistory/BidHistory";
 import Signinadmin from "../pages/signinadmin.js";
+import Adminpayout from "../pages/adminpayout.js";
+
 
 function DynamicTitle() {
   return (
@@ -54,6 +56,7 @@ export default function Router(){
          <DynamicTitle />
           <Routes>
             <Route path="/" element={<Home />}/>
+            <Route path="/adminpayout" element={<Adminpayout />}/>
             <Route path="/follow/:id" element={<Home />}/>
             <Route path="/search/:filter" element={<Home />}/>
             <Route path="/signup" element={<Signup />}/>

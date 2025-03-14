@@ -1,6 +1,7 @@
 import "../pagescss/Forseller.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 import Navbar from "../component/navbar";
 import axios from "axios";
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
@@ -12,6 +13,13 @@ export default function ForSeller() {
     const [total_likes, settotal_likes] = useState();
     const API_URL = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
+    const nameaccount = useRef();
+    const [haveaccount, setHaveAccount] = useState(false);
+    const [nameAccount, setNameAccount] = useState("");
+    const [bank, setBank] = useState("");
+    const [number, setNumber] = useState("");
+    const [isEditing, setIsEditing] = useState(false);
+
     useEffect(() => {
         axios.post(API_URL + '/status', { token: localStorage.getItem('token') }).then(response => {
             setuser(response.data);
@@ -30,6 +38,35 @@ export default function ForSeller() {
             })
         }
     }, [user]);
+
+    useEffect(() => {
+        if (user && user.username) {
+            axios.get(`${API_URL}/bank/${user.username}`)
+                .then(response => {
+                    const data = response.data;
+                    setNameAccount(data.nameaccount || "");
+                    setBank(data.bank || "");
+                    setNumber(data.number || "");
+                })
+                .catch(error => console.error("Error fetching bank details:", error));
+        }
+    }, [user]); // ให้ทำงานเมื่อ user เปลี่ยนค่า
+    
+    const handleSave = () => {
+        const data = {
+            username: user.username, // ต้องใช้ user.username
+            nameaccount: nameAccount,
+            bank: bank,
+            number: number
+        };
+    
+        axios.put(`${API_URL}/bank/${user.username}`, data) // ต้องใช้ user.username
+            .then(() => {
+                setHaveAccount(true);
+                setIsEditing(false);
+            })
+            .catch(error => console.error("Error updating bank details:", error));
+    };
     const filltrackclick = () => {
         navigate("/filltracking");
     };
@@ -44,6 +81,9 @@ export default function ForSeller() {
 
     const salehistoryclick = () => {
         navigate("/salehistory");
+    };
+    const handleEdit = () => {
+        setIsEditing(true);
     };
 
     const currentYear = new Date().getFullYear();
@@ -100,13 +140,13 @@ export default function ForSeller() {
             return acc;
         }, fullAgeData)
         : fullAgeData;
-    const totalprice = history  ? history.reduce((sum, item) => sum + item.price, 0) : 0;
-    const totalsells = history  ? history.reduce((sum, item) => sum + item.quantity, 0) : 0;
-    const totalAges = history  ? history.reduce((sum, item) => sum + item.age, 0) : 0;
-    const averageAge = history  ? totalAges / history.length : 0;
+    const totalprice = history ? history.reduce((sum, item) => sum + item.price, 0) : 0;
+    const totalsells = history ? history.reduce((sum, item) => sum + item.quantity, 0) : 0;
+    const totalAges = history ? history.reduce((sum, item) => sum + item.age, 0) : 0;
+    const averageAge = history ? totalAges / history.length : 0;
 
-    
-    
+
+
     return (
 
         <div className="body">
@@ -197,6 +237,47 @@ export default function ForSeller() {
                     </ResponsiveContainer>
                     <p className="average-age"><span className="age">{averageAge}</span>Average age</p>
                 </div>
+                <div className="d-flex flex-row mt-5">
+            <div className="form-group">
+                <h1 className="font">Name</h1>
+                <input
+                    type="text"
+                    className="form-control"
+                    value={nameAccount}
+                    onChange={(e) => setNameAccount(e.target.value)}
+                    readOnly={!isEditing}
+                    style={{ color: isEditing ? "black" : "gray" }}
+                />
+            </div>
+            <div className="form-group">
+                <h1 className="font">Bank</h1>
+                <input
+                    type="text"
+                    className="form-control"
+                    value={bank}
+                    onChange={(e) => setBank(e.target.value)}
+                    readOnly={!isEditing}
+                    style={{ color: isEditing ? "black" : "gray" }}
+                />
+            </div>
+            <div className="form-group">
+                <h1 className="font">Number Bank</h1>
+                <input
+                    type="text"
+                    className="form-control"
+                    value={number}
+                    onChange={(e) => setNumber(e.target.value)}
+                    readOnly={!isEditing}
+                    style={{ color: isEditing ? "black" : "gray" }}
+                />
+            </div>
+            <button 
+                className="btn btn-dark ms-5 fs-5 h-25 mt-4"
+                onClick={isEditing ? handleSave : handleEdit}
+            >
+                {isEditing ? "Save" : "Edit"}
+            </button>
+        </div>
             </div>
         </div>
     );

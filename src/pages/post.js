@@ -408,7 +408,25 @@ export default function Post() {
                                                         <i className="bi bi-pencil-square">
                                                         </i>
                                                     </a>
-                                                </li> :<></>}
+                                                </li> : post.typepost === "ordinary" ?
+                                                <li><a className="dropdown-item d-flex align-items-center justify-content-between"
+                                                            onClick={() => {
+                                                                const paths = {
+                                                                    normal: `/editpostnotsale/${postid}`,
+                                                                    uniq: `/editpostsaleuniq/${postid}`,
+                                                                    ordinary: `/editpostsaleordi/${postid}`,
+                                                                };
+
+                                                                if (paths[post.typepost]) {
+                                                                    navigate(paths[post.typepost]);
+                                                                }
+                                                            }
+                                                            }>
+                                                            Edit
+                                                            <i className="bi bi-pencil-square">
+                                                            </i>
+                                                        </a>
+                                                        </li>:<></>}
                                                     <li>
                                                         {post.typepost === "normal" ?
                                                             <a className="dropdown-item d-flex align-items-center justify-content-between"

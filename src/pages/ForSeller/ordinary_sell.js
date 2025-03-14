@@ -78,7 +78,7 @@ export default function Product() {
             <div className="row bg-secondary justify-content-center px-3">
                 <div className="col-12 col-md-8">
                     {products.map((product) => (
-                        <div key={product._id} className="d-flex flex-wrap align-items-center bg-white p-3 my-2 rounded">
+                        <div key={product._id} className="d-flex flex-wrap align-items-center bg-white p-3 my-2 rounded" onClick={()=>{navigate(`/post/${product._id}`)}}>
                             <img src={product.img} alt={product.name} className="me-3" style={{ width: "50px", height: "50px" }} />
                             <span className="fs-4 flex-grow-1">{product.name}</span>
 
@@ -114,21 +114,8 @@ export default function Product() {
                                 </div>
                             </div>
 
-                            {/* ปุ่ม Edit / Save */}
-                            {product.isEditing ? (
-                                <button className="text-success border-0 bg-transparent ms-3" onClick={() => handleSave(product._id)}>
-                                    Save
-                                </button>
-                            ) : (
-                                <button className="text-danger border-0 bg-transparent ms-3" onClick={() => handleEdit(product._id)}>
-                                    Edit
-                                </button>
-                            )}
-
-                            {/* ปุ่ม Delete */}
-                            <button className="text-danger border-0 bg-transparent ms-3" onClick={() => handleDelete(product._id)}>
-                                Delete
-                            </button>
+                          
+                            
                         </div>
                     ))}
                 </div>

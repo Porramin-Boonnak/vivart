@@ -142,18 +142,7 @@ export default function Selling() {
                 <div className="d-flex justify-content-center justify-content-md-between">
                     <div className="fs-1 mt-5 ms-5 d-none d-md-block">Selling for bid section</div>
                     <div className="d-flex justify-content-center align-items-center mt-5 me-5">
-                        <input
-                            className="form-control rounded-pill rounded-end-0 w-75 d-inline-block cs-color-Search border-end-0 border border-dark"
-                            type="search"
-                            placeholder="Searching"
-                            aria-label="Search"
-                        />
-                        <button
-                            type="button"
-                            className="btn rounded-pill rounded-start-0 cs-color-btn-Search border-start-0 border border-dark"
-                        >
-                            <i className="bi bi-search"></i>
-                        </button>
+                       
                     </div>
                 </div>
             </div>

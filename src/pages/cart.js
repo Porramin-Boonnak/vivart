@@ -117,10 +117,10 @@ const Cart = () => {
                   <span className="subtotal">{(item.price * item.quantity).toLocaleString()} THB</span>
 
                 </div>
-                {item.selltype ? <></> :
-                  <div className="cart-cell subtotal-remove-cell">
+                {item.selltype && item.selltype === "Normal Sell" ? <div className="cart-cell subtotal-remove-cell">
                     <button onClick={() => removeItem(item.id)} className="remove-btn" >X</button>
-                  </div>}
+                  </div> : <></>
+                  }
               </div>
             ))}
           </div>

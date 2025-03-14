@@ -19,12 +19,14 @@ export default function Adminpayout() {
 
                 const payout = await axios.get(`${API_URL}/topayout`);
 
-                // รวมข้อมูลของ username เดียวกัน
+                // รวมข้อมูลของ username เดียวกัน และกรองเฉพาะสถานะ waiting
                 const groupedItems = payout.data.reduce((acc, item) => {
-                    if (!acc[item.username]) {
-                        acc[item.username] = { ...item, totalPrice: 0 };
+                    if (item.status === "waiting") { // กรองเฉพาะสถานะ waiting
+                        if (!acc[item.username]) {
+                            acc[item.username] = { ...item, totalPrice: 0 };
+                        }
+                        acc[item.username].totalPrice += item.totalPrice; // รวม totalPrice
                     }
-                    acc[item.username].totalPrice += item.totalPrice; // รวม totalPrice
                     return acc;
                 }, {});
 

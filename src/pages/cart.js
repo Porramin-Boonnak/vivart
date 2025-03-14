@@ -119,7 +119,11 @@ const Cart = () => {
                 </div>
                 {item.selltype && item.selltype === "Normal Sell" ? <div className="cart-cell subtotal-remove-cell">
                     <button onClick={() => removeItem(item.id)} className="remove-btn" >X</button>
-                  </div> : <></>
+                  </div> :
+                  item.selltype ?<></>
+                 :  <div className="cart-cell subtotal-remove-cell">
+                 <button onClick={() => removeItem(item.id)} className="remove-btn" >X</button>
+               </div>
                   }
               </div>
             ))}

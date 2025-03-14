@@ -239,7 +239,7 @@ export default function ForSeller() {
                 </div>
                 <div className="d-flex flex-row mt-5">
             <div className="form-group">
-                <h1 className="font">Name</h1>
+                <h1 className="fs-4">Name</h1>
                 <input
                     type="text"
                     className="form-control"
@@ -250,7 +250,7 @@ export default function ForSeller() {
                 />
             </div>
             <div className="form-group">
-                <h1 className="font">Bank</h1>
+                <h1 className="fs-4">Bank</h1>
                 <input
                     type="text"
                     className="form-control"
@@ -261,7 +261,7 @@ export default function ForSeller() {
                 />
             </div>
             <div className="form-group">
-                <h1 className="font">Number Bank</h1>
+                <h1 className="fs-4">Number Bank</h1>
                 <input
                     type="text"
                     className="form-control"

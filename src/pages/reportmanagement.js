@@ -54,7 +54,6 @@ export default function ReportManagement() {
     const defaultcomponent = <div className="container-fluid bg-light d-flex flex-column justify-content-start align-items-center vh-100 w-100 text-center py-4">
         <h1 className="my-3 fw-light text-primary">Report Management</h1>
         <h4 className="text-dark mb-4">By admin</h4>
-        <div>{JSON.stringify(reports, null, 2)}</div>
         <div className="mb-4">
             <input
                 type="text"

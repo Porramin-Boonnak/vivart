@@ -33,7 +33,7 @@ const messageFromEachStage = ( data , stage_noti) => {
         return data.sender + " is Followed you "
       }
       if (stage_noti == "21") {
-        return data.descript + " Your payment for order " + data.post_msg + "is complete."
+        return data.descript + " Your payment for order " + data.post_msg + " is complete."
       }
       if (stage_noti == "22") {
         return data.descript + " Your artist is packing your order " + data.post_msg + "."
@@ -79,7 +79,7 @@ const PathFromEachStage = (data , stage_noti) =>{
   if (stage_noti == "12") {
         return "/post/"+data.post_id
   }
-  if (stage_noti == "12") {
+  if (stage_noti == "13") {
     return "/profile/"+data.sender
 }
   if (stage_noti == "21") {

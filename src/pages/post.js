@@ -315,7 +315,7 @@ export default function Post() {
                                         <i className="bi bi-three-dots fs-2 me-2"></i>
                                     </button>
                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a className="dropdown-item d-flex align-items-center justify-content-between" >Report<i className="bi bi-flag-fill"></i></a></li>
+                                        <li><a className="dropdown-item d-flex align-items-center justify-content-between" onClick={()=>{navigate(`/report/${post._id}`)}}>Report<i className="bi bi-flag-fill"></i></a></li>
 
                                         {user && (user.username === post.own) ?
                                             <div>
@@ -426,13 +426,22 @@ export default function Post() {
                             <div className="fw-light fs-4">
                                 {post.description}
                             </div>
-
-                            <h4 className="mt-2">By<button
+                          
+                            {post.artist ?  <h4 className="mt-2">Artist<button
                                 className="border-0 bg-transparent"
-                                onClick={() => navigate(`/profile/${post.artist ? post.artist : post.artist}`)}
+                                onClick={() => navigate(`/profile/${post.artist}`)}
                             >
                                 <p className="text-primary"> {post.artist ? post.artist : <>Loading...</>}</p>
-                            </button></h4>
+                            </button></h4>:<></>}
+                           
+                            {post.own ?  <p className="mt-2">Owner<button
+                                className="border-0 bg-transparent"
+                                onClick={() => navigate(`/profile/${post.own}`)}
+                            >
+                                <p className="text-primary"> {post.own ? post.own : <>Loading...</>}</p>
+                            </button></p>:<></>}
+                          
+                            
                             <div className="fw-light mt-2">
                                 #{post.tag}
                             </div>

@@ -1,4 +1,4 @@
-###🧠 VivArt Frontend – Auction & Social Media Platform
+# 🧠 VivArt Frontend – Auction & Social Media Platform
 
 AuctionGram is a unique web application that combines the thrill of **auctions** with the interactive features of a **social media platform**. Inspired by platforms like Instagram, users can post images, like/comment, follow each other, and also **place bids** on items posted by others.
 
@@ -36,5 +36,5 @@ AuctionGram is a unique web application that combines the thrill of **auctions**
 
 ---
 
-###🧠 VivArt API – Backend for Auction & Social Media Platform
+# 🧠 VivArt API – Backend for Auction & Social Media Platform
 https://github.com/Porramin-Boonnak/se-back-normal
